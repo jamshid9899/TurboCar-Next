@@ -5,117 +5,131 @@ import { gql } from '@apollo/client';
  *************************/
 
 export const SIGN_UP = gql`
-	mutation Signup($input: MemberInput!) {
-		signup(input: $input) {
-			_id
-			memberType
-			memberStatus
-			memberAuthType
-			memberPhone
-			memberNick
-			memberFullName
-			memberImage
-			memberAddress
-			memberDesc
-			memberWarnings
-			memberBlocks
-			memberProperties
-			memberRank
-			memberArticles
-			memberPoints
-			memberLikes
-			memberViews
-			deletedAt
-			createdAt
-			updatedAt
-			accessToken
-		}
-	}
+  mutation Signup($input: MemberInput!) {
+    signup(input: $input) {
+      _id
+      memberType
+      memberStatus
+      memberAuthType
+      memberPhone
+      memberNick
+      memberFullName
+      memberImage
+      memberAddress
+      memberDesc
+      memberProperties
+      memberArticles
+      memberFollowers
+      memberFollowings
+      memberPoints
+      memberLikes
+      memberComments
+      memberViews
+      memberRank
+      memberWarnings
+      memberBlocks
+      deletedAt
+      createdAt
+      updatedAt
+      accessToken
+    }
+  }
 `;
 
 export const LOGIN = gql`
-	mutation Login($input: LoginInput!) {
-		login(input: $input) {
-			_id
-			memberType
-			memberStatus
-			memberAuthType
-			memberPhone
-			memberNick
-			memberFullName
-			memberImage
-			memberAddress
-			memberDesc
-			memberWarnings
-			memberBlocks
-			memberProperties
-			memberRank
-			memberPoints
-			memberLikes
-			memberViews
-			deletedAt
-			createdAt
-			updatedAt
-			accessToken
-		}
-	}
+  mutation Login($input: LoginInput!) {
+    login(input: $input) {
+      _id
+      memberType
+      memberStatus
+      memberAuthType
+      memberPhone
+      memberNick
+      memberFullName
+      memberImage
+      memberAddress
+      memberDesc
+      memberProperties
+      memberArticles
+      memberFollowers
+      memberFollowings
+      memberPoints
+      memberLikes
+      memberComments
+      memberViews
+      memberRank
+      memberWarnings
+      memberBlocks
+      deletedAt
+      createdAt
+      updatedAt
+      accessToken
+    }
+  }
 `;
 
 export const UPDATE_MEMBER = gql`
-	mutation UpdateMember($input: MemberUpdate!) {
-		updateMember(input: $input) {
-			_id
-			memberType
-			memberStatus
-			memberAuthType
-			memberPhone
-			memberNick
-			memberFullName
-			memberImage
-			memberAddress
-			memberDesc
-			memberProperties
-			memberRank
-			memberArticles
-			memberPoints
-			memberLikes
-			memberViews
-			memberWarnings
-			memberBlocks
-			deletedAt
-			createdAt
-			updatedAt
-			accessToken
-		}
-	}
+  mutation UpdateMember($input: MemberUpdate!) {
+    updateMember(input: $input) {
+      _id
+      memberType
+      memberStatus
+      memberAuthType
+      memberPhone
+      memberNick
+      memberFullName
+      memberImage
+      memberAddress
+      memberDesc
+      memberProperties
+      memberArticles
+      memberFollowers
+      memberFollowings
+      memberPoints
+      memberLikes
+      memberComments
+      memberViews
+      memberRank
+      memberWarnings
+      memberBlocks
+      deletedAt
+      createdAt
+      updatedAt
+      accessToken
+    }
+  }
 `;
 
 export const LIKE_TARGET_MEMBER = gql`
-	mutation LikeTargetMember($input: String!) {
-		likeTargetMember(memberId: $input) {
-			_id
-			memberType
-			memberStatus
-			memberAuthType
-			memberPhone
-			memberNick
-			memberFullName
-			memberImage
-			memberAddress
-			memberDesc
-			memberWarnings
-			memberBlocks
-			memberProperties
-			memberRank
-			memberPoints
-			memberLikes
-			memberViews
-			deletedAt
-			createdAt
-			updatedAt
-			accessToken
-		}
-	}
+  mutation LikeTargetMember($memberId: String!) {
+    likeTargetMember(memberId: $memberId) {
+      _id
+      memberType
+      memberStatus
+      memberAuthType
+      memberPhone
+      memberNick
+      memberFullName
+      memberImage
+      memberAddress
+      memberDesc
+      memberProperties
+      memberArticles
+      memberFollowers
+      memberFollowings
+      memberPoints
+      memberLikes
+      memberComments
+      memberViews
+      memberRank
+      memberWarnings
+      memberBlocks
+      deletedAt
+      createdAt
+      updatedAt
+      accessToken
+    }
+  }
 `;
 
 /**************************
@@ -123,90 +137,126 @@ export const LIKE_TARGET_MEMBER = gql`
  *************************/
 
 export const CREATE_PROPERTY = gql`
-	mutation CreateProperty($input: PropertyInput!) {
-		createProperty(input: $input) {
-			_id
-			propertyType
-			propertyStatus
-			propertyLocation
-			propertyAddress
-			propertyTitle
-			propertyPrice
-			propertySquare
-			propertyBeds
-			propertyRooms
-			propertyViews
-			propertyLikes
-			propertyImages
-			propertyDesc
-			propertyBarter
-			propertyRent
-			memberId
-			soldAt
-			deletedAt
-			constructedAt
-			createdAt
-			updatedAt
-		}
-	}
+  mutation CreateProperty($input: PropertyInput!) {
+    createProperty(input: $input) {
+      _id
+      propertyCondition
+      propertyBrand
+      propertyType
+      propertyFuelType
+      propertyStatus
+      propertyLocation
+      propertyColor
+      propertyTransmission
+      propertyFeatures
+      propertyCylinders
+      propertyYear
+      propertyTitle
+      propertyPrice
+      propertyMileage
+      propertyViews
+      propertyLikes
+      propertyComments
+      propertyRank
+      propertyImages
+      propertyDesc
+      propertyRentPrice
+      propertySeats
+      isForSale
+      isForRent
+      memberId
+      rentedUntil
+      minimumRentDays
+      maximumRentDays
+      soldAt
+      deletedAt
+      constructedAt
+      createdAt
+      updatedAt
+    }
+  }
 `;
 
 export const UPDATE_PROPERTY = gql`
-	mutation UpdateProperty($input: PropertyUpdate!) {
-		updateProperty(input: $input) {
-			_id
-			propertyType
-			propertyStatus
-			propertyLocation
-			propertyAddress
-			propertyTitle
-			propertyPrice
-			propertySquare
-			propertyBeds
-			propertyRooms
-			propertyViews
-			propertyLikes
-			propertyImages
-			propertyDesc
-			propertyBarter
-			propertyRent
-			memberId
-			soldAt
-			deletedAt
-			constructedAt
-			createdAt
-			updatedAt
-		}
-	}
+  mutation UpdateProperty($input: PropertyUpdate!) {
+    updateProperty(input: $input) {
+      _id
+      propertyCondition
+      propertyBrand
+      propertyType
+      propertyFuelType
+      propertyStatus
+      propertyLocation
+      propertyColor
+      propertyTransmission
+      propertyFeatures
+      propertyCylinders
+      propertyYear
+      propertyTitle
+      propertyPrice
+      propertyMileage
+      propertyViews
+      propertyLikes
+      propertyComments
+      propertyRank
+      propertyImages
+      propertyDesc
+      propertyRentPrice
+      propertySeats
+      isForSale
+      isForRent
+      memberId
+      rentedUntil
+      minimumRentDays
+      maximumRentDays
+      soldAt
+      deletedAt
+      constructedAt
+      createdAt
+      updatedAt
+    }
+  }
 `;
 
 export const LIKE_TARGET_PROPERTY = gql`
-	mutation LikeTargetProperty($input: String!) {
-		likeTargetProperty(propertyId: $input) {
-			_id
-			propertyType
-			propertyStatus
-			propertyLocation
-			propertyAddress
-			propertyTitle
-			propertyPrice
-			propertySquare
-			propertyBeds
-			propertyRooms
-			propertyViews
-			propertyLikes
-			propertyImages
-			propertyDesc
-			propertyBarter
-			propertyRent
-			memberId
-			soldAt
-			deletedAt
-			constructedAt
-			createdAt
-			updatedAt
-		}
-	}
+  mutation LikeTargetProperty($propertyId: String!) {
+    likeTargetProperty(propertyId: $propertyId) {
+      _id
+      propertyCondition
+      propertyBrand
+      propertyType
+      propertyFuelType
+      propertyStatus
+      propertyLocation
+      propertyColor
+      propertyTransmission
+      propertyFeatures
+      propertyCylinders
+      propertyYear
+      propertyTitle
+      propertyPrice
+      propertyMileage
+      propertyViews
+      propertyLikes
+      propertyComments
+      propertyRank
+      propertyImages
+      propertyDesc
+      propertyRentPrice
+      propertySeats
+      isForSale
+      isForRent
+      memberId
+      rentedUntil
+      minimumRentDays
+      maximumRentDays
+      soldAt
+      deletedAt
+      constructedAt
+      createdAt
+      updatedAt
+    }
+  }
 `;
 
 /**************************
@@ -214,57 +264,60 @@ export const LIKE_TARGET_PROPERTY = gql`
  *************************/
 
 export const CREATE_BOARD_ARTICLE = gql`
-	mutation CreateBoardArticle($input: BoardArticleInput!) {
-		createBoardArticle(input: $input) {
-			_id
-			articleCategory
-			articleStatus
-			articleTitle
-			articleContent
-			articleImage
-			articleViews
-			articleLikes
-			memberId
-			createdAt
-			updatedAt
-		}
-	}
+  mutation CreateBoardArticle($input: BoardArticleInput!) {
+    createBoardArticle(input: $input) {
+      _id
+      articleCategory
+      articleStatus
+      articleTitle
+      articleContent
+      articleImage
+      articleViews
+      articleLikes
+      articleComments
+      memberId
+      createdAt
+      updatedAt
+    }
+  }
 `;
 
 export const UPDATE_BOARD_ARTICLE = gql`
-	mutation UpdateBoardArticle($input: BoardArticleUpdate!) {
-		updateBoardArticle(input: $input) {
-			_id
-			articleCategory
-			articleStatus
-			articleTitle
-			articleContent
-			articleImage
-			articleViews
-			articleLikes
-			memberId
-			createdAt
-			updatedAt
-		}
-	}
+  mutation UpdateBoardArticle($input: BoardArticleUpdate!) {
+    updateBoardArticle(input: $input) {
+      _id
+      articleCategory
+      articleStatus
+      articleTitle
+      articleContent
+      articleImage
+      articleViews
+      articleLikes
+      articleComments
+      memberId
+      createdAt
+      updatedAt
+    }
+  }
 `;
 
 export const LIKE_TARGET_BOARD_ARTICLE = gql`
-	mutation LikeTargetBoardArticle($input: String!) {
-		likeTargetBoardArticle(articleId: $input) {
-			_id
-			articleCategory
-			articleStatus
-			articleTitle
-			articleContent
-			articleImage
-			articleViews
-			articleLikes
-			memberId
-			createdAt
-			updatedAt
-		}
-	}
+  mutation LikeTargetBoardArticle($articleId: String!) {
+    likeTargetBoardArticle(articleId: $articleId) {
+      _id
+      articleCategory
+      articleStatus
+      articleTitle
+      articleContent
+      articleImage
+      articleViews
+      articleLikes
+      articleComments
+      memberId
+      createdAt
+      updatedAt
+    }
+  }
 `;
 
 /**************************
@@ -272,59 +325,275 @@ export const LIKE_TARGET_BOARD_ARTICLE = gql`
  *************************/
 
 export const CREATE_COMMENT = gql`
-	mutation CreateComment($input: CommentInput!) {
-		createComment(input: $input) {
-			_id
-			commentStatus
-			commentGroup
-			commentContent
-			commentRefId
-			memberId
-			createdAt
-			updatedAt
-		}
-	}
+  mutation CreateComment($input: CommentInput!) {
+    createComment(input: $input) {
+      _id
+      commentStatus
+      commentGroup
+      commentContent
+      commentRefId
+      memberId
+      createdAt
+      updatedAt
+    }
+  }
 `;
 
 export const UPDATE_COMMENT = gql`
-	mutation UpdateComment($input: CommentUpdate!) {
-		updateComment(input: $input) {
-			_id
-			commentStatus
-			commentGroup
-			commentContent
-			commentRefId
-			memberId
-			createdAt
-			updatedAt
-		}
-	}
+  mutation UpdateComment($input: CommentUpdate!) {
+    updateComment(input: $input) {
+      _id
+      commentStatus
+      commentGroup
+      commentContent
+      commentRefId
+      memberId
+      createdAt
+      updatedAt
+    }
+  }
 `;
 
 /**************************
- *         FOLLOW        *
+ *         FOLLOW         *
  *************************/
 
 export const SUBSCRIBE = gql`
-	mutation Subscribe($input: String!) {
-		subscribe(input: $input) {
-			_id
-			followingId
-			followerId
-			createdAt
-			updatedAt
-		}
-	}
+  mutation Subscribe($input: String!) {
+    subscribe(input: $input) {
+      _id
+      followingId
+      followerId
+      createdAt
+      updatedAt
+    }
+  }
 `;
 
 export const UNSUBSCRIBE = gql`
-	mutation Unsubscribe($input: String!) {
-		unsubscribe(input: $input) {
-			_id
-			followingId
-			followerId
-			createdAt
-			updatedAt
-		}
-	}
+  mutation Unsubscribe($input: String!) {
+    unsubscribe(input: $input) {
+      _id
+      followingId
+      followerId
+      createdAt
+      updatedAt
+    }
+  }
+`;
+
+/**************************
+ *   RENTAL BOOKINGS      *
+ *************************/
+
+// 🔴 YANGI - POPULATED FIELDS QO'SHILDI
+export const CREATE_RENTAL_BOOKING = gql`
+  mutation CreateRentalBooking($input: RentalBookingInput!) {
+    createRentalBooking(input: $input) {
+      _id
+      propertyId
+      renterId
+      ownerId
+      rentalType
+      rentalStatus
+      startDate
+      endDate
+      totalPrice
+      createdAt
+      updatedAt
+      propertyData {
+        _id
+        propertyCondition
+        propertyBrand
+        propertyType
+        propertyStatus
+        propertyLocation
+        propertyTitle
+        propertyPrice
+        propertyYear
+        propertyMileage
+        propertyImages
+        propertyRentPrice
+        isForSale
+        isForRent
+      }
+      renterData {
+        _id
+        memberNick
+        memberFullName
+        memberImage
+        memberPhone
+      }
+      ownerData {
+        _id
+        memberNick
+        memberFullName
+        memberImage
+        memberPhone
+      }
+    }
+  }
+`;
+
+// 🔴 YANGI - POPULATED FIELDS QO'SHILDI
+export const CONFIRM_RENTAL = gql`
+  mutation ConfirmRental($rentalId: String!) {
+    confirmRental(rentalId: $rentalId) {
+      _id
+      propertyId
+      renterId
+      ownerId
+      rentalType
+      rentalStatus
+      startDate
+      endDate
+      totalPrice
+      createdAt
+      updatedAt
+      propertyData {
+        _id
+        propertyCondition
+        propertyBrand
+        propertyType
+        propertyStatus
+        propertyLocation
+        propertyTitle
+        propertyPrice
+        propertyYear
+        propertyMileage
+        propertyImages
+        propertyRentPrice
+        isForSale
+        isForRent
+      }
+      renterData {
+        _id
+        memberNick
+        memberFullName
+        memberImage
+        memberPhone
+      }
+      ownerData {
+        _id
+        memberNick
+        memberFullName
+        memberImage
+        memberPhone
+      }
+    }
+  }
+`;
+
+// 🔴 YANGI - POPULATED FIELDS QO'SHILDI
+export const CANCEL_RENTAL = gql`
+  mutation CancelRental($rentalId: String!) {
+    cancelRental(rentalId: $rentalId) {
+      _id
+      propertyId
+      renterId
+      ownerId
+      rentalType
+      rentalStatus
+      startDate
+      endDate
+      totalPrice
+      createdAt
+      updatedAt
+      propertyData {
+        _id
+        propertyCondition
+        propertyBrand
+        propertyType
+        propertyStatus
+        propertyLocation
+        propertyTitle
+        propertyPrice
+        propertyYear
+        propertyMileage
+        propertyImages
+        propertyRentPrice
+        isForSale
+        isForRent
+      }
+      renterData {
+        _id
+        memberNick
+        memberFullName
+        memberImage
+        memberPhone
+      }
+      ownerData {
+        _id
+        memberNick
+        memberFullName
+        memberImage
+        memberPhone
+      }
+    }
+  }
+`;
+
+// 🔴 YANGI - POPULATED FIELDS QO'SHILDI
+export const FINISH_RENTAL = gql`
+  mutation FinishRental($rentalId: String!) {
+    finishRental(rentalId: $rentalId) {
+      _id
+      propertyId
+      renterId
+      ownerId
+      rentalType
+      rentalStatus
+      startDate
+      endDate
+      totalPrice
+      createdAt
+      updatedAt
+      propertyData {
+        _id
+        propertyCondition
+        propertyBrand
+        propertyType
+        propertyStatus
+        propertyLocation
+        propertyTitle
+        propertyPrice
+        propertyYear
+        propertyMileage
+        propertyImages
+        propertyRentPrice
+        isForSale
+        isForRent
+      }
+      renterData {
+        _id
+        memberNick
+        memberFullName
+        memberImage
+        memberPhone
+      }
+      ownerData {
+        _id
+        memberNick
+        memberFullName
+        memberImage
+        memberPhone
+      }
+    }
+  }
+`;
+
+/**************************
+ *      FILE UPLOAD       *
+ *************************/
+
+export const IMAGE_UPLOADER = gql`
+  mutation ImageUploader($file: Upload!, $target: String!) {
+    imageUploader(file: $file, target: $target)
+  }
+`;
+
+export const IMAGES_UPLOADER = gql`
+  mutation ImagesUploader($files: [Upload!]!, $target: String!) {
+    imagesUploader(files: $files, target: $target)
+  }
 `;
