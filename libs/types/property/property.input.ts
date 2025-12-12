@@ -1,34 +1,98 @@
-import { PropertyLocation, PropertyStatus, PropertyType } from '../../enums/property.enum';
+import {
+	PropertyCondition,
+	PropertyBrand,
+	PropertyType,
+	PropertyFuelType,
+	PropertyColor,
+	PropertyTransmission,
+	PropertyFeatures,
+	PropertyCylinders,
+	PropertyStatus,
+	PropertyLocation,
+} from '../../enums/property.enum';
 import { Direction } from '../../enums/common.enum';
 
+/** 
+ * PROPERTY INPUT
+ * Yangi property yaratish uchun
+ */
 export interface PropertyInput {
+	propertyCondition: PropertyCondition;
+	propertyBrand: PropertyBrand;
 	propertyType: PropertyType;
+	propertyFuelType: PropertyFuelType;
 	propertyLocation: PropertyLocation;
-	propertyAddress: string;
+	propertyColor: PropertyColor;
+	propertyTransmission: PropertyTransmission;
+	propertyFeatures: PropertyFeatures[];
+	propertyCylinders: PropertyCylinders;
+	propertyRentPrice?: number;
+	propertySeats: number;
+	propertyYear: number;
 	propertyTitle: string;
 	propertyPrice: number;
-	propertySquare: number;
-	propertyBeds: number;
-	propertyRooms: number;
+	propertyMileage: number;
 	propertyImages: string[];
 	propertyDesc?: string;
-	propertyBarter?: boolean;
-	propertyRent?: boolean;
+	isForSale: boolean;
+	isForRent: boolean;
 	memberId?: string;
+}
+
+/** 
+ * PROPERTY UPDATE
+ * Property yangilash uchun
+ */
+export interface PropertyUpdate {
+	_id: string;
+	propertyCondition?: PropertyCondition;
+	propertyBrand?: PropertyBrand;
+	propertyType?: PropertyType;
+	propertyFuelType?: PropertyFuelType;
+	propertyStatus?: PropertyStatus;
+	propertyLocation?: PropertyLocation;
+	propertyColor?: PropertyColor;
+	propertyTransmission?: PropertyTransmission;
+	propertyFeatures?: PropertyFeatures[];
+	propertyCylinders?: PropertyCylinders;
+	propertyTitle?: string;
+	propertyPrice?: number;
+	propertyRentPrice?: number;
+	propertyMileage?: number;
+	propertySeats?: number;
+	propertyImages?: string[];
+	propertyDesc?: string;
+	isForSale?: boolean;
+	isForRent?: boolean;
+	rentedUntil?: Date;
+	minimumRentDays?: number;
+	maximumRentDays?: number;
+	soldAt?: Date;
+	deletedAt?: Date;
 	constructedAt?: Date;
 }
 
+/** 
+ * PROPERTIES INQUIRY (Search/Filter)
+ */
 interface PISearch {
 	memberId?: string;
 	locationList?: PropertyLocation[];
 	typeList?: PropertyType[];
-	roomsList?: Number[];
-	options?: string[];
-	bedsList?: Number[];
+	brandList?: PropertyBrand[];
+	conditionList?: PropertyCondition[];
+	fuelTypeList?: PropertyFuelType[];
+	colorList?: PropertyColor[];
+	transmissionList?: PropertyTransmission[];
+	featuresList?: PropertyFeatures[];
+	cylindersList?: PropertyCylinders[];
+	seatsList?: number[];
 	pricesRange?: Range;
-	periodsRange?: PeriodsRange;
-	squaresRange?: Range;
+	mileageRange?: Range;
+	yearRange?: YearRange;
 	text?: string;
+	isForSale?: boolean;
+	isForRent?: boolean;
 }
 
 export interface PropertiesInquiry {
@@ -39,8 +103,15 @@ export interface PropertiesInquiry {
 	search: PISearch;
 }
 
+/** 
+ * AGENT PROPERTIES INQUIRY
+ * Agent o'zining property'larini ko'rish uchun
+ */
 interface APISearch {
 	propertyStatus?: PropertyStatus;
+	propertyType?: PropertyType;
+	isForSale?: boolean;
+	isForRent?: boolean;
 }
 
 export interface AgentPropertiesInquiry {
@@ -51,9 +122,15 @@ export interface AgentPropertiesInquiry {
 	search: APISearch;
 }
 
+/** 
+ * ALL PROPERTIES INQUIRY (Admin)
+ */
 interface ALPISearch {
 	propertyStatus?: PropertyStatus;
 	propertyLocationList?: PropertyLocation[];
+	propertyTypeList?: PropertyType[];
+	isForSale?: boolean;
+	isForRent?: boolean;
 }
 
 export interface AllPropertiesInquiry {
@@ -64,12 +141,15 @@ export interface AllPropertiesInquiry {
 	search: ALPISearch;
 }
 
+/** 
+ * HELPER INTERFACES
+ */
 interface Range {
 	start: number;
 	end: number;
 }
 
-interface PeriodsRange {
-	start: Date | number;
-	end: Date | number;
+interface YearRange {
+	start: number; // 2000
+	end: number;   // 2024
 }

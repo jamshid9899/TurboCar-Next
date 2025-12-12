@@ -1,15 +1,19 @@
 import { NextPage } from 'next';
 import useDeviceDetect from '../libs/hooks/useDeviceDetect';
 import withLayoutMain from '../libs/components/layout/LayoutHome';
-import CommunityBoards from '../libs/components/homepage/CommunityBoards';
-import PopularProperties from '../libs/components/homepage/PopularProperties';
-import TopAgents from '../libs/components/homepage/TopAgents';
-import Events from '../libs/components/homepage/Events';
-import TrendProperties from '../libs/components/homepage/TrendProperties';
-import TopProperties from '../libs/components/homepage/TopProperties';
 import { Stack } from '@mui/material';
-import Advertisement from '../libs/components/homepage/Advertisement';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+
+// TurboCar Components
+import HeroSection from '../libs/components/homepage/HeroSection';
+import FeaturedCars from '../libs/components/homepage/FeaturedCars';
+import PopularCars from '../libs/components/homepage/PopularCars';
+import CarsByBrand from '../libs/components/homepage/CarsByBrand';
+import TopDealers from '../libs/components/homepage/TopDealers';
+import RentalCars from '../libs/components/homepage/RentalCars';
+import Advertisement from '../libs/components/homepage/Advertisement';
+import Testimonials from '../libs/components/homepage/Testimonials';
+import CommunityBoards from '../libs/components/homepage/CommunityBoards';
 
 export const getStaticProps = async ({ locale }: any) => ({
 	props: {
@@ -23,22 +27,56 @@ const Home: NextPage = () => {
 	if (device === 'mobile') {
 		return (
 			<Stack className={'home-page'}>
-				<TrendProperties />
-				<PopularProperties />
+				{/* Hero with Search */}
+				<HeroSection />
+				
+				{/* Featured Cars */}
+				<FeaturedCars />
+				
+				{/* Popular Cars */}
+				<PopularCars />
+				
+				{/* Advertisement */}
 				<Advertisement />
-				<TopProperties />
-				<TopAgents />
+				
+				{/* Rental Cars */}
+				<RentalCars />
+				
+				{/* Top Dealers */}
+				<TopDealers />
+				
+				{/* Testimonials */}
+				<Testimonials />
 			</Stack>
 		);
 	} else {
 		return (
 			<Stack className={'home-page'}>
-				<TrendProperties />
-				<PopularProperties />
+				{/* Hero with Search */}
+				<HeroSection />
+				
+				{/* Featured Cars (Top ranked) */}
+				<FeaturedCars />
+				
+				{/* Popular Cars (Most viewed) */}
+				<PopularCars />
+				
+				{/* Cars by Brand (TOYOTA, BMW, ...) */}
+				<CarsByBrand />
+				
+				{/* Advertisement */}
 				<Advertisement />
-				<TopProperties />
-				<TopAgents />
-				<Events />
+				
+				{/* Rental Cars Available */}
+				<RentalCars />
+				
+				{/* Top Dealers/Agents */}
+				<TopDealers />
+				
+				{/* Customer Testimonials */}
+				<Testimonials />
+				
+				{/* Community Boards (Blog/News) */}
 				<CommunityBoards />
 			</Stack>
 		);
