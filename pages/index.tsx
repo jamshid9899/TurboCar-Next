@@ -8,10 +8,10 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import Advertisement from '../libs/components/homepage/Advertisement';
 import CommunityBoards from '../libs/components/homepage/CommunityBoards';
 import HeroSection from '../libs/components/homepage/Herosection';
-import FeaturedCars from '../libs/components/homepage/FeaturedCars';
 import PopularCars from '../libs/components/homepage/PopularCars';
 import RentalCars from '../libs/components/homepage/RentalCar';
 import TopDealers from '../libs/components/homepage/TopDealer';
+import FeaturedCars from '../libs/components/homepage/Featuredcars';
 
 
 export const getStaticProps = async ({ locale }: any) => ({
