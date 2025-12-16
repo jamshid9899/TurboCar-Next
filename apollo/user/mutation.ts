@@ -386,7 +386,6 @@ export const UNSUBSCRIBE = gql`
  *   RENTAL BOOKINGS      *
  *************************/
 
-// 🔴 YANGI - POPULATED FIELDS QO'SHILDI
 export const CREATE_RENTAL_BOOKING = gql`
   mutation CreateRentalBooking($input: RentalBookingInput!) {
     createRentalBooking(input: $input) {
@@ -435,7 +434,6 @@ export const CREATE_RENTAL_BOOKING = gql`
   }
 `;
 
-// 🔴 YANGI - POPULATED FIELDS QO'SHILDI
 export const CONFIRM_RENTAL = gql`
   mutation ConfirmRental($rentalId: String!) {
     confirmRental(rentalId: $rentalId) {
@@ -484,7 +482,6 @@ export const CONFIRM_RENTAL = gql`
   }
 `;
 
-// 🔴 YANGI - POPULATED FIELDS QO'SHILDI
 export const CANCEL_RENTAL = gql`
   mutation CancelRental($rentalId: String!) {
     cancelRental(rentalId: $rentalId) {
@@ -533,7 +530,6 @@ export const CANCEL_RENTAL = gql`
   }
 `;
 
-// 🔴 YANGI - POPULATED FIELDS QO'SHILDI
 export const FINISH_RENTAL = gql`
   mutation FinishRental($rentalId: String!) {
     finishRental(rentalId: $rentalId) {

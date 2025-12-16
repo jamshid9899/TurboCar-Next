@@ -15,19 +15,19 @@ const Footer = () => {
 				<Stack className={'main'}>
 					<Stack className={'left'}>
 						<Box component={'div'} className={'footer-box'}>
-							<img src="/img/logo/logoWhite.svg" alt="" className={'logo'} />
+							<img src="/img/logo/turbocar-logo-white.svg" alt="TurboCar" className={'logo'} />
 						</Box>
 						<Box component={'div'} className={'footer-box'}>
-							<span>total free customer care</span>
-							<p>+82 10 4867 2909</p>
+							<span>24/7 Customer Support</span>
+							<p>+34 900 123 456</p>
 						</Box>
 						<Box component={'div'} className={'footer-box'}>
-							<span>nee live</span>
-							<p>+82 10 4867 2909</p>
-							<span>Support?</span>
+							<span>Need Help?</span>
+							<p>support@turbocar.es</p>
+							<span>Live Chat Available</span>
 						</Box>
 						<Box component={'div'} className={'footer-box'}>
-							<p>follow us on social media</p>
+							<p>Follow us on social media</p>
 							<div className={'media-box'}>
 								<FacebookOutlinedIcon />
 								<TelegramIcon />
@@ -39,31 +39,31 @@ const Footer = () => {
 					<Stack className={'right'}>
 						<Box component={'div'} className={'bottom'}>
 							<div>
-								<strong>Popular Search</strong>
-								<span>Property for Rent</span>
-								<span>Property Low to hide</span>
+								<strong>Popular Searches</strong>
+								<span>Cars for Sale</span>
+								<span>Cars for Rent</span>
+								<span>Luxury Cars</span>
 							</div>
 							<div>
 								<strong>Quick Links</strong>
 								<span>Terms of Use</span>
 								<span>Privacy Policy</span>
 								<span>Pricing Plans</span>
-								<span>Our Services</span>
 								<span>Contact Support</span>
 								<span>FAQs</span>
 							</div>
 							<div>
-								<strong>Discover</strong>
-								<span>Seoul</span>
-								<span>Gyeongido</span>
-								<span>Busan</span>
-								<span>Jejudo</span>
+								<strong>Top Cities</strong>
+								<span>Madrid</span>
+								<span>Barcelona</span>
+								<span>Valencia</span>
+								<span>Sevilla</span>
 							</div>
 						</Box>
 					</Stack>
 				</Stack>
 				<Stack className={'second'}>
-					<span>© Nestar - All rights reserved. Nestar {moment().year()}</span>
+					<span>© TurboCar - All rights reserved. {moment().year()}</span>
 				</Stack>
 			</Stack>
 		);
@@ -73,19 +73,19 @@ const Footer = () => {
 				<Stack className={'main'}>
 					<Stack className={'left'}>
 						<Box component={'div'} className={'footer-box'}>
-							<img src="/img/logo/logoWhite.svg" alt="" className={'logo'} />
+							<img src="/img/logo/turbocar-logo-white.svg" alt="TurboCar" className={'logo'} />
 						</Box>
 						<Box component={'div'} className={'footer-box'}>
-							<span>total free customer care</span>
-							<p>+82 10 4867 2909</p>
+							<span>24/7 Customer Support</span>
+							<p>+34 900 123 456</p>
 						</Box>
 						<Box component={'div'} className={'footer-box'}>
-							<span>nee live</span>
-							<p>+82 10 4867 2909</p>
-							<span>Support?</span>
+							<span>Need Help?</span>
+							<p>support@turbocar.es</p>
+							<span>Live Chat Available</span>
 						</Box>
 						<Box component={'div'} className={'footer-box'}>
-							<p>follow us on social media</p>
+							<p>Follow us on social media</p>
 							<div className={'media-box'}>
 								<FacebookOutlinedIcon />
 								<TelegramIcon />
@@ -96,7 +96,7 @@ const Footer = () => {
 					</Stack>
 					<Stack className={'right'}>
 						<Box component={'div'} className={'top'}>
-							<strong>keep yourself up to date</strong>
+							<strong>Stay Updated</strong>
 							<div>
 								<input type="text" placeholder={'Your Email'} />
 								<span>Subscribe</span>
@@ -104,9 +104,11 @@ const Footer = () => {
 						</Box>
 						<Box component={'div'} className={'bottom'}>
 							<div>
-								<strong>Popular Search</strong>
-								<span>Property for Rent</span>
-								<span>Property Low to hide</span>
+								<strong>Popular Searches</strong>
+								<span>Cars for Sale</span>
+								<span>Cars for Rent</span>
+								<span>Luxury Cars</span>
+								<span>Electric Cars</span>
 							</div>
 							<div>
 								<strong>Quick Links</strong>
@@ -118,17 +120,19 @@ const Footer = () => {
 								<span>FAQs</span>
 							</div>
 							<div>
-								<strong>Discover</strong>
-								<span>Seoul</span>
-								<span>Gyeongido</span>
-								<span>Busan</span>
-								<span>Jejudo</span>
+								<strong>Top Cities</strong>
+								<span>Madrid</span>
+								<span>Barcelona</span>
+								<span>Valencia</span>
+								<span>Sevilla</span>
+								<span>Málaga</span>
+								<span>Bilbao</span>
 							</div>
 						</Box>
 					</Stack>
 				</Stack>
 				<Stack className={'second'}>
-					<span>© Nestar - All rights reserved. Nestar {moment().year()}</span>
+					<span>© TurboCar - All rights reserved. {moment().year()}</span>
 					<span>Privacy · Terms · Sitemap</span>
 				</Stack>
 			</Stack>

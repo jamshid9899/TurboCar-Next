@@ -1,19 +1,18 @@
 import { NextPage } from 'next';
 import useDeviceDetect from '../libs/hooks/useDeviceDetect';
-import withLayoutMain from '../libs/components/layout/LayoutHome';
+import withLayoutHome from '../libs/components/layout/LayoutHome';
 import { Stack } from '@mui/material';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
 // TurboCar Components
-import HeroSection from '../libs/components/homepage/HeroSection';
+import Advertisement from '../libs/components/homepage/Advertisement';
+import CommunityBoards from '../libs/components/homepage/CommunityBoards';
+import HeroSection from '../libs/components/homepage/Herosection';
 import FeaturedCars from '../libs/components/homepage/FeaturedCars';
 import PopularCars from '../libs/components/homepage/PopularCars';
-import CarsByBrand from '../libs/components/homepage/CarsByBrand';
-import TopDealers from '../libs/components/homepage/TopDealers';
-import RentalCars from '../libs/components/homepage/RentalCars';
-import Advertisement from '../libs/components/homepage/Advertisement';
-import Testimonials from '../libs/components/homepage/Testimonials';
-import CommunityBoards from '../libs/components/homepage/CommunityBoards';
+import RentalCars from '../libs/components/homepage/RentalCar';
+import TopDealers from '../libs/components/homepage/TopDealer';
+
 
 export const getStaticProps = async ({ locale }: any) => ({
 	props: {
@@ -27,60 +26,27 @@ const Home: NextPage = () => {
 	if (device === 'mobile') {
 		return (
 			<Stack className={'home-page'}>
-				{/* Hero with Search */}
 				<HeroSection />
-				
-				{/* Featured Cars */}
 				<FeaturedCars />
-				
-				{/* Popular Cars */}
 				<PopularCars />
-				
-				{/* Advertisement */}
 				<Advertisement />
-				
-				{/* Rental Cars */}
 				<RentalCars />
-				
-				{/* Top Dealers */}
-				<TopDealers />
-				
-				{/* Testimonials */}
-				<Testimonials />
+				<TopDealers /> {/* ✅ YANGI */}
 			</Stack>
 		);
 	} else {
 		return (
 			<Stack className={'home-page'}>
-				{/* Hero with Search */}
 				<HeroSection />
-				
-				{/* Featured Cars (Top ranked) */}
 				<FeaturedCars />
-				
-				{/* Popular Cars (Most viewed) */}
 				<PopularCars />
-				
-				{/* Cars by Brand (TOYOTA, BMW, ...) */}
-				<CarsByBrand />
-				
-				{/* Advertisement */}
 				<Advertisement />
-				
-				{/* Rental Cars Available */}
 				<RentalCars />
-				
-				{/* Top Dealers/Agents */}
-				<TopDealers />
-				
-				{/* Customer Testimonials */}
-				<Testimonials />
-				
-				{/* Community Boards (Blog/News) */}
+				<TopDealers /> {/* ✅ YANGI */}
 				<CommunityBoards />
 			</Stack>
 		);
 	}
 };
 
-export default withLayoutMain(Home);
+export default withLayoutHome(Home);

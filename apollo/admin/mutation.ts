@@ -46,7 +46,6 @@ export const UPDATE_PROPERTY_BY_ADMIN = gql`
       propertyStatus
       propertyBrand
       propertyLocation
-      propertyAddress
       propertyTitle
       propertyPrice
       propertyYear
@@ -58,15 +57,21 @@ export const UPDATE_PROPERTY_BY_ADMIN = gql`
       propertyCylinders
       propertyImages
       propertyDesc
-      propertyRent
       propertyRentPrice
+      isForSale
+      isForRent
       propertyFeatures
       propertyViews
       propertyLikes
+      propertyComments
       propertyRank
       memberId
+      rentedUntil
+      minimumRentDays
+      maximumRentDays
       soldAt
       deletedAt
+      constructedAt
       createdAt
       updatedAt
     }
@@ -82,7 +87,6 @@ export const REMOVE_PROPERTY_BY_ADMIN = gql`
       propertyStatus
       propertyBrand
       propertyLocation
-      propertyAddress
       propertyTitle
       propertyPrice
       propertyYear
@@ -94,11 +98,13 @@ export const REMOVE_PROPERTY_BY_ADMIN = gql`
       propertyCylinders
       propertyImages
       propertyDesc
-      propertyRent
       propertyRentPrice
+      isForSale
+      isForRent
       propertyFeatures
       propertyViews
       propertyLikes
+      propertyComments
       propertyRank
       memberId
       soldAt
@@ -202,6 +208,7 @@ export const UPDATE_BOARD_ARTICLE_BY_ADMIN = gql`
       articleImage
       articleViews
       articleLikes
+      articleComments
       memberId
       createdAt
       updatedAt
@@ -220,6 +227,7 @@ export const REMOVE_BOARD_ARTICLE_BY_ADMIN = gql`
       articleImage
       articleViews
       articleLikes
+      articleComments
       memberId
       createdAt
       updatedAt

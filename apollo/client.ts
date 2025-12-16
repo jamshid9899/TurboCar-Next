@@ -1,11 +1,10 @@
 import { useMemo } from 'react';
-import { ApolloClient, ApolloLink, InMemoryCache, split, from, NormalizedCacheObject } from '@apollo/client';
+import { ApolloClient, ApolloLink, InMemoryCache, from, NormalizedCacheObject } from '@apollo/client';
 import createUploadLink from 'apollo-upload-client/public/createUploadLink.js';
-import { WebSocketLink } from '@apollo/client/link/ws';
-import { getMainDefinition } from '@apollo/client/utilities';
 import { onError } from '@apollo/client/link/error';
 import { getJwtToken } from '../libs/auth';
 import { TokenRefreshLink } from 'apollo-link-token-refresh';
+
 let apolloClient: ApolloClient<NormalizedCacheObject>;
 
 function getHeaders() {
@@ -20,7 +19,8 @@ const tokenRefreshLink = new TokenRefreshLink({
 	accessTokenField: 'accessToken',
 	isTokenValidOrUndefined: () => {
 		return true;
-	}, // @ts-ignore
+	},
+	// @ts-ignore
 	fetchAccessToken: () => {
 		// execute refresh token
 		return null;
@@ -36,49 +36,34 @@ function createIsomorphicLink() {
 					...getHeaders(),
 				},
 			}));
-			console.warn('requesting.. ', operation);
+			console.log('🚗 GraphQL Request:', operation.operationName);
 			return forward(operation);
 		});
 
 		// @ts-ignore
 		const link = new createUploadLink({
-			uri: process.env.REACT_APP_API_GRAPHQL_URL,
-		});
-
-		/* WEBSOCKET SUBSCRIPTION LINK */
-		const wsLink = new WebSocketLink({
-			uri: process.env.REACT_APP_API_WS ?? 'ws://127.0.0.1:3007',
-			options: {
-				reconnect: false,
-				timeout: 30000,
-				connectionParams: () => {
-					return { headers: getHeaders() };
-				},
-			},
+			uri: process.env.REACT_APP_API_GRAPHQL_URL || 'http://localhost:3001/graphql',
+			credentials: 'include',
 		});
 
 		const errorLink = onError(({ graphQLErrors, networkError, response }) => {
 			if (graphQLErrors) {
 				graphQLErrors.map(({ message, locations, path, extensions }) =>
-					console.log(`[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`),
+					console.log(`❌ [GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`),
 				);
 			}
-			if (networkError) console.log(`[Network error]: ${networkError}`);
+			if (networkError) {
+				console.log(`❌ [Network error]: ${networkError}`);
+			}
 			// @ts-ignore
 			if (networkError?.statusCode === 401) {
+				// Handle unauthorized error
+				console.log('⚠️ Unauthorized - Please login');
 			}
 		});
 
-		const splitLink = split(
-			({ query }) => {
-				const definition = getMainDefinition(query);
-				return definition.kind === 'OperationDefinition' && definition.operation === 'subscription';
-			},
-			wsLink,
-			authLink.concat(link),
-		);
-
-		return from([errorLink, tokenRefreshLink, splitLink]);
+		// ✅ HTTP ONLY - NO WEBSOCKET
+		return from([errorLink, tokenRefreshLink, authLink, link]);
 	}
 }
 
@@ -88,6 +73,14 @@ function createApolloClient() {
 		link: createIsomorphicLink(),
 		cache: new InMemoryCache(),
 		resolvers: {},
+		defaultOptions: {
+			watchQuery: {
+				fetchPolicy: 'network-only',
+			},
+			query: {
+				fetchPolicy: 'network-only',
+			},
+		},
 	});
 }
 
@@ -103,20 +96,3 @@ export function initializeApollo(initialState = null) {
 export function useApollo(initialState: any) {
 	return useMemo(() => initializeApollo(initialState), [initialState]);
 }
-
-/**
-import { ApolloClient, InMemoryCache, createHttpLink } from "@apollo/client";
-
-// No Subscription required for develop process
-
-const httpLink = createHttpLink({
-  uri: "http://localhost:3007/graphql",
-});
-
-const client = new ApolloClient({
-  link: httpLink,
-  cache: new InMemoryCache(),
-});
-
-export default client;
-*/

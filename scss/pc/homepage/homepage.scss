@@ -3,14 +3,72 @@
 		position: relative;
 		width: 100%;
 		height: auto;
+
+		// ========================================
+		// HERO SECTION (NEW - TurboCar specific)
+		// ========================================
+		.hero-section {
+			position: relative;
+			width: 100%;
+			min-height: 700px;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			justify-content: center;
+			background: linear-gradient(135deg, #1e3c72 0%, #2a5298 50%, #7e8ba3 100%);
+			padding: 120px 0 80px;
+
+			.hero-content {
+				width: 1300px;
+				margin: 0 auto;
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				text-align: center;
+
+				.hero-title {
+					color: #ffffff;
+					font-family: $font;
+					font-size: 56px;
+					font-weight: 700;
+					line-height: 1.2;
+					margin-bottom: 20px;
+					text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+				}
+
+				.hero-subtitle {
+					color: #e8f1ff;
+					font-family: $font;
+					font-size: 24px;
+					font-weight: 400;
+					margin-bottom: 50px;
+				}
+
+				.hero-search {
+					width: 100%;
+					max-width: 1100px;
+					background: rgba(255, 255, 255, 0.95);
+					border-radius: 16px;
+					padding: 30px;
+					box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+				}
+			}
+		}
+
+		// ========================================
+		// COMMON INFO BOX (Shared by all sections)
+		// ========================================
 		.info-box {
 			width: 100%;
 			display: flex;
 			flex-direction: row;
 			justify-content: space-between;
+			margin-bottom: 40px;
+
 			.left {
 				display: flex;
 				flex-direction: column;
+
 				span {
 					color: #181a20;
 					font-family: $font;
@@ -20,10 +78,12 @@
 					line-height: 150%;
 					letter-spacing: -0.646px;
 					text-transform: capitalize;
+
 					&.white {
 						color: #ffffff;
 					}
 				}
+
 				p {
 					color: #181a20;
 					font-family: $font;
@@ -31,44 +91,48 @@
 					font-style: normal;
 					font-weight: 400;
 					line-height: 26px;
+
 					&.white {
 						color: #ffffff;
 					}
 				}
 			}
+
 			.right {
 				display: flex;
 				flex-direction: row;
 				align-items: flex-end;
+
 				.pagination-box {
 					display: flex;
 					flex-direction: row;
 					align-items: center;
+
 					.swiper-pagination-bullet.swiper-pagination-bullet-active {
 						background: #000000;
 					}
-					.swiper-trend-next {
+
+					.swiper-featured-next,
+					.swiper-popular-next,
+					.swiper-rental-next {
 						margin-left: 20px;
 						cursor: pointer;
 					}
-					.swiper-trend-prev {
-						margin-right: 20px;
-						cursor: pointer;
-					}
-					.swiper-top-next {
-						margin-left: 20px;
-						cursor: pointer;
-					}
-					.swiper-top-prev {
+
+					.swiper-featured-prev,
+					.swiper-popular-prev,
+					.swiper-rental-prev {
 						margin-right: 20px;
 						cursor: pointer;
 					}
 				}
+
 				.more-box {
 					display: flex;
 					flex-direction: row;
 					cursor: pointer;
 					align-items: center;
+
 					span {
 						color: #181a20;
 						font-family: $font;
@@ -78,55 +142,35 @@
 						line-height: normal;
 						text-transform: capitalize;
 					}
+
 					img {
 						margin-left: 10px;
 						width: 16px;
 						height: 16px;
 					}
 				}
-				.btn-box {
-					display: flex;
-					flex-direction: row;
-					button {
-						border-radius: 6px;
-						background: rgba(255, 255, 255, 0.07);
-						color: #ffffff;
-						font-family: $font;
-						font-size: 14px;
-						font-style: normal;
-						font-weight: 500;
-						line-height: 28px;
-						text-transform: capitalize;
-						&:first-child {
-							margin-right: 20px;
-						}
-						&.active {
-							border: 1px solid #181a20;
-							background: #fff;
-							color: #181a20;
-							font-family: $font;
-							font-size: 14px;
-							font-style: normal;
-							font-weight: 500;
-							line-height: 28px;
-						}
-					}
-				}
 			}
 		}
-		.trend-properties {
+
+		// ========================================
+		// FEATURED CARS SECTION
+		// ========================================
+		.featured-cars {
 			padding: 108px 0px 76px;
 			width: 100%;
-			height: 697px;
+			min-height: 697px;
 			display: flex;
 			flex-direction: row;
+
 			.container {
 				flex-direction: column;
+
 				.card-box {
 					position: relative;
 					margin-top: 64px;
 					display: flex;
 					flex-direction: row;
+
 					.empty-list {
 						width: 100%;
 						height: 280px;
@@ -134,37 +178,57 @@
 						justify-content: center;
 						align-items: center;
 					}
-					.trend-property-swiper {
+
+					.featured-car-swiper {
 						width: 100%;
 						height: 400px;
 						display: flex;
 						flex-direction: row;
-						.trend-property-slide {
+
+						.featured-car-slide {
 							width: auto;
 							height: auto;
 							display: flex;
 							margin: 10px 0 0 10px;
 						}
 					}
-					.trend-card-box {
+
+					.featured-car-card {
 						position: relative;
 						width: 300px;
 						height: 375px;
 						display: flex;
 						flex-direction: column;
+						cursor: pointer;
 						transition: transform 0.3s;
+
 						&:hover {
 							opacity: 1;
 							transform: scale(1.05);
 						}
+
 						.card-img {
 							position: relative;
 							width: 100%;
 							height: 203px;
 							background-size: cover;
+							background-position: center;
 							border-radius: 12px 12px 0px 0px;
 							cursor: pointer;
-							div {
+
+							.condition-badge {
+								position: absolute;
+								top: 12px;
+								right: 12px;
+							}
+
+							.featured-badge {
+								position: absolute;
+								top: 12px;
+								left: 12px;
+							}
+
+							.price {
 								position: absolute;
 								padding: 8px 12px;
 								left: 12px;
@@ -179,6 +243,7 @@
 								line-height: normal;
 							}
 						}
+
 						.info {
 							padding: 20px 22px 17px;
 							display: flex;
@@ -189,6 +254,7 @@
 							border-top: none;
 							background: #fff;
 							box-shadow: 0px 1px 4px 0px rgba(24, 26, 32, 0.07);
+
 							.title {
 								overflow: hidden;
 								color: #181a20;
@@ -202,6 +268,7 @@
 								text-transform: capitalize;
 								cursor: pointer;
 							}
+
 							.desc {
 								margin-top: 5px;
 								overflow: hidden;
@@ -214,19 +281,19 @@
 								text-overflow: ellipsis;
 								white-space: nowrap;
 							}
+
 							.options {
 								margin-top: 15px;
 								display: flex;
 								flex-direction: row;
 								justify-content: space-between;
+
 								div {
 									display: flex;
 									flex-direction: row;
-									img {
-										margin-right: 5px;
-										width: 17px;
-										height: 17px;
-									}
+									align-items: center;
+									gap: 5px;
+
 									span {
 										color: #181a20;
 										font-family: $font;
@@ -237,11 +304,14 @@
 									}
 								}
 							}
+
 							.bott {
 								display: flex;
 								flex-direction: row;
 								justify-content: space-between;
 								align-items: center;
+								margin-top: 10px;
+
 								p {
 									color: #181a20;
 									font-family: $font;
@@ -251,17 +321,19 @@
 									line-height: normal;
 									text-transform: capitalize;
 								}
-								button {
-									margin-left: 7px;
-									width: 16px;
-									height: 16px;
-									box-sizing: border-box;
-								}
+
 								.view-like-box {
 									display: flex;
 									flex-direction: row;
 									gap: 7px;
 									align-items: center;
+
+									button {
+										width: 16px;
+										height: 16px;
+										padding: 0;
+									}
+
 									.view-cnt {
 										color: #717171;
 										font-family: $font;
@@ -278,16 +350,22 @@
 				}
 			}
 		}
-		.popular-properties {
+
+		// ========================================
+		// POPULAR CARS SECTION
+		// ========================================
+		.popular-cars {
 			padding: 132px 0px 94px;
 			width: 100%;
-			height: 816px;
+			min-height: 816px;
 			display: flex;
 			flex-direction: row;
 			background: #f6f6f6;
+
 			.container {
 				flex-direction: column;
 				align-items: center;
+
 				.card-box {
 					margin-top: 34px;
 					width: 100%;
@@ -295,36 +373,44 @@
 					display: flex;
 					flex-direction: row;
 					justify-content: space-between;
-					.popular-property-swiper {
+
+					.popular-car-swiper {
 						width: 100%;
 						height: 425px;
 						display: flex;
 						flex-direction: row;
-						.popular-property-slide {
+
+						.popular-car-slide {
 							width: auto;
 							height: auto;
 							display: flex;
 							margin: 10px 0 10px 10px;
 						}
 					}
-					.popular-card-box {
+
+					.popular-car-card {
 						position: relative;
 						width: 400px;
 						height: 425px;
 						display: flex;
 						flex-direction: column;
+						cursor: pointer;
 						transition: transform 0.3s, opacity 0.3s;
+
 						&:hover {
 							opacity: 1;
 							transform: scale(1.05);
 						}
+
 						.card-img {
 							position: relative;
 							width: 100%;
 							height: 203px;
 							background-size: cover;
+							background-position: center;
 							border-radius: 12px 12px 0px 0px;
 							cursor: pointer;
+
 							div.status {
 								position: absolute;
 								padding: 6px 34px;
@@ -334,10 +420,12 @@
 								align-items: center;
 								border-radius: 6px;
 								background: #eb6753;
+
 								img {
 									width: 14px;
 									height: 14px;
 								}
+
 								span {
 									margin-left: 5px;
 									color: #fff;
@@ -349,6 +437,7 @@
 									text-transform: uppercase;
 								}
 							}
+
 							div.price {
 								position: absolute;
 								padding: 8px 12px;
@@ -364,6 +453,7 @@
 								line-height: normal;
 							}
 						}
+
 						.info {
 							padding: 20px 22px 17px;
 							display: flex;
@@ -374,6 +464,7 @@
 							border-top: none;
 							background: #fff;
 							box-shadow: 0px 1px 4px 0px rgba(24, 26, 32, 0.07);
+
 							.title {
 								overflow: hidden;
 								color: #181a20;
@@ -387,6 +478,7 @@
 								text-transform: capitalize;
 								cursor: pointer;
 							}
+
 							.desc {
 								margin-top: 5px;
 								overflow: hidden;
@@ -399,19 +491,19 @@
 								text-overflow: ellipsis;
 								white-space: nowrap;
 							}
+
 							.options {
 								margin-top: 15px;
 								display: flex;
 								flex-direction: row;
 								justify-content: space-between;
+
 								div {
 									display: flex;
 									flex-direction: row;
-									img {
-										margin-right: 5px;
-										width: 17px;
-										height: 17px;
-									}
+									align-items: center;
+									gap: 5px;
+
 									span {
 										color: #181a20;
 										font-family: $font;
@@ -422,11 +514,14 @@
 									}
 								}
 							}
+
 							.bott {
 								display: flex;
 								flex-direction: row;
 								justify-content: space-between;
 								align-items: center;
+								margin-top: 10px;
+
 								p {
 									color: #181a20;
 									font-family: $font;
@@ -436,17 +531,19 @@
 									line-height: normal;
 									text-transform: capitalize;
 								}
-								button {
-									margin-left: 7px;
-									width: 16px;
-									height: 16px;
-									box-sizing: border-box;
-								}
+
 								.view-like-box {
 									display: flex;
 									flex-direction: row;
 									gap: 7px;
 									align-items: center;
+
+									button {
+										width: 16px;
+										height: 16px;
+										padding: 0;
+									}
+
 									.view-cnt {
 										color: #717171;
 										font-family: $font;
@@ -461,18 +558,23 @@
 						}
 					}
 				}
+
 				.pagination-box {
 					display: flex;
 					flex-direction: row;
 					justify-content: center;
 					align-items: center;
+					margin-top: 30px;
+
 					.swiper-pagination-bullet.swiper-pagination-bullet-active {
 						background: #000000;
 					}
+
 					.swiper-popular-next {
 						margin-left: 20px;
 						cursor: pointer;
 					}
+
 					.swiper-popular-prev {
 						margin-right: 20px;
 						cursor: pointer;
@@ -480,6 +582,10 @@
 				}
 			}
 		}
+
+		// ========================================
+		// VIDEO ADVERTISEMENT
+		// ========================================
 		.video-frame {
 			width: 100%;
 			height: 678px;
@@ -487,50 +593,69 @@
 			transform: perspective(0px);
 			box-shadow: -3px 0px 20px 14px #34343480;
 		}
-		.top-properties {
+
+		// ========================================
+		// RENTAL CARS SECTION
+		// ========================================
+		.rental-cars {
 			padding: 108px 0px 76px;
 			width: 100%;
-			height: 697px;
+			min-height: 697px;
 			display: flex;
 			flex-direction: row;
+
 			.container {
 				flex-direction: column;
+
 				.card-box {
 					position: relative;
 					margin-top: 64px;
 					display: flex;
 					flex-direction: row;
-					.top-property-swiper {
+
+					.rental-car-swiper {
 						width: 100%;
-						height: 400px;
+						height: 450px;
 						display: flex;
 						flex-direction: row;
-						.top-property-slide {
+
+						.rental-car-slide {
 							width: auto;
 							height: auto;
 							display: flex;
 							margin: 10px 0 0 10px;
 						}
 					}
-					.top-card-box {
+
+					.rental-car-card {
 						position: relative;
 						width: 300px;
-						height: 375px;
+						height: 420px;
 						display: flex;
 						flex-direction: column;
+						cursor: pointer;
 						transition: transform 0.3s;
+
 						&:hover {
 							opacity: 1;
 							transform: scale(1.05);
 						}
+
 						.card-img {
 							position: relative;
 							width: 100%;
 							height: 203px;
 							background-size: cover;
+							background-position: center;
 							border-radius: 12px 12px 0px 0px;
-							cursor: pointer;
-							div {
+
+							.available-badge {
+								position: absolute;
+								top: 12px;
+								left: 12px;
+							}
+
+							.rent-price {
 								position: absolute;
 								padding: 8px 12px;
 								left: 12px;
@@ -545,6 +670,7 @@
 								line-height: normal;
 							}
 						}
+
 						.info {
 							padding: 20px 22px 17px;
 							display: flex;
@@ -555,6 +681,7 @@
 							border-top: none;
 							background: #fff;
 							box-shadow: 0px 1px 4px 0px rgba(24, 26, 32, 0.07);
+
 							.title {
 								overflow: hidden;
 								color: #181a20;
@@ -566,8 +693,8 @@
 								font-weight: 600;
 								line-height: normal;
 								text-transform: capitalize;
-								cursor: pointer;
 							}
+
 							.desc {
 								margin-top: 5px;
 								overflow: hidden;
@@ -580,19 +707,19 @@
 								text-overflow: ellipsis;
 								white-space: nowrap;
 							}
+
 							.options {
 								margin-top: 15px;
 								display: flex;
 								flex-direction: row;
 								justify-content: space-between;
+
 								div {
 									display: flex;
 									flex-direction: row;
-									img {
-										margin-right: 5px;
-										width: 17px;
-										height: 17px;
-									}
+									align-items: center;
+									gap: 5px;
+
 									span {
 										color: #181a20;
 										font-family: $font;
@@ -603,226 +730,206 @@
 									}
 								}
 							}
-							.bott {
+
+							.rental-period {
+								margin-top: 12px;
 								display: flex;
-								flex-direction: row;
-								justify-content: space-between;
 								align-items: center;
-								p {
-									color: #181a20;
-									font-family: $font;
-									font-size: 13px;
-									font-style: normal;
-									font-weight: 400;
-									line-height: normal;
-									text-transform: capitalize;
-								}
-								button {
-									margin-left: 7px;
-									width: 16px;
-									height: 16px;
-									box-sizing: border-box;
-								}
-								.view-like-box {
-									display: flex;
-									flex-direction: row;
-									gap: 7px;
-									align-items: center;
-									.view-cnt {
-										color: #717171;
-										font-family: $font;
-										font-size: 13px;
-										font-style: normal;
-										font-weight: 400;
-										line-height: normal;
-										text-overflow: ellipsis;
-									}
-								}
+								gap: 8px;
+								color: #717171;
+								font-size: 12px;
+							}
+
+							.location {
+								margin-top: 8px;
+								color: #717171;
+								font-size: 12px;
+							}
+
+							.rent-button {
+								margin-top: 15px;
+								width: 100%;
 							}
 						}
 					}
 				}
-			}
-		}
-		.top-agents {
-			position: relative;
-			padding: 153px 0px 135px;
-			width: 100%;
-			height: 722px;
-			display: flex;
-			flex-direction: row;
-			background: #f6f6f6;
-			.container {
-				position: relative;
-				flex-direction: column;
-				align-items: center;
-				.wrapper {
-					width: 100%;
-					margin-top: 83px;
+
+				.pagination-box {
 					display: flex;
 					flex-direction: row;
+					justify-content: center;
 					align-items: center;
-					justify-content: space-between;
-					.switch-btn {
-						width: 53px;
-						height: 53px;
-						display: flex;
-						align-items: center;
-						justify-content: center;
-						border-radius: 50%;
-						background: #ffffff;
-						filter: drop-shadow(0px 10px 35px rgba(5, 16, 54, 0.1));
+					margin-top: 30px;
+
+					.swiper-rental-next {
+						margin-left: 20px;
 						cursor: pointer;
-						svg {
-							width: 14px;
-							height: 14px;
-						}
-						&.swiper-agents-next {
-							transform: rotate(180deg);
-						}
 					}
-					.card-wrapper {
-						width: 1174px;
-						height: 280px;
-						display: flex;
-						flex-direction: row;
-						.top-agents-swiper {
-							width: 99.7%;
-							height: 280px;
-							display: flex;
-							flex-direction: row;
-							.top-agents-slide {
-								width: auto;
-								height: auto;
-								display: flex;
-							}
-						}
-						.top-agent-card {
-							width: 205px;
-							height: 280px;
-							display: flex;
-							flex-direction: column;
-							img {
-								width: 209px;
-								height: 209px;
-								border-radius: 50%;
-								cursor: pointer;
-								object-fit: cover;
-							}
-							strong {
-								margin-top: 20px;
-								color: #181a20;
-								text-align: center;
-								font-family: $font;
-								font-size: 15px;
-								font-style: normal;
-								font-weight: 600;
-								line-height: normal;
-								text-transform: capitalize;
-								cursor: pointer;
-							}
-							span {
-								color: #181a20;
-								text-align: center;
-								font-family: $font;
-								font-size: 15px;
-								font-style: normal;
-								font-weight: 400;
-								line-height: 28px;
-							}
-						}
+
+					.swiper-rental-prev {
+						margin-right: 20px;
+						cursor: pointer;
 					}
 				}
 			}
 		}
-		.events {
+// scss/pc/homepage/homepage.scss ning oxiriga qo'shing
+
+// ========================================
+// TOP DEALERS SECTION
+// ========================================
+.top-dealers {
+	padding: 108px 0px 76px;
+	width: 100%;
+	min-height: 697px;
+	display: flex;
+	flex-direction: row;
+	background: #f9f9f9;
+
+	.container {
+		flex-direction: column;
+
+		.card-box {
 			position: relative;
-			padding: 100px 0px 92px;
-			width: 100%;
-			height: 810px;
+			margin-top: 64px;
 			display: flex;
 			flex-direction: row;
-			background: #181a20;
-			.container {
-				flex-direction: column;
+
+			.empty-list {
+				width: 100%;
+				height: 280px;
+				display: flex;
+				justify-content: center;
 				align-items: center;
-				.card-wrapper {
-					position: relative;
-					margin-top: 48px;
-					width: 100%;
+			}
+
+			.top-dealers-swiper {
+				width: 100%;
+				height: 400px;
+				display: flex;
+				flex-direction: row;
+
+				.top-dealer-slide {
+					width: auto;
 					height: auto;
 					display: flex;
-					flex-direction: row;
-					justify-content: space-between;
-					.event-card {
-						position: relative;
-						width: 300px;
-						height: 420px;
-						border-radius: 12px;
-						opacity: 0.9;
-						cursor: pointer;
-						transition: opacity 0.4s;
-						&:hover {
-							opacity: 1;
-							scale: 1.05;
-							transition: 0.3s;
-							.more {
-								opacity: 1;
-							}
+					margin: 10px 0 0 10px;
+				}
+			}
+
+			.top-dealer-card {
+				position: relative;
+				width: 280px;
+				height: 350px;
+				display: flex;
+				flex-direction: column;
+				cursor: pointer;
+				transition: transform 0.3s;
+				border-radius: 12px;
+				overflow: hidden;
+				box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
+
+				&:hover {
+					transform: scale(1.05);
+					box-shadow: 0px 4px 16px rgba(0, 0, 0, 0.15);
+				}
+
+				.dealer-img {
+					position: relative;
+					width: 100%;
+					height: 220px;
+					background-size: cover;
+					background-position: center;
+
+					.rank-badge {
+						position: absolute;
+						top: 12px;
+						right: 12px;
+						padding: 6px 12px;
+						display: flex;
+						align-items: center;
+						gap: 4px;
+						border-radius: 6px;
+						background: #ffc107;
+						color: #fff;
+						font-size: 12px;
+						font-weight: 600;
+
+						svg {
+							font-size: 16px;
 						}
-						.info {
-							position: absolute;
+					}
+				}
+
+				.info {
+					padding: 20px;
+					display: flex;
+					flex-direction: column;
+					background: #fff;
+					flex: 1;
+
+					.name {
+						color: #181a20;
+						font-family: $font;
+						font-size: 16px;
+						font-weight: 600;
+						margin-bottom: 4px;
+					}
+
+					.type {
+						color: #717171;
+						font-size: 13px;
+						margin-bottom: 16px;
+					}
+
+					.stats {
+						display: flex;
+						flex-direction: row;
+						justify-content: space-between;
+						margin-top: auto;
+
+						div {
 							display: flex;
-							flex-direction: column;
-							top: 35px;
-							left: 10px;
-							right: 10px;
-							strong {
-								color: #f64747;
-								font-family: $font;
-								font-size: 25px;
-								font-style: normal;
-								font-weight: 600;
-								line-height: normal;
-								text-transform: capitalize;
-							}
-							span {
-								color: #f66767;
-								font-family: $font;
-								font-size: 20px;
-								font-style: normal;
-								font-weight: 500;
-								line-height: 28px;
-								text-transform: capitalize;
-							}
-						}
-						.more {
-							position: absolute;
-							left: 10px;
-							right: 10px;
-							bottom: 41px;
-							display: flex;
-							flex-direction: row;
 							align-items: center;
-							opacity: 0;
-							span {
-								padding: 0px 5px;
-								border-radius: 5px;
-								background: #fffdfdc4;
-								color: #9c67f6;
-								font-family: $font;
-								font-size: 16px;
-								font-style: normal;
-								font-weight: 400;
-								line-height: 26px;
-								text-align: justify;
-								cursor: pointer;
+							gap: 6px;
+							color: #181a20;
+							font-size: 13px;
+
+							svg {
+								color: #717171;
 							}
 						}
 					}
 				}
 			}
 		}
+
+		.pagination-box {
+			display: flex;
+			flex-direction: row;
+			justify-content: center;
+			align-items: center;
+			margin-top: 30px;
+
+			.swiper-pagination-bullet.swiper-pagination-bullet-active {
+				background: #000000;
+			}
+
+			.swiper-dealers-next {
+				margin-left: 20px;
+				cursor: pointer;
+			}
+
+			.swiper-dealers-prev {
+				margin-right: 20px;
+				cursor: pointer;
+			}
+		}
+	}
+}
+		// ========================================
+		// COMMUNITY BOARD (Keep from Nestar)
+		// ========================================
 		.community-board {
 			position: relative;
 			padding: 124px 0px 61px;
@@ -830,19 +937,23 @@
 			height: 860px;
 			display: flex;
 			flex-direction: row;
+
 			.container {
 				flex-direction: column;
 				align-items: center;
+
 				.community-main {
 					width: 100%;
 					margin-top: 60px;
 					display: flex;
 					flex-direction: row;
 					justify-content: space-between;
+
 					.center-line {
 						height: 90%;
 						align-self: end;
 					}
+
 					.content-top {
 						margin-bottom: 26px;
 						width: 100%;
@@ -851,6 +962,7 @@
 						flex-direction: row;
 						justify-content: flex-end;
 						align-items: center;
+
 						span {
 							font-family: $font;
 							font-style: normal;
@@ -860,21 +972,25 @@
 							color: #616161;
 							cursor: pointer;
 						}
+
 						img {
 							margin-left: 10px;
 							width: 12px;
 							height: 12px;
 						}
 					}
+
 					.community-left {
 						width: 642px;
 						height: auto;
 						display: flex;
 						flex-direction: column;
+
 						.card-wrap {
 							display: flex;
 							flex-direction: row;
 							flex-wrap: wrap;
+
 							.vertical-card {
 								margin-right: 12px;
 								margin-bottom: 18px;
@@ -882,12 +998,14 @@
 								display: flex;
 								flex-direction: column;
 								cursor: pointer;
+
 								.community-img {
 									width: 100%;
 									height: 141px;
 									background-size: cover;
 									background-repeat: round;
 									border-radius: 5px;
+
 									div {
 										width: 32px;
 										height: 32px;
@@ -905,6 +1023,7 @@
 										color: #bdbdbd;
 									}
 								}
+
 								strong {
 									margin-top: 10px;
 									font-family: $font;
@@ -915,6 +1034,7 @@
 									letter-spacing: 0.105em;
 									color: #000000;
 								}
+
 								span {
 									font-family: $font;
 									font-style: normal;
@@ -927,25 +1047,30 @@
 							}
 						}
 					}
+
 					.community-right {
 						width: 590px;
 						height: auto;
 						display: flex;
 						flex-direction: column;
+
 						.horizontal-card {
 							display: flex;
 							flex-direction: row;
 							cursor: pointer;
 							margin-bottom: 34px;
+
 							img {
 								width: 180px;
 								height: 111px;
 								border-radius: 7px;
 							}
+
 							div {
 								margin-left: 25px;
 								display: flex;
 								flex-direction: column;
+
 								strong {
 									margin-top: 15px;
 									font-family: $font;
@@ -955,6 +1080,7 @@
 									letter-spacing: 0.105em;
 									color: #212121;
 								}
+
 								span {
 									font-family: $font;
 									font-style: normal;

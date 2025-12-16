@@ -52,7 +52,6 @@ export const GET_ALL_PROPERTIES_BY_ADMIN = gql`
         propertyStatus
         propertyBrand
         propertyLocation
-        propertyAddress
         propertyTitle
         propertyPrice
         propertyYear
@@ -64,11 +63,13 @@ export const GET_ALL_PROPERTIES_BY_ADMIN = gql`
         propertyCylinders
         propertyImages
         propertyDesc
-        propertyRent
         propertyRentPrice
+        isForSale
+        isForRent
         propertyFeatures
         propertyViews
         propertyLikes
+        propertyComments
         propertyRank
         memberId
         soldAt
@@ -99,19 +100,10 @@ export const GET_ALL_PROPERTIES_BY_ADMIN = gql`
           accessToken
         }
       }
-      metaCounter {
-        total
-      }
+      totalCount
     }
   }
 `;
-
-/**************************
- *   RENTAL BOOKINGS      *
- *************************/
-
-// 🔴 ESKI QUERY O'CHIRILDI - Duplicate bo'lgani uchun
-// Yangi query line 257'da (startDate, endDate, totalPrice, renterId, ownerId)
 
 /**************************
  *      BOARD-ARTICLE     *
@@ -129,6 +121,7 @@ export const GET_ALL_BOARD_ARTICLES_BY_ADMIN = gql`
         articleImage
         articleViews
         articleLikes
+        articleComments
         memberId
         createdAt
         updatedAt
@@ -215,7 +208,7 @@ export const GET_ALL_COMMENTS_BY_ADMIN = gql`
  *************************/
 
 export const GET_ALL_RENTALS_BY_ADMIN = gql`
-  query GetAllRentalsByAdmin($input: RentalInquiry!) {
+  query GetAllRentalsByAdmin($input: RentalsInquiry!) {
     getAllRentalsByAdmin(input: $input) {
       list {
         _id

@@ -92,7 +92,6 @@ export const GET_PROPERTY = gql`
       propertyStatus
       propertyBrand
       propertyLocation
-      propertyAddress
       propertyTitle
       propertyPrice
       propertyYear
@@ -104,15 +103,21 @@ export const GET_PROPERTY = gql`
       propertyCylinders
       propertyImages
       propertyDesc
-      propertyRent
       propertyRentPrice
+      isForSale
+      isForRent
       propertyFeatures
       propertyViews
       propertyLikes
+      propertyComments
       propertyRank
       memberId
+      rentedUntil
+      minimumRentDays
+      maximumRentDays
       soldAt
       deletedAt
+      constructedAt
       createdAt
       updatedAt
       memberData {
@@ -157,7 +162,6 @@ export const GET_PROPERTIES = gql`
         propertyStatus
         propertyBrand
         propertyLocation
-        propertyAddress
         propertyTitle
         propertyPrice
         propertyYear
@@ -169,11 +173,13 @@ export const GET_PROPERTIES = gql`
         propertyCylinders
         propertyImages
         propertyDesc
-        propertyRent
         propertyRentPrice
+        isForSale
+        isForRent
         propertyFeatures
         propertyViews
         propertyLikes
+        propertyComments
         propertyRank
         memberId
         soldAt
@@ -208,9 +214,7 @@ export const GET_PROPERTIES = gql`
           myFavorite
         }
       }
-      metaCounter {
-        total
-      }
+      totalCount
     }
   }
 `;
@@ -225,7 +229,6 @@ export const GET_AGENT_PROPERTIES = gql`
         propertyStatus
         propertyBrand
         propertyLocation
-        propertyAddress
         propertyTitle
         propertyPrice
         propertyYear
@@ -237,11 +240,13 @@ export const GET_AGENT_PROPERTIES = gql`
         propertyCylinders
         propertyImages
         propertyDesc
-        propertyRent
         propertyRentPrice
+        isForSale
+        isForRent
         propertyFeatures
         propertyViews
         propertyLikes
+        propertyComments
         propertyRank
         memberId
         soldAt
@@ -249,9 +254,7 @@ export const GET_AGENT_PROPERTIES = gql`
         createdAt
         updatedAt
       }
-      metaCounter {
-        total
-      }
+      totalCount
     }
   }
 `;
@@ -266,7 +269,6 @@ export const GET_FAVORITES = gql`
         propertyStatus
         propertyBrand
         propertyLocation
-        propertyAddress
         propertyTitle
         propertyPrice
         propertyYear
@@ -278,11 +280,13 @@ export const GET_FAVORITES = gql`
         propertyCylinders
         propertyImages
         propertyDesc
-        propertyRent
         propertyRentPrice
+        isForSale
+        isForRent
         propertyFeatures
         propertyViews
         propertyLikes
+        propertyComments
         propertyRank
         memberId
         soldAt
@@ -314,9 +318,7 @@ export const GET_FAVORITES = gql`
           accessToken
         }
       }
-      metaCounter {
-        total
-      }
+      totalCount
     }
   }
 `;
@@ -331,7 +333,6 @@ export const GET_VISITED = gql`
         propertyStatus
         propertyBrand
         propertyLocation
-        propertyAddress
         propertyTitle
         propertyPrice
         propertyYear
@@ -343,11 +344,13 @@ export const GET_VISITED = gql`
         propertyCylinders
         propertyImages
         propertyDesc
-        propertyRent
         propertyRentPrice
+        isForSale
+        isForRent
         propertyFeatures
         propertyViews
         propertyLikes
+        propertyComments
         propertyRank
         memberId
         soldAt
@@ -379,9 +382,7 @@ export const GET_VISITED = gql`
           accessToken
         }
       }
-      metaCounter {
-        total
-      }
+      totalCount
     }
   }
 `;
@@ -390,8 +391,85 @@ export const GET_VISITED = gql`
  *   RENTAL BOOKINGS      *
  *************************/
 
-// 🔴 ESKI QUERY O'CHIRILDI - Duplicate bo'lgani uchun
-// Yangi query line 735'da (input yo'q, to'g'ridan-to'g'ri array)
+export const GET_MY_RENTALS = gql`
+  query GetMyRentals {
+    getMyRentals {
+      _id
+      propertyId
+      renterId
+      ownerId
+      rentalType
+      rentalStatus
+      startDate
+      endDate
+      totalPrice
+      createdAt
+      updatedAt
+      propertyData {
+        _id
+        propertyCondition
+        propertyBrand
+        propertyType
+        propertyStatus
+        propertyLocation
+        propertyTitle
+        propertyPrice
+        propertyYear
+        propertyMileage
+        propertyImages
+        propertyRentPrice
+        isForSale
+        isForRent
+      }
+      ownerData {
+        _id
+        memberNick
+        memberFullName
+        memberImage
+        memberPhone
+      }
+    }
+  }
+`;
+
+export const GET_OWNER_RENTALS = gql`
+  query GetOwnerRentals {
+    getOwnerRentals {
+      _id
+      propertyId
+      renterId
+      ownerId
+      rentalType
+      rentalStatus
+      startDate
+      endDate
+      totalPrice
+      createdAt
+      updatedAt
+      propertyData {
+        _id
+        propertyCondition
+        propertyBrand
+        propertyType
+        propertyStatus
+        propertyLocation
+        propertyTitle
+        propertyPrice
+        propertyYear
+        propertyImages
+        isForSale
+        isForRent
+      }
+      renterData {
+        _id
+        memberNick
+        memberFullName
+        memberImage
+        memberPhone
+      }
+    }
+  }
+`;
 
 /**************************
  *      BOARD-ARTICLE     *
@@ -645,90 +723,6 @@ export const GET_MEMBER_FOLLOWINGS = gql`
       }
       metaCounter {
         total
-      }
-    }
-  }
-`;
-
-/**************************
- *   RENTAL BOOKINGS      *
- *************************/
-
-export const GET_MY_RENTALS = gql`
-  query GetMyRentals {
-    getMyRentals {
-      _id
-      propertyId
-      renterId
-      ownerId
-      rentalType
-      rentalStatus
-      startDate
-      endDate
-      totalPrice
-      createdAt
-      updatedAt
-      propertyData {
-        _id
-        propertyCondition
-        propertyBrand
-        propertyType
-        propertyStatus
-        propertyLocation
-        propertyTitle
-        propertyPrice
-        propertyYear
-        propertyMileage
-        propertyImages
-        propertyRentPrice
-        isForSale
-        isForRent
-      }
-      ownerData {
-        _id
-        memberNick
-        memberFullName
-        memberImage
-        memberPhone
-      }
-    }
-  }
-`;
-
-export const GET_OWNER_RENTALS = gql`
-  query GetOwnerRentals {
-    getOwnerRentals {
-      _id
-      propertyId
-      renterId
-      ownerId
-      rentalType
-      rentalStatus
-      startDate
-      endDate
-      totalPrice
-      createdAt
-      updatedAt
-      propertyData {
-        _id
-        propertyCondition
-        propertyBrand
-        propertyType
-        propertyStatus
-        propertyLocation
-        propertyTitle
-        propertyPrice
-        propertyYear
-        propertyImages
-        isForSale
-        isForRent
-      }
-      renterData {
-        _id
-        memberNick
-        memberFullName
-        memberImage
-        memberPhone
       }
     }
   }

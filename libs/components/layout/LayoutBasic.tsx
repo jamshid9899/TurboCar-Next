@@ -29,49 +29,49 @@ const withLayoutBasic = (Component: any) => {
 
 			switch (router.pathname) {
 				case '/property':
-					title = 'Property Search';
-					desc = 'We are glad to see you again!';
-					bgImage = '/img/banner/properties.png';
+					title = 'Browse Cars';
+					desc = 'Find your perfect vehicle';
+					bgImage = '/img/banner/cars-banner.jpg';
 					break;
 				case '/agent':
-					title = 'Agents';
-					desc = 'Home / For Rent';
-					bgImage = '/img/banner/agents.webp';
+					title = 'Car Dealers';
+					desc = 'Trusted dealers across Spain';
+					bgImage = '/img/banner/dealers-banner.jpg';
 					break;
 				case '/agent/detail':
-					title = 'Agent Page';
-					desc = 'Home / For Rent';
+					title = 'Dealer Profile';
+					desc = 'Professional car dealer';
 					bgImage = '/img/banner/header2.svg';
 					break;
 				case '/mypage':
-					title = 'my page';
-					desc = 'Home / For Rent';
+					title = 'My Page';
+					desc = 'Manage your cars and profile';
 					bgImage = '/img/banner/header1.svg';
 					break;
 				case '/community':
 					title = 'Community';
-					desc = 'Home / For Rent';
+					desc = 'Car news and discussions';
 					bgImage = '/img/banner/header2.svg';
 					break;
 				case '/community/detail':
-					title = 'Community Detail';
-					desc = 'Home / For Rent';
+					title = 'Article Detail';
+					desc = 'Community post';
 					bgImage = '/img/banner/header2.svg';
 					break;
 				case '/cs':
-					title = 'CS';
-					desc = 'We are glad to see you again!';
+					title = 'Customer Support';
+					desc = 'We are here to help!';
 					bgImage = '/img/banner/header2.svg';
 					break;
 				case '/account/join':
-					title = 'Login/Signup';
-					desc = 'Authentication Process';
+					title = 'Login / Signup';
+					desc = 'Join TurboCar today';
 					bgImage = '/img/banner/header2.svg';
 					setAuthHeader(true);
 					break;
 				case '/member':
-					title = 'Member Page';
-					desc = 'Home / For Rent';
+					title = 'Member Profile';
+					desc = 'View member details';
 					bgImage = '/img/banner/header1.svg';
 					break;
 				default:
@@ -93,8 +93,8 @@ const withLayoutBasic = (Component: any) => {
 			return (
 				<>
 					<Head>
-						<title>Nestar</title>
-						<meta name={'title'} content={`Nestar`} />
+						<title>TurboCar - {memoizedValues.title}</title>
+						<meta name={'title'} content={`TurboCar - ${memoizedValues.title}`} />
 					</Head>
 					<Stack id="mobile-wrap">
 						<Stack id={'top'}>
@@ -115,8 +115,8 @@ const withLayoutBasic = (Component: any) => {
 			return (
 				<>
 					<Head>
-						<title>Nestar</title>
-						<meta name={'title'} content={`Nestar`} />
+						<title>TurboCar - {memoizedValues.title}</title>
+						<meta name={'title'} content={`TurboCar - ${memoizedValues.title}`} />
 					</Head>
 					<Stack id="pc-wrap">
 						<Stack id={'top'}>

@@ -1,6 +1,5 @@
-import React, { useCallback, useEffect, useRef } from 'react';
-import { useState } from 'react';
-import { useRouter, withRouter } from 'next/router';
+import React, { useCallback, useEffect, useState } from 'react';
+import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 import { getJwtToken, logOut, updateUserInfo } from '../auth';
 import { Stack, Box } from '@mui/material';
@@ -27,8 +26,6 @@ const Top = () => {
 	const [lang, setLang] = useState<string | null>('en');
 	const drop = Boolean(anchorEl2);
 	const [colorChange, setColorChange] = useState(false);
-	const [anchorEl, setAnchorEl] = React.useState<any | HTMLElement>(null);
-	let open = Boolean(anchorEl);
 	const [bgColor, setBgColor] = useState<boolean>(false);
 	const [logoutAnchor, setLogoutAnchor] = React.useState<null | HTMLElement>(null);
 	const logoutOpen = Boolean(logoutAnchor);
@@ -85,18 +82,6 @@ const Top = () => {
 		}
 	};
 
-	const handleClose = () => {
-		setAnchorEl(null);
-	};
-
-	const handleHover = (event: any) => {
-		if (anchorEl !== event.currentTarget) {
-			setAnchorEl(event.currentTarget);
-		} else {
-			setAnchorEl(null);
-		}
-	};
-
 	const StyledMenu = styled((props: MenuProps) => (
 		<Menu
 			elevation={0}
@@ -146,16 +131,16 @@ const Top = () => {
 					<div>{t('Home')}</div>
 				</Link>
 				<Link href={'/property'}>
-					<div>{t('Properties')}</div>
+					<div>{t('Cars')}</div>
 				</Link>
 				<Link href={'/agent'}>
-					<div> {t('Agents')} </div>
+					<div>{t('Dealers')}</div>
 				</Link>
 				<Link href={'/community?articleCategory=FREE'}>
-					<div> {t('Community')} </div>
+					<div>{t('Community')}</div>
 				</Link>
 				<Link href={'/cs'}>
-					<div> {t('CS')} </div>
+					<div>{t('CS')}</div>
 				</Link>
 			</Stack>
 		);
@@ -166,7 +151,7 @@ const Top = () => {
 					<Stack className={'container'}>
 						<Box component={'div'} className={'logo-box'}>
 							<Link href={'/'}>
-								<img src="/img/logo/logoWhite.svg" alt="" />
+								<img src="/img/logo/turbocar-logo-white.svg" alt="TurboCar" />
 							</Link>
 						</Box>
 						<Box component={'div'} className={'router-box'}>
@@ -174,21 +159,24 @@ const Top = () => {
 								<div>{t('Home')}</div>
 							</Link>
 							<Link href={'/property'}>
-								<div>{t('Properties')}</div>
+								<div>{t('Cars')}</div>
+							</Link>
+							<Link href={'/property?search=buy'}>
+								<div>{t('Buy')}</div>
+							</Link>
+							<Link href={'/property?search=rent'}>
+								<div>{t('Rent')}</div>
 							</Link>
 							<Link href={'/agent'}>
-								<div> {t('Agents')} </div>
-							</Link>
-							<Link href={'/community?articleCategory=FREE'}>
-								<div> {t('Community')} </div>
+								<div>{t('Dealers')}</div>
 							</Link>
 							{user?._id && (
 								<Link href={'/mypage'}>
-									<div> {t('My Page')} </div>
+									<div>{t('My Page')}</div>
 								</Link>
 							)}
-							<Link href={'/cs'}>
-								<div> {t('CS')} </div>
+							<Link href={'/community?articleCategory=FREE'}>
+								<div>{t('Community')}</div>
 							</Link>
 						</Box>
 						<Box component={'div'} className={'user-box'}>
@@ -239,42 +227,24 @@ const Top = () => {
 								>
 									<Box component={'div'} className={'flag'}>
 										{lang !== null ? (
-											<img src={`/img/flag/lang${lang}.png`} alt={'usaFlag'} />
+											<img src={`/img/flag/lang${lang}.png`} alt={'flag'} />
 										) : (
-											<img src={`/img/flag/langen.png`} alt={'usaFlag'} />
+											<img src={`/img/flag/langen.png`} alt={'flag'} />
 										)}
 									</Box>
 								</Button>
 
 								<StyledMenu anchorEl={anchorEl2} open={drop} onClose={langClose} sx={{ position: 'absolute' }}>
 									<MenuItem disableRipple onClick={langChoice} id="en">
-										<img
-											className="img-flag"
-											src={'/img/flag/langen.png'}
-											onClick={langChoice}
-											id="en"
-											alt={'usaFlag'}
-										/>
+										<img className="img-flag" src={'/img/flag/langen.png'} onClick={langChoice} id="en" alt={'English'} />
 										{t('English')}
 									</MenuItem>
-									<MenuItem disableRipple onClick={langChoice} id="kr">
-										<img
-											className="img-flag"
-											src={'/img/flag/langkr.png'}
-											onClick={langChoice}
-											id="uz"
-											alt={'koreanFlag'}
-										/>
-										{t('Korean')}
+									<MenuItem disableRipple onClick={langChoice} id="es">
+										<img className="img-flag" src={'/img/flag/langes.png'} onClick={langChoice} id="es" alt={'Spanish'} />
+										{t('Spanish')}
 									</MenuItem>
 									<MenuItem disableRipple onClick={langChoice} id="ru">
-										<img
-											className="img-flag"
-											src={'/img/flag/langru.png'}
-											onClick={langChoice}
-											id="ru"
-											alt={'russiaFlag'}
-										/>
+										<img className="img-flag" src={'/img/flag/langru.png'} onClick={langChoice} id="ru" alt={'Russian'} />
 										{t('Russian')}
 									</MenuItem>
 								</StyledMenu>
@@ -287,4 +257,4 @@ const Top = () => {
 	}
 };
 
-export default withRouter(Top);
+export default Top;
