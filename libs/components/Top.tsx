@@ -36,9 +36,16 @@ const Top = () => {
 			localStorage.setItem('locale', 'en');
 			setLang('en');
 		} else {
-			setLang(localStorage.getItem('locale'));
+			const savedLocale = localStorage.getItem('locale');
+			setLang(savedLocale);
 		}
 	}, [router]);
+
+	useEffect(() => {
+		if (router.locale) {
+			setLang(router.locale);
+		}
+	}, [router.locale]);
 
 	useEffect(() => {
 		switch (router.pathname) {
@@ -66,12 +73,14 @@ const Top = () => {
 
 	const langChoice = useCallback(
 		async (e: any) => {
-			setLang(e.target.id);
-			localStorage.setItem('locale', e.target.id);
+			const newLocale = e.currentTarget.id || e.target.id;
+			setLang(newLocale);
+			localStorage.setItem('locale', newLocale);
 			setAnchorEl2(null);
-			await router.push(router.asPath, router.asPath, { locale: e.target.id });
+			await i18n.changeLanguage(newLocale);
+			await router.push(router.asPath, router.asPath, { locale: newLocale });
 		},
-		[router],
+		[router, i18n],
 	);
 
 	const changeNavbarColor = () => {
@@ -143,10 +152,10 @@ const Top = () => {
 					<div>{t('Home')}</div>
 				</Link>
 				<Link href={'/property?mode=rent'}>
-					<div>Rent</div>
+					<div>{t('Rent')}</div>
 				</Link>
 				<Link href={'/property?mode=buy'}>
-					<div>Buy</div>
+					<div>{t('Buy')}</div>
 				</Link>
 				<Link href={'/agent'}>
 					<div>{t('Dealers')}</div>
@@ -177,10 +186,10 @@ const Top = () => {
 								<div className={router.pathname === '/' ? 'active' : ''}>{t('Home')}</div>
 							</Link>
 							<Link href={'/property?mode=rent'}>
-								<div className={router.pathname === '/property' && router.query.mode === 'rent' ? 'active' : ''}>Rent</div>
+								<div className={router.pathname === '/property' && router.query.mode === 'rent' ? 'active' : ''}>{t('Rent')}</div>
 							</Link>
 							<Link href={'/property?mode=buy'}>
-								<div className={router.pathname === '/property' && router.query.mode === 'buy' ? 'active' : ''}>Buy</div>
+								<div className={router.pathname === '/property' && router.query.mode === 'buy' ? 'active' : ''}>{t('Buy')}</div>
 							</Link>
 							<Link href={'/agent'}>
 								<div className={router.pathname === '/agent' ? 'active' : ''}>{t('Dealers')}</div>

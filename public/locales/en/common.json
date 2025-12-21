@@ -1,5 +1,7 @@
 {
   "Home": "Home",
+  "Rent": "Rent",
+  "Buy": "Buy",
   "Properties": "Properties",
   "Agents": "Agents",
   "Community": "Community",
@@ -18,5 +20,10 @@
   "my page": "my page",
   "Community Detail": "Community Detail",
   "Login/Signup": "Login/Signup",
-  "Member Page": "Member Page"
+  "Member Page": "Member Page",
+  "Dealers": "Dealers",
+  "English": "English",
+  "Spanish": "Spanish",
+  "Korean": "Korean",
+  "Russian": "Russian"
 }

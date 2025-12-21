@@ -9,14 +9,14 @@ const HeroSection = () => {
 	if (device === 'mobile') {
 		return (
 			<Stack className="hero-section">
-				<Box className="hero-content">
+				<Box component={'div'} className="hero-content">
 					<Typography variant="h2" className="hero-title">
 						Find Your Dream Car
 					</Typography>
 					<Typography className="hero-subtitle">
 						Buy, Sell, Rent - All in One Place
 					</Typography>
-					<Box className="hero-search">
+					<Box component={'div'} className="hero-search">
 						<HeroSearch />
 					</Box>
 				</Box>
@@ -27,7 +27,7 @@ const HeroSection = () => {
 			<Stack className="hero-section">
 				<Stack className="header-main">
 					<Stack className="container">
-						<Box className="hero-content">
+						<Box component={'div'} className="hero-content">
 							<Typography variant="h1" className="hero-title">
 								Find Your Dream Car
 							</Typography>
@@ -35,7 +35,7 @@ const HeroSection = () => {
 								Buy, Sell, Rent - All in One Place
 							</Typography>
 						</Box>
-						<Box className="search-box">
+						<Box component={'div'} className="search-box">
 							<HeroSearch />
 						</Box>
 					</Stack>

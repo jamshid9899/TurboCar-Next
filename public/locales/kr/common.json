@@ -1,5 +1,7 @@
 {
   "Home": "홈",
+  "Rent": "렌트",
+  "Buy": "구매",
   "Properties": "매물",
   "Agents": "에이전트",
   "Community": "커뮤니티",
@@ -18,5 +20,10 @@
   "my page": "마이 페이지",
   "Community Detail": "커뮤니티 디테일",
   "Login/Signup": "로그인/가입",
-  "Member Page": "멤버 페이지"
+  "Member Page": "멤버 페이지",
+  "Dealers": "딜러",
+  "English": "영어",
+  "Spanish": "스페인어",
+  "Korean": "한국어",
+  "Russian": "러시아어"
 }
