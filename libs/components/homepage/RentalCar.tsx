@@ -7,10 +7,15 @@ import WestIcon from '@mui/icons-material/West';
 import EastIcon from '@mui/icons-material/East';
 import RentalCarCard from './RentalCarCard';
 import { Property } from '../../types/property/property';
-import Link from 'next/link';
 import { PropertiesInquiry } from '../../types/property/property.input';
-import { useQuery } from '@apollo/client';
+import { T } from '../../types/common';
+import { useMutation, useQuery, useReactiveVar } from '@apollo/client';
 import { GET_PROPERTIES } from '../../../apollo/user/query';
+import { LIKE_TARGET_PROPERTY } from '../../../apollo/user/mutation';
+import { sweetMixinErrorAlert, sweetTopSmallSuccessAlert } from '../../sweetAlert';
+import { Message } from '../../enums/common.enum';
+import { userVar } from '../../../apollo/store';
+import { Direction } from '../../enums/common.enum';
 
 interface RentalCarsProps {
 	initialInput: PropertiesInquiry;
@@ -19,64 +24,73 @@ interface RentalCarsProps {
 const RentalCars = (props: RentalCarsProps) => {
 	const { initialInput } = props;
 	const device = useDeviceDetect();
+	const user = useReactiveVar(userVar);
 	const [rentalCars, setRentalCars] = useState<Property[]>([]);
 
 	/** APOLLO REQUESTS **/
-	const {
-		loading,
-		data,
-		error,
-		refetch,
+	const [likeTargetProperty] = useMutation(LIKE_TARGET_PROPERTY);
+	
+	const { 
+		loading: getPropertiesLoading,
+		data: getPropertiesData,
+		error: getPropertiesError,
+		refetch: getPropertiesRefetch,
 	} = useQuery(GET_PROPERTIES, {
 		fetchPolicy: 'cache-and-network',
 		variables: { input: initialInput },
 		notifyOnNetworkStatusChange: true,
-		onCompleted: (data) => {
-			 console.log('RENTAL CARS RESPONSE:', data);
-			if (data?.getProperties?.list) {
-				console.log('RENTAL CARS LIST:', data.getProperties.list);
-				setRentalCars(data.getProperties.list);
-			}
+		onCompleted: (data: T) => {
+			setRentalCars(data?.getProperties?.list);
 		},
 	});
 
 	/** HANDLERS **/
-	// ✅ ALWAYS SHOW SECTION (even if empty)
+	const likePropertyHandler = async (user: T, id: string) => {
+		try {
+			if (!id) return;
+			if (!user?._id) {
+				await sweetMixinErrorAlert('Please login first');
+				return;
+			}
+			
+			await likeTargetProperty({
+				variables: { propertyId: id },
+			});
+			await getPropertiesRefetch({ input: initialInput });
+			await sweetTopSmallSuccessAlert('Success', 800);
+		} catch (err: any) {
+			console.log('ERROR, likePropertyHandler:', err.message);
+			if (err.message !== Message.NOT_AUTHENTICATED) {
+				sweetMixinErrorAlert(err.message).then();
+			}
+		}
+	};
+
+	if (!rentalCars) return null;
 
 	if (device === 'mobile') {
 		return (
 			<Stack className={'rental-cars'}>
 				<Stack className={'container'}>
 					<Stack className={'info-box'}>
-						<span>Available for Rent</span>
-						<p>Rent a car today</p>
+						<span>Cars for Rent</span>
 					</Stack>
 					<Stack className={'card-box'}>
-						{loading ? (
-							<Box component={'div'} className={'loading'}>
-								Loading...
-							</Box>
-						) : rentalCars.length === 0 ? (
-							<Box component={'div'} className={'empty-list'}>
-								<p>No rental cars available at the moment</p>
-							</Box>
-						) : (
-							<Swiper
-								className={'rental-car-swiper'}
-								slidesPerView={'auto'}
-								centeredSlides={true}
-								spaceBetween={25}
-								modules={[Autoplay]}
-							>
-								{rentalCars.map((car: Property) => {
-									return (
-										<SwiperSlide key={car._id} className={'rental-car-slide'}>
-											<RentalCarCard property={car} />
-										</SwiperSlide>
-									);
-								})}
-							</Swiper>
-						)}
+						<Swiper
+							className={'rental-car-swiper'}
+							slidesPerView={'auto'}
+							centeredSlides={true}
+							spaceBetween={25}
+							modules={[Autoplay]}
+						>
+							{rentalCars.map((property: Property) => {
+								return (
+									<SwiperSlide key={property._id} className={'rental-car-slide'}>
+										<RentalCarCard property={property} likePropertyHandler={likePropertyHandler} />
+									</SwiperSlide>
+								);
+							})}
+						</Swiper>
 					</Stack>
 				</Stack>
 			</Stack>
@@ -87,50 +101,38 @@ const RentalCars = (props: RentalCarsProps) => {
 				<Stack className={'container'}>
 					<Stack className={'info-box'}>
 						<Box component={'div'} className={'left'}>
-							<span>Available for Rent</span>
-							<p>Find the perfect car for your next trip</p>
+							<span>Cars for Rent</span>
+							<p>Rent your perfect ride today</p>
 						</Box>
 						<Box component={'div'} className={'right'}>
 							<div className={'more-box'}>
-								<Link href={'/property?search=rent'}>
-									<span>See All Rentals</span>
-								</Link>
+								<span>View All Rentals</span>
 								<img src="/img/icons/rightup.svg" alt="" />
 							</div>
 						</Box>
 					</Stack>
 					<Stack className={'card-box'}>
-						{loading ? (
-							<Box component={'div'} className={'loading'}>
-								Loading rental cars...
-							</Box>
-						) : rentalCars.length === 0 ? (
-							<Box component={'div'} className={'empty-list'}>
-								<p>No rental cars available at the moment</p>
-							</Box>
-						) : (
-							<Swiper
-								className={'rental-car-swiper'}
-								slidesPerView={'auto'}
-								spaceBetween={25}
-								modules={[Autoplay, Navigation, Pagination]}
-								navigation={{
-									nextEl: '.swiper-rental-next',
-									prevEl: '.swiper-rental-prev',
-								}}
-								pagination={{
-									el: '.swiper-rental-pagination',
-								}}
-							>
-								{rentalCars.map((car: Property) => {
-									return (
-										<SwiperSlide key={car._id} className={'rental-car-slide'}>
-											<RentalCarCard property={car} />
-										</SwiperSlide>
-									);
-								})}
-							</Swiper>
-						)}
+						<Swiper
+							className={'rental-car-swiper'}
+							slidesPerView={'auto'}
+							spaceBetween={25}
+							modules={[Autoplay, Navigation, Pagination]}
+							navigation={{
+								nextEl: '.swiper-rental-next',
+								prevEl: '.swiper-rental-prev',
+							}}
+							pagination={{
+								el: '.swiper-rental-pagination',
+							}}
+						>
+							{rentalCars.map((property: Property) => {
+								return (
+									<SwiperSlide key={property._id} className={'rental-car-slide'}>
+										<RentalCarCard property={property} likePropertyHandler={likePropertyHandler} />
+									</SwiperSlide>
+								);
+							})}
+						</Swiper>
 					</Stack>
 					<Stack className={'pagination-box'}>
 						<WestIcon className={'swiper-rental-prev'} />
@@ -146,12 +148,12 @@ const RentalCars = (props: RentalCarsProps) => {
 RentalCars.defaultProps = {
 	initialInput: {
 		page: 1,
-		limit: 8,
+		limit: 7,
 		sort: 'createdAt',
-		direction: 'DESC',
+		direction: Direction.DESC,
 		search: {
 			isForRent: true,
-		},  
+		},
 	},
 };
 

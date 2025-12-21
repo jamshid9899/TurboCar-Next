@@ -3,6 +3,7 @@ import useDeviceDetect from '../libs/hooks/useDeviceDetect';
 import withLayoutHome from '../libs/components/layout/LayoutHome';
 import { Stack } from '@mui/material';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import { Direction } from '../libs/enums/common.enum';
 
 // TurboCar Components
 import Advertisement from '../libs/components/homepage/Advertisement';
@@ -27,10 +28,38 @@ const Home: NextPage = () => {
 		return (
 			<Stack className={'home-page'}>
 				<HeroSection />
-				<FeaturedCars />
-				<PopularCars />
+				<FeaturedCars 
+					initialInput={{
+						page: 1,
+						limit: 8,
+						sort: 'propertyLikes',
+						direction: Direction.DESC,
+						search: {},
+					}}
+				/>
+				<PopularCars 
+					initialInput={{
+						page: 1,
+						limit: 7,
+						sort: 'propertyViews',
+						direction: Direction.DESC,
+						search: {
+							isForSale: true,
+						},
+					}}
+				/>
 				<Advertisement />
-				<RentalCars />
+				<RentalCars 
+					initialInput={{
+						page: 1,
+						limit: 7,
+						sort: 'createdAt',
+						direction: Direction.DESC,
+						search: {
+							isForRent: true,
+						},
+					}}
+				/>
 				<TopDealers /> {/* ✅ YANGI */}
 			</Stack>
 		);
@@ -38,10 +67,38 @@ const Home: NextPage = () => {
 		return (
 			<Stack className={'home-page'}>
 				<HeroSection />
-				<FeaturedCars />
-				<PopularCars />
+				<RentalCars 
+					initialInput={{
+						page: 1,
+						limit: 7,
+						sort: 'createdAt',
+						direction: Direction.DESC,
+						search: {
+							isForRent: true,
+						},
+					}}
+				/>
+				<FeaturedCars 
+					initialInput={{
+						page: 1,
+						limit: 8,
+						sort: 'propertyLikes',
+						direction: Direction.DESC,
+						search: {},
+					}}
+				/>
+				<PopularCars 
+					initialInput={{
+						page: 1,
+						limit: 7,
+						sort: 'propertyViews',
+						direction: Direction.DESC,
+						search: {
+							isForSale: true,
+						},
+					}}
+				/>
 				<Advertisement />
-				<RentalCars />
 				<TopDealers /> {/* ✅ YANGI */}
 				<CommunityBoards />
 			</Stack>

@@ -7,35 +7,11 @@ import MarkChatUnreadIcon from '@mui/icons-material/MarkChatUnread';
 import { useRouter } from 'next/router';
 import ScrollableFeed from 'react-scrollable-feed';
 
-const NewMessage = (type: any) => {
-	if (type === 'right') {
-		return (
-			<Box
-				component={'div'}
-				flexDirection={'row'}
-				style={{ display: 'flex' }}
-				alignItems={'flex-end'}
-				justifyContent={'flex-end'}
-				sx={{ m: '10px 0px' }}
-			>
-				<div className={'msg_right'}></div>
-			</Box>
-		);
-	} else {
-		return (
-			<Box flexDirection={'row'} style={{ display: 'flex' }} sx={{ m: '10px 0px' }} component={'div'}>
-				<Avatar alt={'jonik'} src={'/img/profile/defaultUser.svg'} />
-				<div className={'msg_left'}></div>
-			</Box>
-		);
-	}
-};
-
 const Chat = () => {
 	const chatContentRef = useRef<HTMLDivElement>(null);
-	const [messagesList, setMessagesList] = useState([]);
+	const [messagesList, setMessagesList] = useState<any[]>([]);
 	const [onlineUsers, setOnlineUsers] = useState<number>(0);
-	const textInput = useRef(null);
+	const textInput = useRef<HTMLInputElement>(null);
 	const [message, setMessage] = useState<string>('');
 	const [open, setOpen] = useState(false);
 	const [openButton, setOpenButton] = useState(false);
@@ -76,7 +52,16 @@ const Chat = () => {
 		}
 	};
 
-	const onClickHandler = () => {};
+	const onClickHandler = () => {
+		// TODO: Implement WebSocket message sending
+		if (message.trim()) {
+			console.log('Sending message:', message);
+			setMessage('');
+			if (textInput.current) {
+				textInput.current.value = '';
+			}
+		}
+	};
 
 	return (
 		<Stack className="chatting">
@@ -87,39 +72,36 @@ const Chat = () => {
 			) : null}
 			<Stack className={`chat-frame ${open ? 'open' : ''}`}>
 				<Box className={'chat-top'} component={'div'}>
-					<div style={{ fontFamily: 'Nunito' }}>Online Chat</div>
+					<div style={{ fontFamily: 'Nunito' }}>Live Chat</div>
 					<Badge
 						style={{
 							margin: '-30px 0 0 20px',
 							color: '#33c1c1',
 							background: 'none',
 						}}
-						badgeContent={4}
+						badgeContent={onlineUsers}
 					/>
 				</Box>
 				<Box className={'chat-content'} id="chat-content" ref={chatContentRef} component={'div'}>
 					<ScrollableFeed>
 						<Stack className={'chat-main'}>
 							<Box flexDirection={'row'} style={{ display: 'flex' }} sx={{ m: '10px 0px' }} component={'div'}>
-								<div className={'msg-left'}>Welcome to Live chat!</div>
+								<div className={'msg-left'}>Welcome to TurboCar Live Chat!</div>
 							</Box>
-							{messagesList}
-							<>
+							{messagesList.map((msg: any, index: number) => (
 								<Box
-									component={'div'}
+									key={index}
 									flexDirection={'row'}
 									style={{ display: 'flex' }}
-									alignItems={'flex-end'}
-									justifyContent={'flex-end'}
+									alignItems={msg.isMe ? 'flex-end' : 'flex-start'}
+									justifyContent={msg.isMe ? 'flex-end' : 'flex-start'}
 									sx={{ m: '10px 0px' }}
+									component={'div'}
 								>
-									<div className={'msg-right'}>hi</div>
+									{!msg.isMe && <Avatar alt={'user'} src={'/img/profile/defaultUser.svg'} />}
+									<div className={msg.isMe ? 'msg-right' : 'msg-left'}>{msg.text}</div>
 								</Box>
-								<Box flexDirection={'row'} style={{ display: 'flex' }} sx={{ m: '10px 0px' }} component={'div'}>
-									<Avatar alt={'jonik'} src={'/img/profile/defaultUser.svg'} />
-									<div className={'msg-left'}>Hi</div>
-								</Box>
-							</>
+							))}
 						</Stack>
 					</ScrollableFeed>
 				</Box>
@@ -130,6 +112,7 @@ const Chat = () => {
 						name={'message'}
 						className={'msg-input'}
 						placeholder={'Type message'}
+						value={message}
 						onChange={getInputMessageHandler}
 						onKeyDown={getKeyHandler}
 					/>

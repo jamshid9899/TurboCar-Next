@@ -31,12 +31,13 @@ const withLayoutHome = (Component: any) => {
 			return (
 				<>
 					<Head>
-						<title>TurboCar - Buy, Sell & Rent Cars</title>
-						<meta name={'title'} content={`TurboCar - Best Car Marketplace`} />
+						<title>TurboCar - Buy, Sell & Rent Cars in Spain</title>
+						<meta name={'title'} content={`TurboCar - Best Car Marketplace in Spain`} />
 						<meta
 							name={'description'}
-							content={'Buy, sell, and rent cars in Spain. Find your dream car at the best prices on TurboCar.'}
+							content={'Buy, sell, and rent cars in Spain. Find your dream car at the best prices on TurboCar. Premium car marketplace with verified dealers.'}
 						/>
+						<meta name={'keywords'} content={'cars for sale, cars for rent, car marketplace Spain, buy cars online, luxury cars, electric cars'} />
 					</Head>
 					<Stack id="mobile-wrap">
 						<Stack id={'top'}>
@@ -57,19 +58,20 @@ const withLayoutHome = (Component: any) => {
 			return (
 				<>
 					<Head>
-						<title>TurboCar - Buy, Sell & Rent Cars</title>
-						<meta name={'title'} content={`TurboCar - Best Car Marketplace`} />
+						<title>TurboCar - Buy, Sell & Rent Cars in Spain</title>
+						<meta name={'title'} content={`TurboCar - Best Car Marketplace in Spain`} />
 						<meta
 							name={'description'}
-							content={'Buy, sell, and rent cars in Spain. Find your dream car at the best prices on TurboCar.'}
+							content={'Buy, sell, and rent cars in Spain. Find your dream car at the best prices on TurboCar. Premium car marketplace with verified dealers.'}
 						/>
+						<meta name={'keywords'} content={'cars for sale, cars for rent, car marketplace Spain, buy cars online, luxury cars, electric cars'} />
 					</Head>
 					<Stack id="pc-wrap">
 						<Stack id={'top'}>
 							<Top />
 						</Stack>
 
-						{/* NO HEADER BANNER - Homepage has HeroSection inside */}
+						{/* NO HEADER BANNER - Homepage has its own hero section */}
 
 						<Stack id={'main'}>
 							<Component {...props} />

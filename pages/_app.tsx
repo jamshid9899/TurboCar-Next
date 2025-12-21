@@ -11,9 +11,8 @@ import '../scss/pc/main.scss';
 import '../scss/mobile/main.scss';
 
 const App = ({ Component, pageProps }: AppProps) => {
-	// @ts-ignore
-	const [theme, setTheme] = useState(createTheme(light));
-	const client = useApollo(pageProps.initialApolloState);
+	const [theme] = useState(() => createTheme(light as any));
+	const client = useApollo(pageProps.initialApolloState || null);
 
 	return (
 		<ApolloProvider client={client}>

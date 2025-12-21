@@ -41,7 +41,7 @@ const withLayoutBasic = (Component: any) => {
 				case '/agent/detail':
 					title = 'Dealer Profile';
 					desc = 'Professional car dealer';
-					bgImage = '/img/banner/header2.svg';
+					bgImage = '/img/banner/header2.png';
 					break;
 				case '/mypage':
 					title = 'My Page';

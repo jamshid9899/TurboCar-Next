@@ -73,12 +73,22 @@ const Join: NextPage = () => {
 						<Stack className={'left'}>
 							{/* @ts-ignore */}
 							<Box className={'logo'}>
-								<img src="/img/logo/logoText.svg" alt="" />
-								<span>Nestar</span>
+								<img src="/img/logo/turbocar_1.svg" alt="TurboCar" />
+								<span>TurboCar</span>
+								<span className={'speed-badge'}>⚡ Tezlik</span>
 							</Box>
 							<Box className={'info'}>
-								<span>{loginView ? 'login' : 'signup'}</span>
-								<p>{loginView ? 'Login' : 'Sign'} in with this account across the following sites.</p>
+								{loginView ? (
+									<>
+										<span className={'welcome-title'}>Welcome back, Driver 👋</span>
+										<p>Get back on the road in seconds</p>
+									</>
+								) : (
+									<>
+										<span className={'signup-title'}>Start Your Engine</span>
+										<p>Join thousands of car lovers and drivers</p>
+									</>
+								)}
 							</Box>
 							<Box className={'input-wrap'}>
 								<div className={'input-box'}>

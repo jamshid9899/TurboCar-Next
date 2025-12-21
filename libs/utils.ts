@@ -1,45 +1,87 @@
 import numeral from 'numeral';
-import { sweetMixinErrorAlert } from './sweetAlert';
+import { sweetMixinErrorAlert, sweetTopSmallSuccessAlert } from './sweetAlert';
+import { Message } from './enums/common.enum';
 
+// ✅ NUMBER FORMATTER
 export const formatterStr = (value: number | undefined): string => {
-	return numeral(value).format('0,0') != '0' ? numeral(value).format('0,0') : '';
+	if (!value) return '0';
+	return numeral(value).format('0,0');
 };
 
-export const likeTargetPropertyHandler = async (likeTargetProperty: any, id: string) => {
+// ✅ LIKE TARGET PROPERTY HANDLER
+export const likePropertyHandler = async (
+	user: any,
+	id: string,
+	likeTargetProperty: any,
+	refetch?: any
+) => {
 	try {
+		if (!id) return;
+		if (!user?._id) throw new Error(Message.NOT_AUTHENTICATED);
+
 		await likeTargetProperty({
-			variables: {
-				input: id,
-			},
+			variables: { propertyId: id },
 		});
+
+		if (refetch) {
+			await refetch();
+		}
+
+		await sweetTopSmallSuccessAlert('Liked!', 800);
 	} catch (err: any) {
-		console.log('ERROR, likeTargetPropertyHandler:', err.message);
-		sweetMixinErrorAlert(err.message).then();
+		console.log('ERROR, likePropertyHandler:', err.message);
+		await sweetMixinErrorAlert(err.message);
 	}
 };
 
-export const likeTargetBoardArticleHandler = async (likeTargetBoardArticle: any, id: string) => {
+// ✅ LIKE TARGET BOARD ARTICLE HANDLER
+export const likeBoardArticleHandler = async (
+	user: any,
+	id: string,
+	likeTargetBoardArticle: any,
+	refetch?: any
+) => {
 	try {
+		if (!id) return;
+		if (!user?._id) throw new Error(Message.NOT_AUTHENTICATED);
+
 		await likeTargetBoardArticle({
-			variables: {
-				input: id,
-			},
+			variables: { articleId: id },
 		});
+
+		if (refetch) {
+			await refetch();
+		}
+
+		await sweetTopSmallSuccessAlert('Liked!', 800);
 	} catch (err: any) {
-		console.log('ERROR, likeTargetBoardArticleHandler:', err.message);
-		sweetMixinErrorAlert(err.message).then();
+		console.log('ERROR, likeBoardArticleHandler:', err.message);
+		await sweetMixinErrorAlert(err.message);
 	}
 };
 
-export const likeTargetMemberHandler = async (likeTargetMember: any, id: string) => {
+// ✅ LIKE TARGET MEMBER HANDLER
+export const likeMemberHandler = async (
+	user: any,
+	id: string,
+	likeTargetMember: any,
+	refetch?: any
+) => {
 	try {
+		if (!id) return;
+		if (!user?._id) throw new Error(Message.NOT_AUTHENTICATED);
+
 		await likeTargetMember({
-			variables: {
-				input: id,
-			},
+			variables: { memberId: id },
 		});
+
+		if (refetch) {
+			await refetch();
+		}
+
+		await sweetTopSmallSuccessAlert('Liked!', 800);
 	} catch (err: any) {
-		console.log('ERROR, likeTargetMemberHandler:', err.message);
-		sweetMixinErrorAlert(err.message).then();
+		console.log('ERROR, likeMemberHandler:', err.message);
+		await sweetMixinErrorAlert(err.message);
 	}
 };

@@ -95,7 +95,7 @@ export const light = {
 		MuiCssBaseline: {
 			styleOverrides: {
 				html: { height: '100%' },
-				body: { background: '#fff', height: '100%', minHeight: '100%' },
+				body: { background: 'transparent', height: '100%', minHeight: '100%' },
 				p: {
 					margin: '0',
 				},
@@ -168,7 +168,7 @@ export const light = {
 			styleOverrides: {
 				root: {},
 				select: {
-					textAlign: 'left',
+					textAlign: 'left' as const,
 				},
 			},
 		},

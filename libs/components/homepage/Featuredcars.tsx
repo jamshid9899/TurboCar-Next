@@ -8,8 +8,12 @@ import { Autoplay, Navigation, Pagination } from 'swiper';
 import { Property } from '../../types/property/property';
 import { PropertiesInquiry } from '../../types/property/property.input';
 import FeaturedCarCard from './FeaturedCarCard';
-import { useQuery } from '@apollo/client';
+import { useMutation, useQuery } from '@apollo/client';
 import { GET_PROPERTIES } from '../../../apollo/user/query';
+import { T } from '../../types/common';
+import { LIKE_TARGET_PROPERTY } from '../../../apollo/user/mutation';
+import { sweetMixinErrorAlert, sweetTopSmallSuccessAlert } from '../../sweetAlert';
+import { Direction, Message } from '../../enums/common.enum';
 
 interface FeaturedCarsProps {
 	initialInput: PropertiesInquiry;
@@ -21,25 +25,45 @@ const FeaturedCars = (props: FeaturedCarsProps) => {
 	const [featuredCars, setFeaturedCars] = useState<Property[]>([]);
 
 	/** APOLLO REQUESTS **/
-	const {
-		loading,
-		data,
-		error,
-		refetch,
+	const [likeTargetProperty] = useMutation(LIKE_TARGET_PROPERTY);
+
+	const { 
+		loading: getPropertiesLoading,
+		data: getPropertiesData,
+		error: getPropertiesError,
+		refetch: getPropertiesRefetch,
 	} = useQuery(GET_PROPERTIES, {
 		fetchPolicy: 'cache-and-network',
 		variables: { input: initialInput },
 		notifyOnNetworkStatusChange: true,
-		onCompleted: (data) => {
-			console.log('FEATURED CARS DATA:', data);
-			if (data?.getProperties?.list) {
-				setFeaturedCars(data.getProperties.list);
-			}
+		onCompleted: (data: T) => {
+			setFeaturedCars(data?.getProperties?.list);
 		},
 	});
 
 	/** HANDLERS **/
-	// ✅ ALWAYS SHOW SECTION (even if empty)
+	const likePropertyHandler = async (user: T, id: string) => {
+		try {
+			if (!id) return;
+			if (!user?._id) {
+				await sweetMixinErrorAlert('Please login first');
+				return;
+			}
+			
+			await likeTargetProperty({
+				variables: { propertyId: id },
+			});
+			await getPropertiesRefetch({ input: initialInput });
+			await sweetTopSmallSuccessAlert('Success', 800);
+		} catch (err: any) {
+			console.log('ERROR, likePropertyHandler:', err.message);
+			if (err.message !== Message.NOT_AUTHENTICATED) {
+				sweetMixinErrorAlert(err.message).then();
+			}
+		}
+	};
+
+	if (!featuredCars) return null;
 
 	if (device === 'mobile') {
 		return (
@@ -47,29 +71,24 @@ const FeaturedCars = (props: FeaturedCarsProps) => {
 				<Stack className={'container'}>
 					<Stack className={'info-box'}>
 						<span>Featured Cars</span>
-						<p>Top ranked vehicles</p>
 					</Stack>
 					<Stack className={'card-box'}>
-						{loading ? (
-							<Box component={'div'} className={'loading'}>
-								Loading...
-							</Box>
-						) : featuredCars.length === 0 ? (
+						{featuredCars.length === 0 ? (
 							<Box component={'div'} className={'empty-list'}>
-								<p>No featured cars available at the moment</p>
+								Featured Cars Empty
 							</Box>
 						) : (
 							<Swiper
-								className={'featured-car-swiper'}
+								className={'featured-swiper'}
 								slidesPerView={'auto'}
 								centeredSlides={true}
 								spaceBetween={15}
 								modules={[Autoplay]}
 							>
-								{featuredCars.map((car: Property) => {
+								{featuredCars.map((property: Property) => {
 									return (
-										<SwiperSlide key={car._id} className={'featured-car-slide'}>
-											<FeaturedCarCard property={car} />
+										<SwiperSlide key={property._id} className={'featured-slide'}>
+											<FeaturedCarCard property={property} likePropertyHandler={likePropertyHandler} />
 										</SwiperSlide>
 									);
 								})}
@@ -86,7 +105,7 @@ const FeaturedCars = (props: FeaturedCarsProps) => {
 					<Stack className={'info-box'}>
 						<Box component={'div'} className={'left'}>
 							<span>Featured Cars</span>
-							<p>Top ranked vehicles selected by our team</p>
+							<p>Explore our top-rated vehicles</p>
 						</Box>
 						<Box component={'div'} className={'right'}>
 							<div className={'pagination-box'}>
@@ -97,17 +116,13 @@ const FeaturedCars = (props: FeaturedCarsProps) => {
 						</Box>
 					</Stack>
 					<Stack className={'card-box'}>
-						{loading ? (
-							<Box component={'div'} className={'loading'}>
-								Loading featured cars...
-							</Box>
-						) : featuredCars.length === 0 ? (
+						{featuredCars.length === 0 ? (
 							<Box component={'div'} className={'empty-list'}>
-								<p>No featured cars available at the moment</p>
+								Featured Cars Empty
 							</Box>
 						) : (
 							<Swiper
-								className={'featured-car-swiper'}
+								className={'featured-swiper'}
 								slidesPerView={'auto'}
 								spaceBetween={15}
 								modules={[Autoplay, Navigation, Pagination]}
@@ -119,10 +134,10 @@ const FeaturedCars = (props: FeaturedCarsProps) => {
 									el: '.swiper-featured-pagination',
 								}}
 							>
-								{featuredCars.map((car: Property) => {
+								{featuredCars.map((property: Property) => {
 									return (
-										<SwiperSlide key={car._id} className={'featured-car-slide'}>
-											<FeaturedCarCard property={car} />
+										<SwiperSlide key={property._id} className={'featured-slide'}>
+											<FeaturedCarCard property={property} likePropertyHandler={likePropertyHandler} />
 										</SwiperSlide>
 									);
 								})}
@@ -139,9 +154,10 @@ FeaturedCars.defaultProps = {
 	initialInput: {
 		page: 1,
 		limit: 8,
-		sort: 'propertyRank',
-		direction: 'DESC',
-		search: {},  
+		sort: 'propertyLikes',
+		direction: Direction.DESC,
+		search: {},
 	},
 };
+
 export default FeaturedCars;

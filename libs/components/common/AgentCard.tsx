@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
 import { Stack, Box, Typography } from '@mui/material';
 import Link from 'next/link';
@@ -12,15 +12,21 @@ import { userVar } from '../../../apollo/store';
 
 interface AgentCardProps {
 	agent: any;
+	likeMemberHandler?: (user: any, id: string) => void;
 }
 
 const AgentCard = (props: AgentCardProps) => {
-	const { agent } = props;
+	const { agent, likeMemberHandler } = props;
 	const device = useDeviceDetect();
 	const user = useReactiveVar(userVar);
-	const imagePath: string = agent?.memberImage
-		? `${REACT_APP_API_URL}/${agent?.memberImage}`
-		: '/img/profile/defaultUser.svg';
+	const [imageError, setImageError] = useState(false);
+	
+	const getImagePath = () => {
+		if (imageError || !agent?.memberImage || agent.memberImage.trim() === '') {
+			return '/img/profile/defaultUser.svg';
+		}
+		return `${REACT_APP_API_URL}/${agent.memberImage}`;
+	};
 
 	if (device === 'mobile') {
 		return <div>AGENT CARD</div>;
@@ -36,14 +42,25 @@ const AgentCard = (props: AgentCardProps) => {
 					<Box
 						component={'div'}
 						className={'agent-img'}
-						style={{
-							backgroundImage: `url(${imagePath})`,
-							backgroundSize: 'cover',
-							backgroundPosition: 'center',
-							backgroundRepeat: 'no-repeat',
+						sx={{
+							position: 'relative',
+							overflow: 'hidden',
 						}}
 					>
-						<div>{agent?.memberProperties} properties</div>
+						<img
+							src={getImagePath()}
+							alt={agent?.memberFullName || agent?.memberNick || 'Agent'}
+							style={{
+								width: '100%',
+								height: '100%',
+								objectFit: 'cover',
+								position: 'absolute',
+								top: 0,
+								left: 0,
+							}}
+							onError={() => setImageError(true)}
+						/>
+						<div>{agent?.memberProperties || 0} properties</div>
 					</Box>
 				</Link>
 
@@ -52,7 +69,7 @@ const AgentCard = (props: AgentCardProps) => {
 						<Link
 							href={{
 								pathname: '/agent/detail',
-								query: { agentId: 'id' },
+								query: { agentId: agent?._id },
 							}}
 						>
 							<strong>{agent?.memberFullName ?? agent?.memberNick}</strong>
@@ -63,15 +80,33 @@ const AgentCard = (props: AgentCardProps) => {
 						<IconButton color={'default'}>
 							<RemoveRedEyeIcon />
 						</IconButton>
-						<Typography className="view-cnt">{agent?.memberViews}</Typography>
-						<IconButton color={'default'}>
-							{agent?.meLiked && agent?.meLiked[0]?.myFavorite ? (
-								<FavoriteIcon color={'primary'} />
-							) : (
-								<FavoriteBorderIcon />
-							)}
-						</IconButton>
-						<Typography className="view-cnt">{agent?.memberLikes}</Typography>
+						<Typography className="view-cnt">{agent?.memberViews || 0}</Typography>
+						{likeMemberHandler && (
+							<IconButton 
+								color={'default'} 
+								onClick={(e) => {
+									e.preventDefault();
+									e.stopPropagation();
+									likeMemberHandler(user, agent?._id);
+								}}
+							>
+								{agent?.meLiked && agent?.meLiked[0]?.myFavorite ? (
+									<FavoriteIcon color={'primary'} />
+								) : (
+									<FavoriteBorderIcon />
+								)}
+							</IconButton>
+						)}
+						{!likeMemberHandler && (
+							<IconButton color={'default'}>
+								{agent?.meLiked && agent?.meLiked[0]?.myFavorite ? (
+									<FavoriteIcon color={'primary'} />
+								) : (
+									<FavoriteBorderIcon />
+								)}
+							</IconButton>
+						)}
+						<Typography className="view-cnt">{agent?.memberLikes || 0}</Typography>
 					</Box>
 				</Stack>
 			</Stack>

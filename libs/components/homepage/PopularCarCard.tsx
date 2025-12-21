@@ -1,10 +1,13 @@
 import React from 'react';
-import { Stack, Box, Divider, Typography, IconButton } from '@mui/material';
+import { Stack, Box, Divider, Typography } from '@mui/material';
+import IconButton from '@mui/material/IconButton';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import DirectionsCarIcon from '@mui/icons-material/DirectionsCar';
 import LocalGasStationIcon from '@mui/icons-material/LocalGasStation';
 import EventSeatIcon from '@mui/icons-material/EventSeat';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import { Property } from '../../types/property/property';
 import { REACT_APP_API_URL } from '../../config';
 import { useRouter } from 'next/router';
@@ -13,53 +16,49 @@ import { userVar } from '../../../apollo/store';
 
 interface PopularCarCardProps {
 	property: Property;
+	likePropertyHandler: any;
 }
 
 const PopularCarCard = (props: PopularCarCardProps) => {
-	const { property } = props;
+	const { property, likePropertyHandler } = props;
 	const device = useDeviceDetect();
-	const router = useRouter(); // ✅ FIXED: Added destructuring
+	const router = useRouter();
 	const user = useReactiveVar(userVar);
 
 	/** HANDLERS **/
-	const pushDetailHandler = async () => {
+	const pushDetailHandler = async (propertyId: string) => {
 		await router.push({
 			pathname: '/property/detail',
-			query: { id: property?._id },
+			query: { id: propertyId },
 		});
 	};
 
 	if (device === 'mobile') {
 		return (
-			<Stack className="popular-car-card" onClick={pushDetailHandler}>
+			<Stack className="popular-card-box">
 				<Box
 					component={'div'}
 					className={'card-img'}
 					style={{ backgroundImage: `url(${REACT_APP_API_URL}/${property?.propertyImages[0]})` }}
+					onClick={() => pushDetailHandler(property._id)}
 				>
-					{/* Top Rank Badge */}
-					{property?.propertyRank && property?.propertyRank >= 50 && (
+					{property?.propertyRank && property?.propertyRank >= 50 ? (
 						<div className={'status'}>
-							<img src="/img/icons/fire.svg" alt="" />
-							<span>Hot</span>
+							<img src="/img/icons/electricity.svg" alt="" />
+							<span>top</span>
 						</div>
+					) : (
+						''
 					)}
-
-					{/* Price */}
 					<div className={'price'}>${property.propertyPrice?.toLocaleString()}</div>
 				</Box>
 				<Box component={'div'} className={'info'}>
-					{/* Brand + Model */}
-					<strong className={'title'}>
+					<strong className={'title'} onClick={() => pushDetailHandler(property._id)}>
 						{property?.propertyBrand} {property.propertyTitle}
 					</strong>
-					
-					{/* Year + Transmission */}
 					<p className={'desc'}>
 						{property?.propertyYear} · {property?.propertyTransmission}
 					</p>
-					
-					{/* Car Details */}
 					<div className={'options'}>
 						<div>
 							<DirectionsCarIcon fontSize="small" />
@@ -74,19 +73,33 @@ const PopularCarCard = (props: PopularCarCardProps) => {
 							<span>{property?.propertySeats} seats</span>
 						</div>
 					</div>
-					
 					<Divider sx={{ mt: '15px', mb: '17px' }} />
-					
 					<div className={'bott'}>
-						{/* Sale/Rent */}
 						<p>{property?.isForRent ? 'rent' : 'sale'}</p>
-						
-						{/* Views */}
 						<div className="view-like-box">
-							<IconButton color={'default'} size="small">
+							<IconButton color={'default'}>
 								<RemoveRedEyeIcon />
 							</IconButton>
-							<Typography className="view-cnt">{property?.propertyViews}</Typography>
+							<Typography className="view-cnt">{property?.propertyViews || 0}</Typography>
+							{likePropertyHandler && (
+								<>
+									<IconButton 
+										color={'default'} 
+										onClick={(e) => {
+											e.preventDefault();
+											e.stopPropagation();
+											likePropertyHandler(user, property?._id);
+										}}
+									>
+										{property?.meLiked && property?.meLiked[0]?.myFavorite ? (
+											<FavoriteIcon style={{ color: 'red' }} />
+										) : (
+											<FavoriteBorderIcon />
+										)}
+									</IconButton>
+									<Typography className="view-cnt">{property?.propertyLikes || 0}</Typography>
+								</>
+							)}
 						</div>
 					</div>
 				</Box>
@@ -94,35 +107,30 @@ const PopularCarCard = (props: PopularCarCardProps) => {
 		);
 	} else {
 		return (
-			<Stack className="popular-car-card" onClick={pushDetailHandler}>
+			<Stack className="popular-card-box">
 				<Box
 					component={'div'}
 					className={'card-img'}
 					style={{ backgroundImage: `url(${REACT_APP_API_URL}/${property?.propertyImages[0]})` }}
+					onClick={() => pushDetailHandler(property._id)}
 				>
-					{/* Top Rank Badge */}
-					{property?.propertyRank && property?.propertyRank >= 50 && (
+					{property && property?.propertyRank >= 50 ? (
 						<div className={'status'}>
-							<img src="/img/icons/fire.svg" alt="" />
-							<span>Hot</span>
+							<img src="/img/icons/electricity.svg" alt="" />
+							<span>top</span>
 						</div>
+					) : (
+						''
 					)}
-
-					{/* Price */}
 					<div className={'price'}>${property.propertyPrice?.toLocaleString()}</div>
 				</Box>
 				<Box component={'div'} className={'info'}>
-					{/* Brand + Model */}
-					<strong className={'title'}>
+					<strong className={'title'} onClick={() => pushDetailHandler(property._id)}>
 						{property?.propertyBrand} {property.propertyTitle}
 					</strong>
-					
-					{/* Year + Transmission */}
 					<p className={'desc'}>
 						{property?.propertyYear} · {property?.propertyTransmission}
 					</p>
-					
-					{/* Car Details */}
 					<div className={'options'}>
 						<div>
 							<DirectionsCarIcon fontSize="small" />
@@ -137,19 +145,33 @@ const PopularCarCard = (props: PopularCarCardProps) => {
 							<span>{property?.propertySeats} seats</span>
 						</div>
 					</div>
-					
 					<Divider sx={{ mt: '15px', mb: '17px' }} />
-					
 					<div className={'bott'}>
-						{/* Sale/Rent */}
 						<p>{property?.isForRent ? 'rent' : 'sale'}</p>
-						
-						{/* Views */}
 						<div className="view-like-box">
-							<IconButton color={'default'} size="small">
+							<IconButton color={'default'}>
 								<RemoveRedEyeIcon />
 							</IconButton>
-							<Typography className="view-cnt">{property?.propertyViews}</Typography>
+							<Typography className="view-cnt">{property?.propertyViews || 0}</Typography>
+							{likePropertyHandler && (
+								<>
+									<IconButton 
+										color={'default'} 
+										onClick={(e) => {
+											e.preventDefault();
+											e.stopPropagation();
+											likePropertyHandler(user, property?._id);
+										}}
+									>
+										{property?.meLiked && property?.meLiked[0]?.myFavorite ? (
+											<FavoriteIcon style={{ color: 'red' }} />
+										) : (
+											<FavoriteBorderIcon />
+										)}
+									</IconButton>
+									<Typography className="view-cnt">{property?.propertyLikes || 0}</Typography>
+								</>
+							)}
 						</div>
 					</div>
 				</Box>

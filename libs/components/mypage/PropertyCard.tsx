@@ -60,7 +60,7 @@ export const PropertyCard = (props: PropertyCardProps) => {
 				</Stack>
 				<Stack className="information-box" onClick={() => pushPropertyDetail(property?._id)}>
 					<Typography className="name">{property.propertyTitle}</Typography>
-					<Typography className="address">{property.propertyAddress}</Typography>
+					<Typography className="address">{(property as any).propertyAddress || property.propertyLocation}</Typography>
 					<Typography className="price">
 						<strong>${formatterStr(property?.propertyPrice)}</strong>/ mo
 					</Typography>
@@ -77,28 +77,32 @@ export const PropertyCard = (props: PropertyCardProps) => {
 						</Typography>
 					</Stack>
 				</Stack>
-				{!memberPage && property.propertyStatus !== 'SOLD' && (
+				{!memberPage && property.propertyStatus !== PropertyStatus.DELETE && (
 					<Menu
 						anchorEl={anchorEl}
 						open={open}
 						onClose={handleClose}
 						PaperProps={{
-							elevation: 0,
+							elevation: 3,
 							sx: {
-								width: '70px',
+								width: '180px',
 								mt: 1,
 								ml: '10px',
 								overflow: 'visible',
-								filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
-							},
-							style: {
-								padding: 0,
-								display: 'flex',
-								justifyContent: 'center',
+								filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.15))',
+								backgroundColor: '#ffffff',
+								borderRadius: '8px',
+								'& .MuiMenuItem-root': {
+									padding: '8px 16px',
+									fontSize: '14px',
+									'&:hover': {
+										backgroundColor: '#f5f5f5',
+									},
+								},
 							},
 						}}
 					>
-						{property.propertyStatus === 'ACTIVE' && (
+						{property.propertyStatus === PropertyStatus.ACTIVE && (
 							<>
 								<MenuItem
 									disableRipple
@@ -107,9 +111,100 @@ export const PropertyCard = (props: PropertyCardProps) => {
 										updatePropertyHandler(PropertyStatus.SOLD, property?._id);
 									}}
 								>
-									Sold
+									Mark as Sold
+								</MenuItem>
+								<MenuItem
+									disableRipple
+									onClick={() => {
+										handleClose();
+										updatePropertyHandler(PropertyStatus.RENTED, property?._id);
+									}}
+								>
+									Mark as Rented
+								</MenuItem>
+								<MenuItem
+									disableRipple
+									onClick={() => {
+										handleClose();
+										updatePropertyHandler(PropertyStatus.RESERVED, property?._id);
+									}}
+								>
+									Mark as Reserved
+								</MenuItem>
+								<MenuItem
+									disableRipple
+									onClick={() => {
+										handleClose();
+										updatePropertyHandler(PropertyStatus.MAINTENANCE, property?._id);
+									}}
+								>
+									Mark as Maintenance
+								</MenuItem>
+								<MenuItem
+									disableRipple
+									onClick={() => {
+										handleClose();
+										updatePropertyHandler(PropertyStatus.INACTIVE, property?._id);
+									}}
+								>
+									Mark as Inactive
 								</MenuItem>
 							</>
+						)}
+						{property.propertyStatus === PropertyStatus.SOLD && (
+							<MenuItem
+								disableRipple
+								onClick={() => {
+									handleClose();
+									updatePropertyHandler(PropertyStatus.ACTIVE, property?._id);
+								}}
+							>
+								Mark as Active
+							</MenuItem>
+						)}
+						{property.propertyStatus === PropertyStatus.RENTED && (
+							<MenuItem
+								disableRipple
+								onClick={() => {
+									handleClose();
+									updatePropertyHandler(PropertyStatus.ACTIVE, property?._id);
+								}}
+							>
+								Mark as Active
+							</MenuItem>
+						)}
+						{property.propertyStatus === PropertyStatus.RESERVED && (
+							<MenuItem
+								disableRipple
+								onClick={() => {
+									handleClose();
+									updatePropertyHandler(PropertyStatus.ACTIVE, property?._id);
+								}}
+							>
+								Mark as Active
+							</MenuItem>
+						)}
+						{property.propertyStatus === PropertyStatus.MAINTENANCE && (
+							<MenuItem
+								disableRipple
+								onClick={() => {
+									handleClose();
+									updatePropertyHandler(PropertyStatus.ACTIVE, property?._id);
+								}}
+							>
+								Mark as Active
+							</MenuItem>
+						)}
+						{property.propertyStatus === PropertyStatus.INACTIVE && (
+							<MenuItem
+								disableRipple
+								onClick={() => {
+									handleClose();
+									updatePropertyHandler(PropertyStatus.ACTIVE, property?._id);
+								}}
+							>
+								Mark as Active
+							</MenuItem>
 						)}
 					</Menu>
 				)}

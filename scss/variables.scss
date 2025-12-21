@@ -1,5 +1,63 @@
-/** VARIABLES **/
+/** VARIABLES - TURBOCAR **/
 
-@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+// ✅ COLORS
+$primary: #f17742;        // Orange (CTA buttons, highlights)
+$primary-dark: #d96535;   // Darker orange (hover states)
+$primary-light: #ff9166;  // Lighter orange (backgrounds)
 
-$font: 'Poppins', sans-serif;
+// TurboCar Red Theme (for special actions, premium features)
+$turbocar-red: #dc2626;   // TurboCar red (engine start, special CTAs)
+$turbocar-red-dark: #991b1b; // Darker red (hover states)
+$turbocar-red-light: #ef4444; // Lighter red (backgrounds, highlights)
+
+$text-dark: #181a20;      // Dark text (titles, main content)
+$text-light: #717171;     // Light text (descriptions, labels)
+$text-grey: #bdbdbd;      // Grey text (placeholders)
+
+$bg-light: #f6f6f6;       // Light background (sections)
+$bg-white: #ffffff;       // White background (cards)
+$bg-dark: #181a20;        // Dark background (header, footer)
+
+$border-light: #e3e3e3;   // Light border (dividers)
+$border-grey: #d0d0d0;    // Grey border (inputs)
+
+$success: #4caf50;        // Green (success, for sale)
+$info: #2196f3;           // Blue (info, for rent)
+$warning: #ffc107;        // Yellow (warnings)
+$danger: #f44336;         // Red (errors, delete)
+
+$shadow-sm: 0px 2px 8px rgba(0, 0, 0, 0.06);
+$shadow-md: 0px 4px 16px rgba(0, 0, 0, 0.12);
+$shadow-lg: 0px 8px 24px rgba(0, 0, 0, 0.16);
+$shadow-xl: 0px 12px 32px rgba(0, 0, 0, 0.2);
+$shadow-hover: 0px 8px 24px rgba(241, 119, 66, 0.25);
+
+// ✅ FONTS
+$font: 'Poppins', 'Inter', 'Roboto', sans-serif;
+$font-heading: 'Poppins', sans-serif;
+
+// ✅ TRANSITIONS
+$transition-fast: 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+$transition-normal: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+$transition-slow: 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+$transition-bounce: 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+
+// ✅ BORDER RADIUS
+$radius-sm: 8px;
+$radius-md: 12px;
+$radius-lg: 16px;
+$radius-xl: 20px;
+$radius-round: 50%;
+
+// ✅ BREAKPOINTS
+$mobile: 576px;
+$tablet: 768px;
+$desktop: 1024px;
+$wide: 1440px;
+
+// ✅ Z-INDEX
+$z-header: 99;
+$z-modal: 100;
+$z-dropdown: 98;
+$z-overlay: 97;
+$z-sticky: 90;

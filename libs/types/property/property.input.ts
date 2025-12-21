@@ -108,6 +108,7 @@ export interface PropertiesInquiry {
  * Agent o'zining property'larini ko'rish uchun
  */
 interface APISearch {
+	memberId?: string;
 	propertyStatus?: PropertyStatus;
 	propertyType?: PropertyType;
 	isForSale?: boolean;

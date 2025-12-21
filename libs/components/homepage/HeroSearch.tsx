@@ -1,283 +1,417 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/router';
-import { Stack, Box, Button, FormControl, Select, MenuItem } from '@mui/material';
-import { useTranslation } from 'next-i18next';
+import { Stack, Box, Modal, Button } from '@mui/material';
+import useDeviceDetect from '../../hooks/useDeviceDetect';
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import SearchIcon from '@mui/icons-material/Search';
-import DirectionsCarIcon from '@mui/icons-material/DirectionsCar';
-import SellIcon from '@mui/icons-material/Sell';
-import KeyIcon from '@mui/icons-material/Key';
-
-// Car Brands
-const carBrands = [
-	'TOYOTA',
-	'BMW',
-	'MERCEDES',
-	'AUDI',
-	'HONDA',
-	'FORD',
-	'CHEVROLET',
-	'NISSAN',
-	'HYUNDAI',
-	'KIA',
-	'VOLKSWAGEN',
-	'MAZDA',
-];
-
-// Car Types
-const carTypes = [
-	'SEDAN',
-	'SUV',
-	'TRUCK',
-	'COUPE',
-	'HATCHBACK',
-	'CONVERTIBLE',
-	'VAN',
-	'WAGON',
-];
-
-// Locations (Spanish cities)
-const locations = [
-	'MADRID',
-	'BARCELONA',
-	'VALENCIA',
-	'SEVILLA',
-	'MALAGA',
-	'BILBAO',
-	'ZARAGOZA',
-	'MURCIA',
-];
-
-// Price Ranges
-const priceRanges = [
-	{ label: '€0 - €10,000', min: 0, max: 10000 },
-	{ label: '€10,000 - €20,000', min: 10000, max: 20000 },
-	{ label: '€20,000 - €30,000', min: 20000, max: 30000 },
-	{ label: '€30,000 - €50,000', min: 30000, max: 50000 },
-	{ label: '€50,000+', min: 50000, max: 1000000 },
-];
+import { PropertyLocation, PropertyType } from '../../enums/property.enum';
+import { PropertiesInquiry } from '../../types/property/property.input';
 
 const HeroSearch = () => {
+	const device = useDeviceDetect();
 	const router = useRouter();
-	const { t } = useTranslation('common');
+	const [mode, setMode] = useState<'RENT' | 'BUY'>('RENT');
+	const [searchFilter, setSearchFilter] = useState<{
+		search: {
+			locationList: PropertyLocation[];
+			typeList: PropertyType[];
+			text: string;
+			isForSale?: boolean;
+			isForRent?: boolean;
+		};
+	}>({
+		search: {
+			locationList: [],
+			typeList: [],
+			text: '',
+			isForSale: false,
+			isForRent: true,
+		},
+	});
 
-	// Search State
-	const [brand, setBrand] = useState('');
-	const [type, setType] = useState('');
-	const [location, setLocation] = useState('');
-	const [priceRange, setPriceRange] = useState('');
+	// Dropdown states
+	const [locationOpen, setLocationOpen] = useState(false);
+	const [typeOpen, setTypeOpen] = useState(false);
+	const [advancedOpen, setAdvancedOpen] = useState(false);
+	const selectBoxRef = useRef<HTMLDivElement>(null);
+	const locationDropdownRef = useRef<HTMLDivElement>(null);
+	const typeDropdownRef = useRef<HTMLDivElement>(null);
 
-	// Search Handler
-	const handleSearch = () => {
-		const searchParams: any = {};
-
-		if (brand) searchParams.brandList = [brand];
-		if (type) searchParams.typeList = [type];
-		if (location) searchParams.locationList = [location];
-		
-		if (priceRange) {
-			const range = priceRanges.find(r => r.label === priceRange);
-			if (range) {
-				searchParams.pricesRange = { start: range.min, end: range.max };
+	// Close dropdowns when clicking outside
+	useEffect(() => {
+		const handleClickOutside = (event: MouseEvent) => {
+			if (
+				selectBoxRef.current &&
+				!selectBoxRef.current.contains(event.target as Node) &&
+				locationDropdownRef.current &&
+				!locationDropdownRef.current.contains(event.target as Node) &&
+				typeDropdownRef.current &&
+				!typeDropdownRef.current.contains(event.target as Node)
+			) {
+				setLocationOpen(false);
+				setTypeOpen(false);
 			}
-		}
-
-		const query = {
-			page: 1,
-			limit: 12,
-			search: searchParams,
 		};
 
-		router.push(`/property?input=${JSON.stringify(query)}`);
+		if (locationOpen || typeOpen) {
+			document.addEventListener('mousedown', handleClickOutside);
+		}
+
+		return () => {
+			document.removeEventListener('mousedown', handleClickOutside);
+		};
+	}, [locationOpen, typeOpen]);
+
+	/** HANDLERS **/
+	const handleModeChange = (newMode: 'RENT' | 'BUY') => {
+		setMode(newMode);
+		const updatedFilter = {
+			...searchFilter,
+			search: {
+				...searchFilter.search,
+				isForSale: newMode === 'BUY',
+				isForRent: newMode === 'RENT',
+			},
+		};
+		setSearchFilter(updatedFilter);
 	};
 
-	// CTA Handlers
-	const handleBrowseCars = () => {
-		router.push('/property?search=buy');
+	const searchHandler = (e?: React.MouseEvent) => {
+		if (e) {
+			e.stopPropagation();
+		}
+
+		// Location is required for RENT
+		if (mode === 'RENT' && searchFilter.search.locationList.length === 0) {
+			setLocationOpen(true);
+			return;
+		}
+		
+		const propertiesInquiry: PropertiesInquiry = {
+			page: 1,
+			limit: 9,
+			sort: 'createdAt',
+			search: {
+				locationList: searchFilter.search.locationList.length > 0 ? searchFilter.search.locationList : undefined,
+				typeList: searchFilter.search.typeList.length > 0 ? searchFilter.search.typeList : undefined,
+				text: searchFilter.search.text || undefined,
+				isForSale: mode === 'BUY',
+				isForRent: mode === 'RENT',
+			},
+		};
+
+		router.push({
+			pathname: '/property',
+			query: { input: JSON.stringify(propertiesInquiry) },
+		});
 	};
 
-	const handleSellCar = () => {
-		router.push('/agent/add-property');
+	const toggleLocation = (location: PropertyLocation, e: React.MouseEvent) => {
+		e.stopPropagation();
+		const list = [...searchFilter.search.locationList];
+		const index = list.indexOf(location);
+		if (index > -1) {
+			list.splice(index, 1);
+		} else {
+			list.push(location);
+		}
+		
+		const updatedFilter = {
+			...searchFilter,
+			search: {
+				...searchFilter.search,
+				locationList: list,
+			},
+		};
+		setSearchFilter(updatedFilter);
+
+		// Auto-search when location is selected
+		const propertiesInquiry: PropertiesInquiry = {
+			page: 1,
+			limit: 9,
+			sort: 'createdAt',
+				search: {
+				locationList: list.length > 0 ? list : undefined,
+				typeList: searchFilter.search.typeList.length > 0 ? searchFilter.search.typeList : undefined,
+				text: searchFilter.search.text || undefined,
+				isForSale: mode === 'BUY',
+				isForRent: mode === 'RENT',
+			},
+		};
+
+		router.push({
+			pathname: '/property',
+			query: { input: JSON.stringify(propertiesInquiry) },
+		});
 	};
 
-	const handleRentCar = () => {
-		router.push('/property?search=rent');
+	const toggleType = (type: PropertyType, e: React.MouseEvent) => {
+		e.stopPropagation();
+		const list = [...searchFilter.search.typeList];
+		const index = list.indexOf(type);
+		if (index > -1) {
+			list.splice(index, 1);
+		} else {
+			list.push(type);
+		}
+		
+		const updatedFilter = {
+			...searchFilter,
+			search: {
+				...searchFilter.search,
+				typeList: list,
+			},
+		};
+		setSearchFilter(updatedFilter);
+
+		// Auto-search when type is selected
+		const propertiesInquiry: PropertiesInquiry = {
+			page: 1,
+			limit: 9,
+			sort: 'createdAt',
+				search: {
+				locationList: searchFilter.search.locationList.length > 0 ? searchFilter.search.locationList : undefined,
+				typeList: list.length > 0 ? list : undefined,
+				text: searchFilter.search.text || undefined,
+				isForSale: mode === 'BUY',
+				isForRent: mode === 'RENT',
+			},
+		};
+
+		router.push({
+			pathname: '/property',
+			query: { input: JSON.stringify(propertiesInquiry) },
+		});
 	};
 
-	return (
-		<Stack className="hero-search-form" spacing={4}>
-			{/* Search Filters */}
-			<Stack 
-				direction={{ xs: 'column', md: 'row' }} 
-				spacing={2}
-				sx={{
-					background: 'white',
-					padding: '20px',
-					borderRadius: '12px',
-					boxShadow: '0 4px 20px rgba(0,0,0,0.1)',
-				}}
-			>
-				{/* Brand Filter */}
-				<FormControl fullWidth>
-					<Select
-						value={brand}
-						onChange={(e) => setBrand(e.target.value)}
-						displayEmpty
-						sx={{
-							background: 'white',
-							'& .MuiOutlinedInput-notchedOutline': { border: 'none' },
-						}}
-					>
-						<MenuItem value="">
-							<em>Select Brand</em>
-						</MenuItem>
-						{carBrands.map((b) => (
-							<MenuItem key={b} value={b}>
-								{b}
-							</MenuItem>
-						))}
-					</Select>
-				</FormControl>
+	const handleLocationBoxClick = (e: React.MouseEvent) => {
+		e.stopPropagation();
+		setLocationOpen(!locationOpen);
+		if (typeOpen) setTypeOpen(false);
+	};
 
-				{/* Type Filter */}
-				<FormControl fullWidth>
-					<Select
-						value={type}
-						onChange={(e) => setType(e.target.value)}
-						displayEmpty
-						sx={{
-							background: 'white',
-							'& .MuiOutlinedInput-notchedOutline': { border: 'none' },
-						}}
-					>
-						<MenuItem value="">
-							<em>Select Type</em>
-						</MenuItem>
-						{carTypes.map((t) => (
-							<MenuItem key={t} value={t}>
-								{t}
-							</MenuItem>
-						))}
-					</Select>
-				</FormControl>
+	const handleTypeBoxClick = (e: React.MouseEvent) => {
+		e.stopPropagation();
+		setTypeOpen(!typeOpen);
+		if (locationOpen) setLocationOpen(false);
+	};
 
-				{/* Location Filter */}
-				<FormControl fullWidth>
-					<Select
-						value={location}
-						onChange={(e) => setLocation(e.target.value)}
-						displayEmpty
-						sx={{
-							background: 'white',
-							'& .MuiOutlinedInput-notchedOutline': { border: 'none' },
-						}}
-					>
-						<MenuItem value="">
-							<em>Select Location</em>
-						</MenuItem>
-						{locations.map((l) => (
-							<MenuItem key={l} value={l}>
-								{l}
-							</MenuItem>
-						))}
-					</Select>
-				</FormControl>
-
-				{/* Price Range Filter */}
-				<FormControl fullWidth>
-					<Select
-						value={priceRange}
-						onChange={(e) => setPriceRange(e.target.value)}
-						displayEmpty
-						sx={{
-							background: 'white',
-							'& .MuiOutlinedInput-notchedOutline': { border: 'none' },
-						}}
-					>
-						<MenuItem value="">
-							<em>Price Range</em>
-						</MenuItem>
-						{priceRanges.map((p) => (
-							<MenuItem key={p.label} value={p.label}>
-								{p.label}
-							</MenuItem>
-						))}
-					</Select>
-				</FormControl>
-
-				{/* Search Button */}
-				<Button
-					variant="contained"
-					onClick={handleSearch}
-					startIcon={<SearchIcon />}
-					sx={{
-						minWidth: '150px',
-						height: '56px',
-						background: 'linear-gradient(135deg, #1e3c72 0%, #2a5298 100%)',
-						'&:hover': {
-							background: 'linear-gradient(135deg, #2a5298 0%, #1e3c72 100%)',
-						},
-					}}
-				>
-					Search
-				</Button>
+	if (device === 'mobile') {
+		return (
+			<Stack className="hero-search-mobile">
+				<input
+					type="text"
+					placeholder="Search cars..."
+					onChange={(e) => setSearchFilter({ ...searchFilter, search: { ...searchFilter.search, text: e.target.value } })}
+				/>
+				<button onClick={searchHandler}>
+					<SearchIcon />
+				</button>
 			</Stack>
+		);
+	} else {
+		return (
+			<>
+				<Stack className="select-box-wrapper">
+					{/* RENT/BUY TOGGLE */}
+					<Stack className="rent-buy-toggle" onClick={(e) => e.stopPropagation()}>
+						<Box
+							component="div"
+							className={`toggle-btn ${mode === 'RENT' ? 'active' : ''}`}
+							onClick={(e: React.MouseEvent) => {
+								e.stopPropagation();
+								handleModeChange('RENT');
+							}}
+						>
+							RENT
+						</Box>
+						<Box
+							component="div"
+							className={`toggle-btn ${mode === 'BUY' ? 'active' : ''}`}
+							onClick={(e: React.MouseEvent) => {
+								e.stopPropagation();
+								handleModeChange('BUY');
+							}}
+						>
+							BUY
+						</Box>
+					</Stack>
 
-			{/* CTA Buttons */}
-			<Stack 
-				direction={{ xs: 'column', sm: 'row' }} 
-				spacing={2} 
-				justifyContent="center"
-			>
-				<Button
-					variant="outlined"
-					startIcon={<DirectionsCarIcon />}
-					onClick={handleBrowseCars}
-					sx={{
-						color: 'white',
-						borderColor: 'white',
-						'&:hover': {
-							borderColor: 'white',
-							background: 'rgba(255, 255, 255, 0.1)',
-						},
-					}}
-				>
-					Browse Cars
-				</Button>
+					<Stack ref={selectBoxRef} className="select-box" onClick={(e) => e.stopPropagation()}>
+					{/* LOCATION - First */}
+					{/* @ts-ignore - TypeScript limitation with complex union types */}
+					<Box className={`box ${locationOpen ? 'on' : ''} ${mode === 'RENT' && searchFilter.search.locationList.length === 0 ? 'required' : ''}`} onClick={handleLocationBoxClick}>
+						<span>📍 Location{mode === 'RENT' && searchFilter.search.locationList.length === 0 ? ' *' : ''}</span>
+						<KeyboardArrowDownIcon />
+					</Box>
 
-				<Button
-					variant="outlined"
-					startIcon={<SellIcon />}
-					onClick={handleSellCar}
-					sx={{
-						color: 'white',
-						borderColor: 'white',
-						'&:hover': {
-							borderColor: 'white',
-							background: 'rgba(255, 255, 255, 0.1)',
-						},
-					}}
-				>
-					Sell Your Car
-				</Button>
+					{/* CAR TYPE - Second */}
+					{/* @ts-ignore - TypeScript limitation with complex union types */}
+					<Box className={`box ${typeOpen ? 'on' : ''}`} onClick={handleTypeBoxClick}>
+						<span>🚗 Car Type</span>
+						<KeyboardArrowDownIcon />
+					</Box>
 
-				<Button
-					variant="outlined"
-					startIcon={<KeyIcon />}
-					onClick={handleRentCar}
-					sx={{
-						color: 'white',
-						borderColor: 'white',
-						'&:hover': {
-							borderColor: 'white',
-							background: 'rgba(255, 255, 255, 0.1)',
-						},
-					}}
-				>
-					Rent a Car
-				</Button>
-			</Stack>
-		</Stack>
-	);
+					{/* MORE FILTERS - Third */}
+					{/* @ts-ignore - TypeScript limitation with complex union types */}
+					<Box className="box" onClick={(e) => { e.stopPropagation(); setAdvancedOpen(true); }}>
+						<span>⚙ More Filters</span>
+						<KeyboardArrowDownIcon />
+					</Box>
+					</Stack>
+
+					<Stack className="search-box-other" onClick={(e) => e.stopPropagation()}>
+					{/* @ts-ignore - TypeScript limitation with complex union types */}
+					<Box className="search-btn" onClick={searchHandler}>
+						<SearchIcon />
+					</Box>
+					</Stack>
+				</Stack>
+
+				{/* LOCATION DROPDOWN */}
+				{locationOpen && (
+					<Stack ref={locationDropdownRef} className={`filter-location ${locationOpen ? 'on' : ''}`} onClick={(e) => e.stopPropagation()}>
+						{Object.values(PropertyLocation).map((location) => (
+							<div key={location} onClick={(e) => toggleLocation(location, e)}>
+								<input type="checkbox" checked={searchFilter.search.locationList.includes(location)} readOnly />
+								<span>{location}</span>
+							</div>
+						))}
+					</Stack>
+				)}
+
+				{/* TYPE DROPDOWN */}
+				{typeOpen && (
+					<Stack ref={typeDropdownRef} className={`filter-type ${typeOpen ? 'on' : ''}`} onClick={(e) => e.stopPropagation()}>
+						{Object.values(PropertyType).slice(0, 4).map((type) => (
+							<div
+								key={type}
+								onClick={(e) => toggleType(type, e)}
+								style={{
+									backgroundImage: `url(/img/banner/${type.toLowerCase()}.jpg)`,
+								}}
+							>
+								<span>{type}</span>
+							</div>
+						))}
+					</Stack>
+				)}
+
+				{/* ADVANCED FILTER MODAL */}
+				<Modal open={advancedOpen} onClose={() => setAdvancedOpen(false)}>
+					{/* @ts-ignore - TypeScript limitation with complex union types */}
+					<Box className="advanced-filter-modal">
+						{/* @ts-ignore - TypeScript limitation with complex union types */}
+						<Box className="close" onClick={() => setAdvancedOpen(false)}>
+							✕
+						</Box>
+						<Stack className="top">
+							<span>Advanced Search</span>
+							<div className="search-input-box">
+								<img src="/img/icons/search.svg" alt="" />
+								<input
+									type="text"
+									placeholder="Search by keyword..."
+									value={searchFilter.search.text}
+									onChange={(e) =>
+										setSearchFilter({ ...searchFilter, search: { ...searchFilter.search, text: e.target.value } })
+									}
+								/>
+							</div>
+						</Stack>
+						<hr />
+						<Stack className="middle">
+							<Stack className="row-box">
+								{/* @ts-ignore - TypeScript limitation with complex union types */}
+								<Box className="box">
+									<span>Sale/Rent</span>
+									<Stack className="inside">
+										<Button
+											onClick={() => {
+												handleModeChange('BUY');
+											}}
+											className={mode === 'BUY' ? 'active' : ''}
+										>
+											For Sale
+										</Button>
+										<Button
+											onClick={() => {
+												handleModeChange('RENT');
+											}}
+											className={mode === 'RENT' ? 'active' : ''}
+										>
+											For Rent
+										</Button>
+									</Stack>
+								</Box>
+							</Stack>
+						</Stack>
+						<Stack className="bottom">
+							<div>
+								<img
+									src="/img/icons/refresh.svg"
+									alt=""
+									onClick={() => {
+										const resetFilter = {
+											search: {
+												locationList: [],
+												typeList: [],
+												text: '',
+												isForSale: mode === 'BUY',
+												isForRent: mode === 'RENT',
+											},
+										};
+										setSearchFilter(resetFilter);
+										
+										const propertiesInquiry: PropertiesInquiry = {
+											page: 1,
+											limit: 9,
+											sort: 'createdAt',
+											search: {},
+										};
+										router.push({
+											pathname: '/property',
+											query: { input: JSON.stringify(propertiesInquiry) },
+										});
+										setAdvancedOpen(false);
+									}}
+								/>
+								<span
+									onClick={() => {
+										const resetFilter = {
+											search: {
+												locationList: [],
+												typeList: [],
+												text: '',
+												isForSale: mode === 'BUY',
+												isForRent: mode === 'RENT',
+											},
+										};
+										setSearchFilter(resetFilter);
+										
+										const propertiesInquiry: PropertiesInquiry = {
+											page: 1,
+											limit: 9,
+											sort: 'createdAt',
+											search: {},
+										};
+										router.push({
+											pathname: '/property',
+											query: { input: JSON.stringify(propertiesInquiry) },
+										});
+										setAdvancedOpen(false);
+									}}
+								>
+									Refresh
+								</span>
+							</div>
+							<button onClick={searchHandler}>Search</button>
+						</Stack>
+					</Box>
+				</Modal>
+			</>
+		);
+	}
 };
 
 export default HeroSearch;

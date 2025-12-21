@@ -97,17 +97,29 @@ const Top = () => {
 		/>
 	))(({ theme }) => ({
 		'& .MuiPaper-root': {
-			top: '109px',
-			borderRadius: 6,
-			marginTop: theme.spacing(1),
-			minWidth: 160,
+			borderRadius: 8,
+			marginTop: theme.spacing(0.5),
+			minWidth: 180,
+			maxWidth: 200,
 			color: theme.palette.mode === 'light' ? 'rgb(55, 65, 81)' : theme.palette.grey[300],
 			boxShadow:
 				'rgb(255, 255, 255) 0px 0px 0px 0px, rgba(0, 0, 0, 0.05) 0px 0px 0px 1px, rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px',
+			zIndex: 1000,
 			'& .MuiMenu-list': {
 				padding: '4px 0',
 			},
 			'& .MuiMenuItem-root': {
+				display: 'flex',
+				alignItems: 'center',
+				gap: '8px',
+				padding: '8px 16px',
+				'& .img-flag': {
+					width: '24px',
+					height: '17px',
+					borderRadius: '2px',
+					flexShrink: 0,
+					objectFit: 'cover',
+				},
 				'& .MuiSvgIcon-root': {
 					fontSize: 18,
 					color: theme.palette.text.secondary,
@@ -130,8 +142,11 @@ const Top = () => {
 				<Link href={'/'}>
 					<div>{t('Home')}</div>
 				</Link>
-				<Link href={'/property'}>
-					<div>{t('Cars')}</div>
+				<Link href={'/property?mode=rent'}>
+					<div>Rent</div>
+				</Link>
+				<Link href={'/property?mode=buy'}>
+					<div>Buy</div>
 				</Link>
 				<Link href={'/agent'}>
 					<div>{t('Dealers')}</div>
@@ -146,42 +161,48 @@ const Top = () => {
 		);
 	} else {
 		return (
-			<Stack className={'navbar'}>
-				<Stack className={`navbar-main ${colorChange ? 'transparent' : ''} ${bgColor ? 'transparent' : ''}`}>
-					<Stack className={'container'}>
+			<Stack className={'top-navbar'}>
+				<Stack className={`top-navbar-main ${colorChange ? 'scrolled' : ''} ${bgColor ? 'transparent' : ''}`}>
+					<Stack className={'container'} direction="row" alignItems="center" justifyContent="space-between">
+						{/* Logo */}
 						<Box component={'div'} className={'logo-box'}>
 							<Link href={'/'}>
 								<img src="/img/logo/turbocar_1.svg" alt="TurboCar" />
 							</Link>
 						</Box>
-						<Box component={'div'} className={'router-box'}>
+
+						{/* Navigation Links */}
+						<Box component={'div'} className={'nav-links'}>
 							<Link href={'/'}>
-								<div>{t('Home')}</div>
+								<div className={router.pathname === '/' ? 'active' : ''}>{t('Home')}</div>
 							</Link>
-							<Link href={'/property'}>
-								<div>{t('Cars')}</div>
+							<Link href={'/property?mode=rent'}>
+								<div className={router.pathname === '/property' && router.query.mode === 'rent' ? 'active' : ''}>Rent</div>
 							</Link>
-							<Link href={'/property?search=buy'}>
-								<div>{t('Buy')}</div>
-							</Link>
-							<Link href={'/property?search=rent'}>
-								<div>{t('Rent')}</div>
+							<Link href={'/property?mode=buy'}>
+								<div className={router.pathname === '/property' && router.query.mode === 'buy' ? 'active' : ''}>Buy</div>
 							</Link>
 							<Link href={'/agent'}>
-								<div>{t('Dealers')}</div>
+								<div className={router.pathname === '/agent' ? 'active' : ''}>{t('Dealers')}</div>
 							</Link>
 							{user?._id && (
 								<Link href={'/mypage'}>
-									<div>{t('My Page')}</div>
+									<div className={router.pathname === '/mypage' ? 'active' : ''}>{t('My Page')}</div>
 								</Link>
 							)}
 							<Link href={'/community?articleCategory=FREE'}>
-								<div>{t('Community')}</div>
+								<div className={router.pathname === '/community' ? 'active' : ''}>{t('Community')}</div>
+							</Link>
+							<Link href={'/cs'}>
+								<div className={router.pathname === '/cs' ? 'active' : ''}>{t('CS')}</div>
 							</Link>
 						</Box>
-						<Box component={'div'} className={'user-box'}>
+
+						{/* User & Language */}
+						<Box component={'div'} className={'user-actions'}>
 							{user?._id ? (
 								<>
+									{user?._id && <NotificationsOutlinedIcon className={'notification-icon'} />}
 									<div className={'login-user'} onClick={(event: any) => setLogoutAnchor(event.currentTarget)}>
 										<img
 											src={
@@ -217,38 +238,51 @@ const Top = () => {
 								</Link>
 							)}
 
-							<div className={'lan-box'}>
-								{user?._id && <NotificationsOutlinedIcon className={'notification-icon'} />}
-								<Button
-									disableRipple
-									className="btn-lang"
-									onClick={langClick}
-									endIcon={<CaretDown size={14} color="#616161" weight="fill" />}
-								>
-									<Box component={'div'} className={'flag'}>
-										{lang !== null ? (
-											<img src={`/img/flag/lang${lang}.png`} alt={'flag'} />
-										) : (
-											<img src={`/img/flag/langen.png`} alt={'flag'} />
-										)}
-									</Box>
-								</Button>
+							<Button
+								disableRipple
+								className="btn-lang"
+								onClick={langClick}
+								endIcon={<CaretDown size={14} color="#616161" weight="fill" />}
+							>
+								<Box component={'div'} className={'flag'}>
+									{lang !== null ? (
+										<img src={`/img/flag/lang${lang}.png`} alt={'flag'} />
+									) : (
+										<img src={`/img/flag/langen.png`} alt={'flag'} />
+									)}
+								</Box>
+							</Button>
 
-								<StyledMenu anchorEl={anchorEl2} open={drop} onClose={langClose} sx={{ position: 'absolute' }}>
-									<MenuItem disableRipple onClick={langChoice} id="en">
-										<img className="img-flag" src={'/img/flag/langen.png'} onClick={langChoice} id="en" alt={'English'} />
-										{t('English')}
-									</MenuItem>
-									<MenuItem disableRipple onClick={langChoice} id="es">
-										<img className="img-flag" src={'/img/flag/langes.png'} onClick={langChoice} id="es" alt={'Spanish'} />
-										{t('Spanish')}
-									</MenuItem>
-									<MenuItem disableRipple onClick={langChoice} id="ru">
-										<img className="img-flag" src={'/img/flag/langru.png'} onClick={langChoice} id="ru" alt={'Russian'} />
-										{t('Russian')}
-									</MenuItem>
-								</StyledMenu>
-							</div>
+							<StyledMenu 
+								anchorEl={anchorEl2} 
+								open={drop} 
+								onClose={langClose}
+								MenuListProps={{
+									'aria-labelledby': 'language-button',
+								}}
+								sx={{ 
+									'& .MuiPaper-root': {
+										overflow: 'visible',
+									}
+								}}
+							>
+								<MenuItem disableRipple onClick={langChoice} id="en">
+									<img className="img-flag" src={'/img/flag/langen.png'} alt={'English'} />
+									<span>{t('English')}</span>
+								</MenuItem>
+								<MenuItem disableRipple onClick={langChoice} id="es">
+									<img className="img-flag" src={'/img/flag/langes.png'} alt={'Spanish'} />
+									<span>{t('Spanish')}</span>
+								</MenuItem>
+								<MenuItem disableRipple onClick={langChoice} id="kr">
+									<img className="img-flag" src={'/img/flag/langkr.png'} alt={'Korean'} />
+									<span>{t('Korean')}</span>
+								</MenuItem>
+								<MenuItem disableRipple onClick={langChoice} id="ru">
+									<img className="img-flag" src={'/img/flag/langru.png'} alt={'Russian'} />
+									<span>{t('Russian')}</span>
+								</MenuItem>
+							</StyledMenu>
 						</Box>
 					</Stack>
 				</Stack>

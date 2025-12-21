@@ -35,6 +35,11 @@ export const GET_AGENTS = gql`
           likeRefId
           myFavorite
         }
+        meFollowed {
+          followingId
+          followerId
+          myFollowing
+        }
       }
       metaCounter {
         total
@@ -317,6 +322,11 @@ export const GET_FAVORITES = gql`
           updatedAt
           accessToken
         }
+        meLiked {
+          memberId
+          likeRefId
+          myFavorite
+        }
       }
       totalCount
     }
@@ -380,6 +390,11 @@ export const GET_VISITED = gql`
           createdAt
           updatedAt
           accessToken
+        }
+        meLiked {
+          memberId
+          likeRefId
+          myFavorite
         }
       }
       totalCount
