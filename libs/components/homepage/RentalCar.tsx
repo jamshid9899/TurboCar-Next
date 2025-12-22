@@ -102,24 +102,6 @@ const RentalCars = (props: RentalCarsProps) => {
 
 						{/* Subtitle */}
 						<p className={'subtitle'}>Discover Your Perfect Ride in Minutes</p>
-
-						{/* Stats Row */}
-						<div className={'stats-row'}>
-							<div className={'stat-item'}>
-								<span className={'stat-number'}>500+</span>
-								<span className={'stat-label'}>Cars</span>
-							</div>
-							<div className={'stat-divider'}>|</div>
-							<div className={'stat-item'}>
-								<span className={'stat-number'}>24/7</span>
-								<span className={'stat-label'}>Support</span>
-							</div>
-							<div className={'stat-divider'}>|</div>
-							<div className={'stat-item'}>
-								<span className={'stat-number'}>4.9★</span>
-								<span className={'stat-label'}>Rating</span>
-							</div>
-						</div>
 					</Stack>
 					<Stack className={'card-box'}>
 						{rentalCars.map((property: Property) => {

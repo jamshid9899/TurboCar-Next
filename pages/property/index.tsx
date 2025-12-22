@@ -138,10 +138,10 @@ const PropertyList: NextPage = ({ initialInput, ...props }: any) => {
 	}, [router.isReady, router.query.input]);
 
 	useEffect(() => {
-		if (searchFilter) {
+		if (searchFilter && router.isReady) {
 			setCurrentPage(searchFilter.page || 1);
 		}
-	}, [searchFilter]);
+	}, [searchFilter, router.isReady]);
 
 	/** HANDLERS **/
 	const handlePaginationChange = async (event: ChangeEvent<unknown>, value: number) => {

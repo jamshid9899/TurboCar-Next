@@ -6,6 +6,7 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import SearchIcon from '@mui/icons-material/Search';
 import { PropertyLocation, PropertyType } from '../../enums/property.enum';
 import { PropertiesInquiry } from '../../types/property/property.input';
+import { Direction } from '../../enums/common.enum';
 
 const HeroSearch = () => {
 	const device = useDeviceDetect();
@@ -91,6 +92,7 @@ const HeroSearch = () => {
 			page: 1,
 			limit: 9,
 			sort: 'createdAt',
+			direction: Direction.DESC,
 			search: {
 				locationList: searchFilter.search.locationList.length > 0 ? searchFilter.search.locationList : undefined,
 				typeList: searchFilter.search.typeList.length > 0 ? searchFilter.search.typeList : undefined,
@@ -124,25 +126,6 @@ const HeroSearch = () => {
 			},
 		};
 		setSearchFilter(updatedFilter);
-
-		// Auto-search when location is selected
-		const propertiesInquiry: PropertiesInquiry = {
-			page: 1,
-			limit: 9,
-			sort: 'createdAt',
-				search: {
-				locationList: list.length > 0 ? list : undefined,
-				typeList: searchFilter.search.typeList.length > 0 ? searchFilter.search.typeList : undefined,
-				text: searchFilter.search.text || undefined,
-				isForSale: mode === 'BUY',
-				isForRent: mode === 'RENT',
-			},
-		};
-
-		router.push({
-			pathname: '/property',
-			query: { input: JSON.stringify(propertiesInquiry) },
-		});
 	};
 
 	const toggleType = (type: PropertyType, e: React.MouseEvent) => {
@@ -163,25 +146,6 @@ const HeroSearch = () => {
 			},
 		};
 		setSearchFilter(updatedFilter);
-
-		// Auto-search when type is selected
-		const propertiesInquiry: PropertiesInquiry = {
-			page: 1,
-			limit: 9,
-			sort: 'createdAt',
-				search: {
-				locationList: searchFilter.search.locationList.length > 0 ? searchFilter.search.locationList : undefined,
-				typeList: list.length > 0 ? list : undefined,
-				text: searchFilter.search.text || undefined,
-				isForSale: mode === 'BUY',
-				isForRent: mode === 'RENT',
-			},
-		};
-
-		router.push({
-			pathname: '/property',
-			query: { input: JSON.stringify(propertiesInquiry) },
-		});
 	};
 
 	const handleLocationBoxClick = (e: React.MouseEvent) => {
@@ -213,49 +177,44 @@ const HeroSearch = () => {
 		return (
 			<>
 				<Stack className="select-box-wrapper">
-					{/* RENT/BUY TOGGLE */}
-					<Stack className="rent-buy-toggle" onClick={(e) => e.stopPropagation()}>
-						<Box
-							component="div"
-							className={`toggle-btn ${mode === 'RENT' ? 'active' : ''}`}
-							onClick={(e: React.MouseEvent) => {
-								e.stopPropagation();
-								handleModeChange('RENT');
-							}}
-						>
-							RENT
-						</Box>
-						<Box
-							component="div"
-							className={`toggle-btn ${mode === 'BUY' ? 'active' : ''}`}
-							onClick={(e: React.MouseEvent) => {
-								e.stopPropagation();
-								handleModeChange('BUY');
-							}}
-						>
-							BUY
-						</Box>
-					</Stack>
-
 					<Stack ref={selectBoxRef} className="select-box" onClick={(e) => e.stopPropagation()}>
-					{/* LOCATION - First */}
+					{/* RENT - First */}
 					{/* @ts-ignore - TypeScript limitation with complex union types */}
-					<Box className={`box ${locationOpen ? 'on' : ''} ${mode === 'RENT' && searchFilter.search.locationList.length === 0 ? 'required' : ''}`} onClick={handleLocationBoxClick}>
-						<span>📍 Location{mode === 'RENT' && searchFilter.search.locationList.length === 0 ? ' *' : ''}</span>
+					<Box 
+						component="div"
+						className={`box ${mode === 'RENT' ? 'active' : ''}`} 
+						onClick={(e: React.MouseEvent) => {
+							e.stopPropagation();
+							handleModeChange('RENT');
+						}}
+					>
+						<span>RENT</span>
+					</Box>
+
+					{/* BUY - Second */}
+					{/* @ts-ignore - TypeScript limitation with complex union types */}
+					<Box 
+						component="div"
+						className={`box ${mode === 'BUY' ? 'active' : ''}`} 
+						onClick={(e: React.MouseEvent) => {
+							e.stopPropagation();
+							handleModeChange('BUY');
+						}}
+					>
+						<span>BUY</span>
+					</Box>
+
+					{/* LOCATION - Third */}
+					{/* @ts-ignore - TypeScript limitation with complex union types */}
+					<Box component="div" className={`box ${locationOpen ? 'on' : ''} ${mode === 'RENT' && searchFilter.search.locationList.length === 0 ? 'required' : ''}`} onClick={handleLocationBoxClick}>
+						<span>Location{mode === 'RENT' && searchFilter.search.locationList.length === 0 ? ' *' : ''}</span>
 						<KeyboardArrowDownIcon />
 					</Box>
 
-					{/* CAR TYPE - Second */}
+					{/* CAR TYPE - Fourth */}
 					{/* @ts-ignore - TypeScript limitation with complex union types */}
-					<Box className={`box ${typeOpen ? 'on' : ''}`} onClick={handleTypeBoxClick}>
-						<span>🚗 Car Type</span>
-						<KeyboardArrowDownIcon />
-					</Box>
-
-					{/* MORE FILTERS - Third */}
-					{/* @ts-ignore - TypeScript limitation with complex union types */}
-					<Box className="box" onClick={(e) => { e.stopPropagation(); setAdvancedOpen(true); }}>
-						<span>⚙ More Filters</span>
+					<Box component="div" className={`box ${typeOpen ? 'on' : ''}`} onClick={handleTypeBoxClick}>
+						<span>Car Type</span>
 						<KeyboardArrowDownIcon />
 					</Box>
 					</Stack>
