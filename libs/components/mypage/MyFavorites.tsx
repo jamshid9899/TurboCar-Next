@@ -5,61 +5,18 @@ import { Pagination, Stack, Typography } from '@mui/material';
 import PropertyCard from '../property/PropertyCard';
 import { Property } from '../../types/property/property';
 import { T } from '../../types/common';
-import { useMutation, useQuery, useReactiveVar } from '@apollo/client';
-import { LIKE_TARGET_PROPERTY } from '../../../apollo/user/mutation';
-import { GET_FAVORITES } from '../../../apollo/user/query';
-import { userVar } from '../../../apollo/store';
-import { Message } from '../../enums/common.enum';
-import { sweetMixinErrorAlert } from '../../sweetAlert';
 
 const MyFavorites: NextPage = () => {
 	const device = useDeviceDetect();
-	const user = useReactiveVar(userVar);
 	const [myFavorites, setMyFavorites] = useState<Property[]>([]);
 	const [total, setTotal] = useState<number>(0);
 	const [searchFavorites, setSearchFavorites] = useState<T>({ page: 1, limit: 6 });
 
 	/** APOLLO REQUESTS **/
-	const [likeTargetProperty] = useMutation(LIKE_TARGET_PROPERTY);
-
-	const {
-		loading: getFavoritesLoading,
-		data: getFavoritesData,
-		error: getFavoritesError,
-		refetch: getFavoritesRefetch,
-	} = useQuery(GET_FAVORITES, {
-		fetchPolicy: 'network-only',
-		variables: { input: searchFavorites },
-		notifyOnNetworkStatusChange: true,
-		onCompleted: (data: T) => {
-			setMyFavorites(data?.getFavorites?.list || []);
-			setTotal(data?.getFavorites?.totalCount || 0);
-		},
-	});
 
 	/** HANDLERS **/
 	const paginationHandler = (e: T, value: number) => {
 		setSearchFavorites({ ...searchFavorites, page: value });
-	};
-
-	const likePropertyHandler = async (user: any, id: string) => {
-		try {
-			if (!id) return;
-			if (!user?._id) {
-				await sweetMixinErrorAlert('Please login first');
-				throw new Error(Message.NOT_AUTHENTICATED);
-			}
-
-			await likeTargetProperty({
-				variables: { propertyId: id },
-			});
-			await getFavoritesRefetch({ input: searchFavorites });
-		} catch (err: any) {
-			console.log('ERROR, likePropertyHandler:', err.message);
-			if (err.message !== Message.NOT_AUTHENTICATED) {
-				sweetMixinErrorAlert(err.message).then();
-			}
-		}
 	};
 
 	if (device === 'mobile') {
@@ -76,7 +33,7 @@ const MyFavorites: NextPage = () => {
 				<Stack className="favorites-list-box">
 					{myFavorites?.length ? (
 						myFavorites?.map((property: Property) => {
-							return <PropertyCard key={property._id} property={property} myFavorites={true} likePropertyHandler={likePropertyHandler} />;
+							return <PropertyCard property={property} myFavorites={true} />;
 						})
 					) : (
 						<div className={'no-data'}>
