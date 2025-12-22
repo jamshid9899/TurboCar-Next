@@ -52,7 +52,7 @@ const Home: NextPage = () => {
 				<RentalCars 
 					initialInput={{
 						page: 1,
-						limit: 7,
+						limit: 8,
 						sort: 'createdAt',
 						direction: Direction.DESC,
 						search: {
@@ -70,7 +70,7 @@ const Home: NextPage = () => {
 				<RentalCars 
 					initialInput={{
 						page: 1,
-						limit: 7,
+						limit: 8,
 						sort: 'createdAt',
 						direction: Direction.DESC,
 						search: {

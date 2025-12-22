@@ -525,21 +525,345 @@
 	}
 }
 
-// ✅ RENTAL CAR CARD
-.rental-car-card {
+// ✅ RENTAL CAR CARD (Clean Design - 60% Image + 40% White Info)
+.rental-card-box {
 	position: relative;
+	width: 100%;
+	height: 480px;
+	display: flex;
+	flex-direction: column;
+	border-radius: 16px;
+	overflow: hidden;
+	cursor: pointer;
+	background: #ffffff;
+	box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.08);
+	transition: all 0.3s ease;
 	z-index: 2;
-	
+
+	&:hover {
+		transform: translateY(-8px);
+		box-shadow: 0px 12px 40px rgba(0, 0, 0, 0.15);
+
+		.card-img {
+			transform: scale(1.05);
+		}
+
+		.rent-now-btn {
+			background: linear-gradient(135deg, #b91c1c 0%, #ea580c 100%) !important;
+			box-shadow: 0px 6px 20px rgba(220, 38, 38, 0.5) !important;
+			transform: scale(1.02) translateY(-2px) !important;
+		}
+	}
+
 	.card-img {
 		position: relative;
 		width: 100%;
-		height: 160px;
-		min-height: 160px;
-		max-height: 160px;
-		border-radius: 16px;
+		height: 60%;
+		min-height: 288px;
 		background-size: cover;
-		background-position: center;
+		background-position: center bottom;
 		background-repeat: no-repeat;
+		border-radius: 16px 16px 0px 0px;
 		overflow: hidden;
+		transition: transform 0.3s ease;
+
+		// Image Count Badge - Top Left
+		.image-count-badge {
+			position: absolute;
+			top: 16px;
+			left: 16px;
+			padding: 4px 10px;
+			border-radius: 4px;
+			background: rgba(0, 0, 0, 0.5);
+			backdrop-filter: blur(8px);
+			color: #ffffff;
+			font-family: $font;
+			font-size: 12px;
+			font-weight: 600;
+			z-index: 3;
+			line-height: 1.2;
+		}
+
+		// Available for Rent Badge - Top Left (below image count)
+		.available-badge {
+			position: absolute !important;
+			top: 50px !important;
+			left: 16px !important;
+			background: #10b981 !important;
+			color: #ffffff !important;
+			font-family: $font !important;
+			font-size: 10px !important;
+			font-weight: 700 !important;
+			text-transform: uppercase !important;
+			border-radius: 4px !important;
+			padding: 4px 10px !important;
+			height: auto !important;
+			z-index: 3 !important;
+			border: none !important;
+			letter-spacing: 0.5px !important;
+		}
+
+		// NEW Badge
+		.new-badge {
+			position: absolute !important;
+			top: 50px !important;
+			left: 170px !important;
+			background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%) !important;
+			color: #ffffff !important;
+			font-family: $font !important;
+			font-size: 10px !important;
+			font-weight: 700 !important;
+			text-transform: uppercase !important;
+			border-radius: 4px !important;
+			padding: 4px 10px !important;
+			height: auto !important;
+			z-index: 3 !important;
+			border: none !important;
+			letter-spacing: 0.5px !important;
+			box-shadow: 0px 2px 8px rgba(59, 130, 246, 0.4) !important;
+		}
+
+		// HOT DEAL Badge
+		.hot-deal-badge {
+			position: absolute !important;
+			top: 50px !important;
+			left: 220px !important;
+			background: linear-gradient(135deg, #dc2626 0%, #f17742 100%) !important;
+			color: #ffffff !important;
+			font-family: $font !important;
+			font-size: 10px !important;
+			font-weight: 700 !important;
+			text-transform: uppercase !important;
+			border-radius: 4px !important;
+			padding: 4px 10px !important;
+			height: auto !important;
+			z-index: 3 !important;
+			border: none !important;
+			letter-spacing: 0.5px !important;
+			box-shadow: 0px 2px 8px rgba(220, 38, 38, 0.4) !important;
+		}
+
+		// Heart Icon - Top Right
+		.heart-icon {
+			position: absolute !important;
+			top: 16px !important;
+			right: 16px !important;
+			background: rgba(255, 255, 255, 0.95) !important;
+			backdrop-filter: blur(10px) !important;
+			width: 40px !important;
+			height: 40px !important;
+			border-radius: 50% !important;
+			z-index: 3 !important;
+			padding: 0 !important;
+			box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.15) !important;
+			transition: all 0.3s ease !important;
+			cursor: pointer !important;
+
+			&:hover {
+				background: rgba(255, 255, 255, 1) !important;
+				transform: scale(1.1) !important;
+			}
+
+			svg {
+				color: #dc2626 !important;
+				font-size: 20px !important;
+				transition: transform 0.3s ease !important;
+			}
+
+			&.heart-animating {
+				animation: heartBounce 0.3s ease !important;
+
+				svg {
+					transform: scale(1.2) !important;
+				}
+			}
+		}
+	}
+
+	// White Info Section - 40%
+	.card-info {
+		flex: 1;
+		padding: 20px 22px 22px;
+		display: flex;
+		flex-direction: column;
+		background: #ffffff;
+		border-radius: 0px 0px 16px 16px;
+		min-height: 0; // Allows flexbox children to shrink
+
+		// Price Badge
+		.price-badge {
+			color: #181a20;
+			font-family: $font;
+			font-size: 18px;
+			font-weight: 700;
+			line-height: normal;
+			margin-bottom: 12px;
+		}
+
+		// Car Title
+		.car-title {
+			color: #181a20;
+			font-family: $font;
+			font-size: 18px;
+			font-weight: 700;
+			line-height: 1.3;
+			margin-bottom: 6px;
+			display: block;
+			cursor: pointer;
+			text-transform: capitalize;
+			transition: color 0.3s ease;
+
+			&:hover {
+				color: #f17742;
+			}
+		}
+
+		// Car Desc
+		.car-desc {
+			color: #717171;
+			font-family: $font;
+			font-size: 13px;
+			font-weight: 400;
+			line-height: normal;
+			margin-bottom: 12px;
+			text-transform: uppercase;
+		}
+
+		// Rating Stars
+		.rating-stars {
+			display: flex;
+			align-items: center;
+			gap: 2px;
+			margin-bottom: 14px;
+
+			.star-icon {
+				color: #fbbf24;
+				font-size: 14px;
+				line-height: 1;
+
+				&.star-half {
+					color: #fbbf24;
+				}
+			}
+
+			.rating-text {
+				margin-left: 4px;
+				color: #181a20;
+				font-family: $font;
+				font-size: 13px;
+				font-weight: 600;
+			}
+		}
+
+		// Car Specs
+		.car-specs {
+			display: flex;
+			flex-direction: row;
+			gap: 16px;
+			margin-bottom: 18px;
+			flex-wrap: wrap;
+
+			div {
+				display: flex;
+				flex-direction: row;
+				align-items: center;
+				gap: 6px;
+
+				svg {
+					color: #717171;
+					width: 16px;
+					height: 16px;
+				}
+
+				span {
+					color: #181a20;
+					font-family: $font;
+					font-size: 13px;
+					font-weight: 400;
+					line-height: normal;
+					text-transform: uppercase;
+				}
+			}
+		}
+
+		// Bottom Action Bar
+		.bottom-action-bar {
+			display: flex !important;
+			flex-direction: row;
+			justify-content: space-between;
+			align-items: center;
+			margin-top: auto !important;
+			padding-top: 16px;
+			border-top: 1px solid #e3e3e3;
+			visibility: visible !important;
+			opacity: 1 !important;
+			position: relative;
+			z-index: 10;
+
+			// Rent/Sale Badge
+			.rent-sale-badge {
+				background: rgba(241, 119, 66, 0.1) !important;
+				color: #f17742 !important;
+				font-family: $font !important;
+				font-size: 12px !important;
+				font-weight: 600 !important;
+				text-transform: uppercase !important;
+				border: none !important;
+				height: 28px !important;
+			}
+
+			// View and Like Stats
+			.view-like-stats {
+				display: flex !important;
+				flex-direction: row;
+				align-items: center;
+				gap: 16px;
+				visibility: visible !important;
+				opacity: 1 !important;
+
+				.stat-item {
+					display: flex !important;
+					flex-direction: row;
+					align-items: center;
+					gap: 6px;
+					visibility: visible !important;
+					opacity: 1 !important;
+
+					svg {
+						color: #717171 !important;
+						width: 18px !important;
+						height: 18px !important;
+						display: block !important;
+						visibility: visible !important;
+					}
+
+					span {
+						color: #181a20 !important;
+						font-family: $font;
+						font-size: 14px !important;
+						font-weight: 600 !important;
+						line-height: normal !important;
+						display: inline-block !important;
+						visibility: visible !important;
+						opacity: 1 !important;
+					}
+				}
+			}
+		}
+	}
+}
+
+
+
+// ✅ HEART ANIMATION
+@keyframes heartBounce {
+	0% {
+		transform: scale(1);
+	}
+	50% {
+		transform: scale(1.3);
+	}
+	100% {
+		transform: scale(1);
 	}
 }

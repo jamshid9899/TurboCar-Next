@@ -1,10 +1,6 @@
 import React, { useState } from 'react';
 import { Stack, Box } from '@mui/material';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { Autoplay, Navigation, Pagination } from 'swiper';
-import WestIcon from '@mui/icons-material/West';
-import EastIcon from '@mui/icons-material/East';
 import RentalCarCard from './RentalCarCard';
 import { Property } from '../../types/property/property';
 import { PropertiesInquiry } from '../../types/property/property.input';
@@ -76,21 +72,15 @@ const RentalCars = (props: RentalCarsProps) => {
 						<span>Cars for Rent</span>
 					</Stack>
 					<Stack className={'card-box'}>
-						<Swiper
-							className={'rental-car-swiper'}
-							slidesPerView={'auto'}
-							centeredSlides={true}
-							spaceBetween={25}
-							modules={[Autoplay]}
-						>
-							{rentalCars.map((property: Property) => {
-								return (
-									<SwiperSlide key={property._id} className={'rental-car-slide'}>
-										<RentalCarCard property={property} likePropertyHandler={likePropertyHandler} />
-									</SwiperSlide>
-								);
-							})}
-						</Swiper>
+						{rentalCars.map((property: Property) => {
+							return (
+								<RentalCarCard 
+									key={property._id} 
+									property={property} 
+									likePropertyHandler={likePropertyHandler} 
+								/>
+							);
+						})}
 					</Stack>
 				</Stack>
 			</Stack>
@@ -100,44 +90,47 @@ const RentalCars = (props: RentalCarsProps) => {
 			<Stack className={'rental-cars'}>
 				<Stack className={'container'}>
 					<Stack className={'info-box'}>
-						<Box component={'div'} className={'left'}>
-							<span>Cars for Rent</span>
-							<p>Rent your perfect ride today</p>
-						</Box>
-						<Box component={'div'} className={'right'}>
-							<div className={'more-box'}>
-								<span>View All Rentals</span>
-								<img src="/img/icons/rightup.svg" alt="" />
+						{/* Premium Overline with Decorative Lines */}
+						<div className={'overline-section'}>
+							<div className={'decorative-line'}></div>
+							<span className={'overline-text'}>PREMIUM RENTALS</span>
+							<div className={'decorative-line'}></div>
+						</div>
+
+						{/* Main Title with Gradient */}
+						<h2 className={'main-title'}>Cars for Rent</h2>
+
+						{/* Subtitle */}
+						<p className={'subtitle'}>Discover Your Perfect Ride in Minutes</p>
+
+						{/* Stats Row */}
+						<div className={'stats-row'}>
+							<div className={'stat-item'}>
+								<span className={'stat-number'}>500+</span>
+								<span className={'stat-label'}>Cars</span>
 							</div>
-						</Box>
+							<div className={'stat-divider'}>|</div>
+							<div className={'stat-item'}>
+								<span className={'stat-number'}>24/7</span>
+								<span className={'stat-label'}>Support</span>
+							</div>
+							<div className={'stat-divider'}>|</div>
+							<div className={'stat-item'}>
+								<span className={'stat-number'}>4.9★</span>
+								<span className={'stat-label'}>Rating</span>
+							</div>
+						</div>
 					</Stack>
 					<Stack className={'card-box'}>
-						<Swiper
-							className={'rental-car-swiper'}
-							slidesPerView={'auto'}
-							spaceBetween={25}
-							modules={[Autoplay, Navigation, Pagination]}
-							navigation={{
-								nextEl: '.swiper-rental-next',
-								prevEl: '.swiper-rental-prev',
-							}}
-							pagination={{
-								el: '.swiper-rental-pagination',
-							}}
-						>
-							{rentalCars.map((property: Property) => {
-								return (
-									<SwiperSlide key={property._id} className={'rental-car-slide'}>
-										<RentalCarCard property={property} likePropertyHandler={likePropertyHandler} />
-									</SwiperSlide>
-								);
-							})}
-						</Swiper>
-					</Stack>
-					<Stack className={'pagination-box'}>
-						<WestIcon className={'swiper-rental-prev'} />
-						<div className={'swiper-rental-pagination'}></div>
-						<EastIcon className={'swiper-rental-next'} />
+						{rentalCars.map((property: Property) => {
+							return (
+								<RentalCarCard 
+									key={property._id} 
+									property={property} 
+									likePropertyHandler={likePropertyHandler} 
+								/>
+							);
+						})}
 					</Stack>
 				</Stack>
 			</Stack>
@@ -148,7 +141,7 @@ const RentalCars = (props: RentalCarsProps) => {
 RentalCars.defaultProps = {
 	initialInput: {
 		page: 1,
-		limit: 7,
+		limit: 8,
 		sort: 'createdAt',
 		direction: Direction.DESC,
 		search: {

@@ -103,6 +103,13 @@ const PopularCars = (props: PopularCarsProps) => {
 							<span>Most Popular Cars</span>
 							<p>Browse the most viewed vehicles</p>
 						</Box>
+						<Box component={'div'} className={'middle'}>
+							<div className={'pagination-box'}>
+								<WestIcon className={'swiper-popular-prev'} />
+								<div className={'swiper-popular-pagination'}></div>
+								<EastIcon className={'swiper-popular-next'} />
+							</div>
+						</Box>
 						<Box component={'div'} className={'right'}>
 							<div className={'more-box'}>
 								<span>See All Cars</span>
@@ -132,11 +139,6 @@ const PopularCars = (props: PopularCarsProps) => {
 								);
 							})}
 						</Swiper>
-					</Stack>
-					<Stack className={'pagination-box'}>
-						<WestIcon className={'swiper-popular-prev'} />
-						<div className={'swiper-popular-pagination'}></div>
-						<EastIcon className={'swiper-popular-next'} />
 					</Stack>
 				</Stack>
 			</Stack>

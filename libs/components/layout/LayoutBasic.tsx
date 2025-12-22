@@ -31,27 +31,27 @@ const withLayoutBasic = (Component: any) => {
 				case '/property':
 					title = 'Browse Cars';
 					desc = 'Find your perfect vehicle';
-					bgImage = '/img/banner/cars-banner.jpg';
+					bgImage = '/img/banner/car11.jpg';
 					break;
 				case '/agent':
 					title = 'Car Dealers';
 					desc = 'Trusted dealers across Spain';
-					bgImage = '/img/banner/dealers-banner.jpg';
+					bgImage = '/img/banner/handshake.jpg';
 					break;
 				case '/agent/detail':
 					title = 'Dealer Profile';
 					desc = 'Professional car dealer';
-					bgImage = '/img/banner/header2.png';
+					bgImage = '/img/banner/dealer.png';
 					break;
 				case '/mypage':
 					title = 'My Page';
 					desc = 'Manage your cars and profile';
-					bgImage = '/img/banner/header1.svg';
+					bgImage = '/img/banner/car8.png'
 					break;
 				case '/community':
 					title = 'Community';
 					desc = 'Car news and discussions';
-					bgImage = '/img/banner/header2.svg';
+					bgImage = '/img/banner/car1.jpg';
 					break;
 				case '/community/detail':
 					title = 'Article Detail';
@@ -124,10 +124,13 @@ const withLayoutBasic = (Component: any) => {
 						</Stack>
 
 						<Stack
-							className={`header-basic ${authHeader && 'auth'}`}
+							className={`header-basic ${authHeader && 'auth'} ${router.pathname === '/agent' ? 'agent-header' : ''}`}
 							style={{
 								backgroundImage: `url(${memoizedValues.bgImage})`,
-								backgroundSize: 'cover',
+								backgroundSize: router.pathname === '/agent' ? undefined : 'cover',
+								backgroundPosition: router.pathname === '/agent' ? undefined : 'center',
+								backgroundRepeat: 'no-repeat',
+								backgroundColor: router.pathname === '/agent' ? '#000000' : 'transparent',
 								boxShadow: 'inset 10px 40px 150px 40px rgb(24 22 36)',
 							}}
 						>

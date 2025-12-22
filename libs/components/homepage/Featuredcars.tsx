@@ -1,10 +1,8 @@
 import React, { useState } from 'react';
 import { Stack, Box } from '@mui/material';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
-import WestIcon from '@mui/icons-material/West';
-import EastIcon from '@mui/icons-material/East';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { Autoplay, Navigation, Pagination } from 'swiper';
+import { Autoplay } from 'swiper';
 import { Property } from '../../types/property/property';
 import { PropertiesInquiry } from '../../types/property/property.input';
 import FeaturedCarCard from './FeaturedCarCard';
@@ -107,13 +105,6 @@ const FeaturedCars = (props: FeaturedCarsProps) => {
 							<span>Featured Cars</span>
 							<p>Explore our top-rated vehicles</p>
 						</Box>
-						<Box component={'div'} className={'right'}>
-							<div className={'pagination-box'}>
-								<WestIcon className={'swiper-featured-prev'} />
-								<div className={'swiper-featured-pagination'}></div>
-								<EastIcon className={'swiper-featured-next'} />
-							</div>
-						</Box>
 					</Stack>
 					<Stack className={'card-box'}>
 						{featuredCars.length === 0 ? (
@@ -121,27 +112,15 @@ const FeaturedCars = (props: FeaturedCarsProps) => {
 								Featured Cars Empty
 							</Box>
 						) : (
-							<Swiper
-								className={'featured-swiper'}
-								slidesPerView={'auto'}
-								spaceBetween={15}
-								modules={[Autoplay, Navigation, Pagination]}
-								navigation={{
-									nextEl: '.swiper-featured-next',
-									prevEl: '.swiper-featured-prev',
-								}}
-								pagination={{
-									el: '.swiper-featured-pagination',
-								}}
-							>
-								{featuredCars.map((property: Property) => {
-									return (
-										<SwiperSlide key={property._id} className={'featured-slide'}>
-											<FeaturedCarCard property={property} likePropertyHandler={likePropertyHandler} />
-										</SwiperSlide>
-									);
-								})}
-							</Swiper>
+							featuredCars.map((property: Property) => {
+								return (
+									<FeaturedCarCard 
+										key={property._id} 
+										property={property} 
+										likePropertyHandler={likePropertyHandler} 
+									/>
+								);
+							})
 						)}
 					</Stack>
 				</Stack>

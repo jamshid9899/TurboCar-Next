@@ -1,11 +1,12 @@
 import React from 'react';
-import { Stack, Box, Typography, Button, IconButton } from '@mui/material';
+import { Stack, Box, Typography, Button, IconButton, Chip } from '@mui/material';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
 import { REACT_APP_API_URL } from '../../config';
 import { Member } from '../../types/member/member';
 import { useRouter } from 'next/router';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import CallIcon from '@mui/icons-material/Call';
+import VerifiedIcon from '@mui/icons-material/Verified';
 import { useReactiveVar } from '@apollo/client';
 import { userVar } from '../../../apollo/store';
 
@@ -50,9 +51,22 @@ const TopDealerCard = (props: TopDealerCardProps) => {
 					style={{
 						backgroundImage: `url(${dealer?.memberImage ? `${REACT_APP_API_URL}/${dealer.memberImage}` : '/img/profile/defaultUser.svg'})`,
 					}}
-				/>
+				>
+					{/* Gradient Overlay */}
+					<div className="gradient-overlay" />
+					
+					{/* Verified Badge */}
+					<Chip
+						icon={<VerifiedIcon />}
+						label="Verified Dealer"
+						size="small"
+						className="verified-badge"
+					/>
+				</Box>
 				<Stack className="dealer-info">
-					<Typography className="dealer-name">{dealer?.memberNick || dealer?.memberFullName}</Typography>
+					<Typography className="dealer-name">
+						{dealer?.memberNick || dealer?.memberFullName}
+					</Typography>
 					<Stack className="dealer-stats">
 						<Stack className="stat">
 							<img src="/img/icons/car.svg" alt="" />
@@ -76,16 +90,40 @@ const TopDealerCard = (props: TopDealerCardProps) => {
 					{user?._id !== dealer?._id && (subscribeHandler || unsubscribeHandler) && (
 						<Button
 							variant={dealer?.meFollowed && dealer?.meFollowed[0]?.myFollowing ? 'outlined' : 'contained'}
+							className="follow-btn"
 							sx={{
-								marginTop: '12px',
-								background: dealer?.meFollowed && dealer?.meFollowed[0]?.myFollowing ? 'transparent' : '#f17742',
+								marginTop: '20px',
+								background: dealer?.meFollowed && dealer?.meFollowed[0]?.myFollowing 
+									? 'transparent' 
+									: 'linear-gradient(135deg, #f17742 0%, #dc2626 100%)',
 								color: dealer?.meFollowed && dealer?.meFollowed[0]?.myFollowing ? '#f17742' : '#ffffff',
 								borderColor: '#f17742',
+								borderWidth: '2px',
+								borderStyle: 'solid',
 								textTransform: 'uppercase',
-								fontWeight: 600,
+								fontWeight: 800,
+								fontSize: '14px',
+								letterSpacing: '1px',
+								padding: '14px 32px',
+								borderRadius: '12px',
+								boxShadow: dealer?.meFollowed && dealer?.meFollowed[0]?.myFollowing 
+									? '0px 2px 8px rgba(241, 119, 66, 0.15)' 
+									: '0px 6px 20px rgba(241, 119, 66, 0.35), 0px 2px 6px rgba(220, 38, 38, 0.2)',
+								transition: 'all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)',
+								position: 'relative',
+								overflow: 'hidden',
 								'&:hover': {
-									background: dealer?.meFollowed && dealer?.meFollowed[0]?.myFollowing ? 'rgba(241, 119, 66, 0.1)' : '#f17742',
+									background: dealer?.meFollowed && dealer?.meFollowed[0]?.myFollowing 
+										? 'linear-gradient(135deg, rgba(241, 119, 66, 0.15) 0%, rgba(241, 119, 66, 0.05) 100%)'
+										: 'linear-gradient(135deg, #dc2626 0%, #f17742 100%)',
 									borderColor: '#f17742',
+									transform: 'translateY(-4px) scale(1.03)',
+									boxShadow: dealer?.meFollowed && dealer?.meFollowed[0]?.myFollowing 
+										? '0px 4px 16px rgba(241, 119, 66, 0.25)' 
+										: '0px 12px 32px rgba(241, 119, 66, 0.5), 0px 4px 12px rgba(220, 38, 38, 0.3)',
+								},
+								'&:active': {
+									transform: 'translateY(-2px) scale(1.01)',
 								},
 							}}
 							onClick={handleFollowClick}

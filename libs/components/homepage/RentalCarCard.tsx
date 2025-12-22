@@ -1,18 +1,19 @@
-import React from 'react';
-import { Stack, Box, Divider, Typography, Chip, Button, IconButton } from '@mui/material';
+import React, { useState, useEffect } from 'react';
+import { Stack, Box, Typography, Chip, Button, IconButton } from '@mui/material';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
 import { Property } from '../../types/property/property';
 import { REACT_APP_API_URL } from '../../config';
 import { useRouter } from 'next/router';
 import { useReactiveVar } from '@apollo/client';
 import { userVar } from '../../../apollo/store';
-import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import DirectionsCarIcon from '@mui/icons-material/DirectionsCar';
 import LocalGasStationIcon from '@mui/icons-material/LocalGasStation';
 import EventSeatIcon from '@mui/icons-material/EventSeat';
-import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import StarIcon from '@mui/icons-material/Star';
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import { sweetTopSmallSuccessAlert, sweetMixinErrorAlert } from '../../sweetAlert';
 
 interface RentalCarCardProps {
 	property: Property;
@@ -25,6 +26,12 @@ const RentalCarCard = (props: RentalCarCardProps) => {
 	const router = useRouter();
 	const user = useReactiveVar(userVar);
 
+	// Local state for favorites
+	const [isAnimating, setIsAnimating] = useState<boolean>(false);
+
+	// Check if favorited - prioritize backend data (meLiked)
+	const isFavorited = property?.meLiked && property?.meLiked[0]?.myFavorite ? true : false;
+
 	/** HANDLERS **/
 	const pushDetailHandler = async (propertyId: string) => {
 		await router.push({
@@ -35,213 +42,135 @@ const RentalCarCard = (props: RentalCarCardProps) => {
 
 	const handleRentNow = (e: React.MouseEvent) => {
 		e.stopPropagation();
-		router.push({
-			pathname: '/property/detail',
-			query: { id: property?._id, action: 'rent' },
-		});
+		pushDetailHandler(property._id);
 	};
 
-	if (device === 'mobile') {
-		return (
-			<Stack className="popular-card-box">
-				<Box
-					component={'div'}
-					className={'card-img'}
-					style={{ backgroundImage: `url(${REACT_APP_API_URL}/${property?.propertyImages[0]})` }}
-					onClick={() => pushDetailHandler(property._id)}
+	const handleFavoriteClick = async (e: React.MouseEvent) => {
+		e.preventDefault();
+		e.stopPropagation();
+
+		// Check if user is logged in
+		if (!user?._id) {
+			sweetMixinErrorAlert('Please login first to like cars');
+			return;
+		}
+
+		// Animation
+		setIsAnimating(true);
+		setTimeout(() => setIsAnimating(false), 300);
+
+		// Call backend handler (this will update backend and refetch data)
+		if (likePropertyHandler) {
+			await likePropertyHandler(user, property._id);
+		}
+	};
+
+	// Calculate rating (mock data, you can use actual rating from property)
+	const rating = 4.5;
+	const imageCount = property?.propertyImages?.length || 1;
+
+	return (
+		<Stack className="rental-card-box">
+			{/* Image Section - 60% */}
+			<Box
+				component={'div'}
+				className={'card-img'}
+				style={{ backgroundImage: `url(${REACT_APP_API_URL}/${property?.propertyImages[0]})` }}
+				onClick={() => pushDetailHandler(property._id)}
+			>
+				{/* Image Count Indicator - Top Left */}
+				<div className={'image-count-badge'}>
+					<span>1/{imageCount}</span>
+				</div>
+				
+				{/* Available for Rent Badge - Top Left */}
+				<Chip 
+					label="AVAILABLE FOR RENT" 
+					size="small"
+					className="available-badge"
+				/>
+
+				{/* Heart Icon - Top Right */}
+				<IconButton 
+					className={`heart-icon ${isAnimating ? 'heart-animating' : ''}`}
+					size="small"
+					onClick={handleFavoriteClick}
 				>
-					{/* Rent Per Day */}
-					<div className={'price'}>
-						€{property.propertyRentPrice || 0} / day
-					</div>
-					
-					{/* Available Badge */}
-					<Chip 
-						label="Available for Rent" 
-						size="small"
-						className="rent-badge"
-						color="primary"
-					/>
-				</Box>
-				<Box component={'div'} className={'info'}>
-					<strong className={'title'} onClick={() => pushDetailHandler(property._id)}>
-						{property?.propertyBrand} {property.propertyTitle}
-					</strong>
-					<p className={'desc'}>
-						{property?.propertyYear} · {property?.propertyType}
-					</p>
-					<div className={'options'}>
-						<div>
-							<DirectionsCarIcon fontSize="small" />
-							<span>{property?.propertyTransmission}</span>
-						</div>
-						<div>
-							<LocalGasStationIcon fontSize="small" />
-							<span>{property?.propertyFuelType}</span>
-						</div>
-						<div>
-							<EventSeatIcon fontSize="small" />
-							<span>{property?.propertySeats} seats</span>
-						</div>
-					</div>
-					
-					{/* Rental Period */}
-					{property?.minimumRentDays && property?.maximumRentDays && (
-						<div className={'rental-period'}>
-							<CalendarMonthIcon fontSize="small" />
-							<span>
-								Min: {property.minimumRentDays} day
-								{property.minimumRentDays > 1 ? 's' : ''} - 
-								Max: {property.maximumRentDays} day
-								{property.maximumRentDays > 1 ? 's' : ''}
-							</span>
-						</div>
+					{isFavorited ? (
+						<FavoriteIcon />
+					) : (
+						<FavoriteBorderIcon />
 					)}
-					
-					<Divider sx={{ mt: '15px', mb: '17px' }} />
-					
-					<div className={'bott'}>
-						<p>{property?.propertyLocation}</p>
-						<div className="view-like-box">
-							<IconButton color={'default'} size="small">
-								<RemoveRedEyeIcon />
-							</IconButton>
-							<Typography className="view-cnt">{property?.propertyViews || 0}</Typography>
-							{likePropertyHandler && (
-								<>
-									<IconButton 
-										color={'default'} 
-										size="small"
-										onClick={(e) => {
-											e.preventDefault();
-											e.stopPropagation();
-											likePropertyHandler(user, property?._id);
-										}}
-									>
-										{property?.meLiked && property?.meLiked[0]?.myFavorite ? (
-											<FavoriteIcon style={{ color: 'red' }} />
-										) : (
-											<FavoriteBorderIcon />
-										)}
-									</IconButton>
-									<Typography className="view-cnt">{property?.propertyLikes || 0}</Typography>
-								</>
-							)}
-						</div>
-						
-						{/* Rent Button */}
-						<Button 
-							variant="contained" 
-							size="small"
-							onClick={handleRentNow}
-						>
-							Rent Now
-						</Button>
+				</IconButton>
+			</Box>
+
+			{/* White Info Section - 40% */}
+			<Box component={'div'} className={'card-info'}>
+				{/* Price Badge */}
+				<div className={'price-badge'}>
+					€{property.propertyRentPrice || 0} / day
+				</div>
+
+				{/* Car Title */}
+				<strong className={'car-title'} onClick={() => pushDetailHandler(property._id)}>
+					{property?.propertyBrand} {property.propertyTitle}
+				</strong>
+
+				{/* Car Desc */}
+				<p className={'car-desc'}>
+					{property?.propertyYear} - {property?.propertyType}
+				</p>
+
+				{/* Rating Stars */}
+				<div className={'rating-stars'}>
+					<StarIcon className="star-icon" />
+					<StarIcon className="star-icon" />
+					<StarIcon className="star-icon" />
+					<StarIcon className="star-icon" />
+					<StarIcon className="star-icon star-half" />
+					<span className="rating-text">{rating}</span>
+				</div>
+
+				{/* Car Specs */}
+				<div className={'car-specs'}>
+					<div>
+						<DirectionsCarIcon fontSize="small" />
+						<span>{property?.propertyTransmission}</span>
 					</div>
-				</Box>
-			</Stack>
-		);
-	} else {
-		return (
-			<Stack className="popular-card-box">
-				<Box
-					component={'div'}
-					className={'card-img'}
-					style={{ backgroundImage: `url(${REACT_APP_API_URL}/${property?.propertyImages[0]})` }}
-					onClick={() => pushDetailHandler(property._id)}
+					<div>
+						<LocalGasStationIcon fontSize="small" />
+						<span>{property?.propertyFuelType}</span>
+					</div>
+					<div>
+						<EventSeatIcon fontSize="small" />
+						<span>{property?.propertySeats} SEATS</span>
+					</div>
+				</div>
+
+				{/* View and Like Counts */}
+				<div className={'view-like-stats'}>
+					<div className={'stat-item'}>
+						<VisibilityIcon fontSize="small" />
+						<span>{property?.propertyViews || 0}</span>
+					</div>
+					<div className={'stat-item'}>
+						<FavoriteBorderIcon fontSize="small" />
+						<span>{property?.propertyLikes || 0}</span>
+					</div>
+				</div>
+
+				{/* Rent Button */}
+				<Button 
+					variant="contained" 
+					size="small"
+					className="rent-now-btn"
+					onClick={handleRentNow}
 				>
-					{/* Rent Per Day */}
-					<div className={'price'}>
-						€{property.propertyRentPrice || 0} / day
-					</div>
-					
-					{/* Available Badge */}
-					<Chip 
-						label="Available for Rent" 
-						size="small"
-						className="rent-badge"
-						color="primary"
-					/>
-				</Box>
-				<Box component={'div'} className={'info'}>
-					<strong className={'title'} onClick={() => pushDetailHandler(property._id)}>
-						{property?.propertyBrand} {property.propertyTitle}
-					</strong>
-					<p className={'desc'}>
-						{property?.propertyYear} · {property?.propertyType}
-					</p>
-					<div className={'options'}>
-						<div>
-							<DirectionsCarIcon fontSize="small" />
-							<span>{property?.propertyTransmission}</span>
-						</div>
-						<div>
-							<LocalGasStationIcon fontSize="small" />
-							<span>{property?.propertyFuelType}</span>
-						</div>
-						<div>
-							<EventSeatIcon fontSize="small" />
-							<span>{property?.propertySeats} seats</span>
-						</div>
-					</div>
-					
-					{/* Rental Period */}
-					{property?.minimumRentDays && property?.maximumRentDays && (
-						<div className={'rental-period'}>
-							<CalendarMonthIcon fontSize="small" />
-							<span>
-								Min: {property.minimumRentDays} day
-								{property.minimumRentDays > 1 ? 's' : ''} - 
-								Max: {property.maximumRentDays} day
-								{property.maximumRentDays > 1 ? 's' : ''}
-							</span>
-						</div>
-					)}
-					
-					<Divider sx={{ mt: '15px', mb: '17px' }} />
-					
-					<div className={'bott'}>
-						<p>{property?.propertyLocation}</p>
-						<div className="view-like-box">
-							<IconButton color={'default'} size="small">
-								<RemoveRedEyeIcon />
-							</IconButton>
-							<Typography className="view-cnt">{property?.propertyViews || 0}</Typography>
-							{likePropertyHandler && (
-								<>
-									<IconButton 
-										color={'default'} 
-										size="small"
-										onClick={(e) => {
-											e.preventDefault();
-											e.stopPropagation();
-											likePropertyHandler(user, property?._id);
-										}}
-									>
-										{property?.meLiked && property?.meLiked[0]?.myFavorite ? (
-											<FavoriteIcon style={{ color: 'red' }} />
-										) : (
-											<FavoriteBorderIcon />
-										)}
-									</IconButton>
-									<Typography className="view-cnt">{property?.propertyLikes || 0}</Typography>
-								</>
-							)}
-						</div>
-						
-						{/* Rent Button */}
-						<Button 
-							variant="contained" 
-							size="small"
-							onClick={handleRentNow}
-						>
-							Rent Now
-						</Button>
-					</div>
-				</Box>
-			</Stack>
-		);
-	}
+					RENT NOW
+				</Button>
+			</Box>
+		</Stack>
+	);
 };
 
 export default RentalCarCard;
