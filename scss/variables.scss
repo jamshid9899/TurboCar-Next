@@ -26,6 +26,12 @@ $info: #2196f3;           // Blue (info, for rent)
 $warning: #ffc107;        // Yellow (warnings)
 $danger: #f44336;         // Red (errors, delete)
 
+// ✅ RENT/BUY COLORS (Consistent)
+$rent-blue: #0066ff;      // Blue for rent buttons/actions
+$rent-blue-dark: #0052cc; // Darker blue (hover)
+$buy-orange: #f17742;     // Orange for buy buttons/actions
+$buy-orange-dark: #d96535; // Darker orange (hover)
+
 $shadow-sm: 0px 2px 8px rgba(0, 0, 0, 0.06);
 $shadow-md: 0px 4px 16px rgba(0, 0, 0, 0.12);
 $shadow-lg: 0px 8px 24px rgba(0, 0, 0, 0.16);

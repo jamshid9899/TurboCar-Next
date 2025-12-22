@@ -77,6 +77,8 @@ const RentalCarCard = (props: RentalCarCardProps) => {
 				className={'card-img'}
 				style={{ backgroundImage: `url(${REACT_APP_API_URL}/${property?.propertyImages[0]})` }}
 				onClick={() => pushDetailHandler(property._id)}
+				role="img"
+				aria-label={`${property?.propertyBrand} ${property.propertyTitle} car image`}
 			>
 				{/* Image Count Indicator - Top Left */}
 				<div className={'image-count-badge'}>
@@ -112,7 +114,11 @@ const RentalCarCard = (props: RentalCarCardProps) => {
 				</div>
 
 				{/* Car Title */}
-				<strong className={'car-title'} onClick={() => pushDetailHandler(property._id)}>
+				<strong 
+					className={'car-title'} 
+					onClick={() => pushDetailHandler(property._id)}
+					title={`${property?.propertyBrand} ${property.propertyTitle}`}
+				>
 					{property?.propertyBrand} {property.propertyTitle}
 				</strong>
 
