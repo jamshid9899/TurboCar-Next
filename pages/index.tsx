@@ -13,6 +13,7 @@ import PopularCars from '../libs/components/homepage/PopularCars';
 import RentalCars from '../libs/components/homepage/RentalCar';
 import TopDealers from '../libs/components/homepage/TopDealer';
 import FeaturedCars from '../libs/components/homepage/Featuredcars';
+import AvailableCities from '../libs/components/homepage/AvailableCities';
 
 
 export const getStaticProps = async ({ locale }: any) => ({
@@ -67,6 +68,8 @@ const Home: NextPage = () => {
 		return (
 			<Stack className={'home-page'}>
 				<HeroSection />
+				{/* Available Cities with Search */}
+				<AvailableCities />
 				<RentalCars 
 					initialInput={{
 						page: 1,

@@ -1,11 +1,8 @@
 import React from 'react';
-import { Stack, Box, Typography, Button } from '@mui/material';
-import { useRouter } from 'next/router';
+import { Stack, Box, Typography } from '@mui/material';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import HeroSearch from './HeroSearch';
 
 const HeroSection = () => {
-	const router = useRouter();
 
 
 	return (
@@ -17,9 +14,6 @@ const HeroSection = () => {
 
 			{/* Centered Content */}
 			<Stack className="hero-content-centered">
-				{/* Search Bar */}
-				<HeroSearch />
-
 				{/* Logo/Brand Name */}
 				<Typography variant="h1" className="hero-brand">
 					TURBOCAR
