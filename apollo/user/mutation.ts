@@ -316,6 +316,33 @@ export const LIKE_TARGET_BOARD_ARTICLE = gql`
       memberId
       createdAt
       updatedAt
+      meLiked {
+        memberId
+        likeRefId
+        myFavorite
+      }
+      memberData {
+        _id
+        memberType
+        memberStatus
+        memberAuthType
+        memberPhone
+        memberNick
+        memberFullName
+        memberImage
+        memberAddress
+        memberDesc
+        memberWarnings
+        memberBlocks
+        memberProperties
+        memberRank
+        memberPoints
+        memberLikes
+        memberViews
+        deletedAt
+        createdAt
+        updatedAt
+      }
     }
   }
 `;

@@ -11,9 +11,13 @@ import { T } from '../../libs/types/common';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { BoardArticlesInquiry } from '../../libs/types/board-article/board-article.input';
 import { BoardArticleCategory } from '../../libs/enums/board-article.enum';
-import { useQuery } from '@apollo/client';
+import { useQuery, useMutation } from '@apollo/client';
 import { GET_BOARD_ARTICLES } from '../../apollo/user/query';
+import { LIKE_TARGET_BOARD_ARTICLE } from '../../apollo/user/mutation';
 import { Direction } from '../../libs/enums/common.enum';
+import { likeBoardArticleHandler } from '../../libs/utils';
+import { useReactiveVar } from '@apollo/client';
+import { userVar } from '../../apollo/store';
 
 export const getStaticProps = async ({ locale }: any) => ({
 	props: {
@@ -40,6 +44,7 @@ const Community: NextPage = ({ initialInput, ...props }: T) => {
 	});
 	const [boardArticles, setBoardArticles] = useState<BoardArticle[]>([]);
 	const [totalCount, setTotalCount] = useState<number>(0);
+	const user = useReactiveVar(userVar);
 
 	/** APOLLO REQUESTS **/
 	const {
@@ -57,6 +62,7 @@ const Community: NextPage = ({ initialInput, ...props }: T) => {
 			setTotalCount(data?.getBoardArticles?.metaCounter?.[0]?.total || data?.getBoardArticles?.totalCount || 0);
 		},
 	});
+	const [likeTargetBoardArticle] = useMutation(LIKE_TARGET_BOARD_ARTICLE);
 
 	/** LIFECYCLES **/
 	// Initialize default category if not in URL
@@ -128,6 +134,10 @@ const Community: NextPage = ({ initialInput, ...props }: T) => {
 		}));
 	};
 
+	const likeArticleHandler = async (user: any, id: string) => {
+		await likeBoardArticleHandler(user, id, likeTargetBoardArticle, getBoardArticlesRefetch);
+	};
+
 	if (device === 'mobile') {
 		return <h1>COMMUNITY PAGE MOBILE</h1>;
 	} else {
@@ -138,7 +148,7 @@ const Community: NextPage = ({ initialInput, ...props }: T) => {
 						<Stack className="main-box">
 							<Stack className="left-config">
 								<Stack className={'image-info'}>
-									<img src={'/img/logo/logoText.svg'} />
+									<img src={'/img/logo/turbocar_1.svg'} alt="TurboCar" />
 									<Stack className={'community-name'}>
 										<Typography className={'name'}>TurboCar Community</Typography>
 									</Stack>
@@ -154,22 +164,22 @@ const Community: NextPage = ({ initialInput, ...props }: T) => {
 								>
 									<Tab
 										value={'FREE'}
-										label={'Free Board'}
+										label={'General Discussion'}
 										className={`tab-button ${searchCommunity.search.articleCategory == 'FREE' ? 'active' : ''}`}
 									/>
 									<Tab
 										value={'RECOMMEND'}
-										label={'Recommendation'}
+										label={'Car Recommendations'}
 										className={`tab-button ${searchCommunity.search.articleCategory == 'RECOMMEND' ? 'active' : ''}`}
 									/>
 									<Tab
 										value={'NEWS'}
-										label={'News'}
+										label={'Auto News'}
 										className={`tab-button ${searchCommunity.search.articleCategory == 'NEWS' ? 'active' : ''}`}
 									/>
 									<Tab
 										value={'HUMOR'}
-										label={'Humor'}
+										label={'Car Memes'}
 										className={`tab-button ${searchCommunity.search.articleCategory == 'HUMOR' ? 'active' : ''}`}
 									/>
 								</TabList>
@@ -178,9 +188,17 @@ const Community: NextPage = ({ initialInput, ...props }: T) => {
 								<Stack className="panel-config">
 									<Stack className="title-box">
 										<Stack className="left">
-											<Typography className="title">{searchCommunity.search.articleCategory} BOARD</Typography>
+											<Typography className="title">
+												{searchCommunity.search.articleCategory === 'FREE' && 'GENERAL DISCUSSION'}
+												{searchCommunity.search.articleCategory === 'RECOMMEND' && 'CAR RECOMMENDATIONS'}
+												{searchCommunity.search.articleCategory === 'NEWS' && 'AUTO NEWS'}
+												{searchCommunity.search.articleCategory === 'HUMOR' && 'CAR MEMES'}
+											</Typography>
 											<Typography className="sub-title">
-												Express your opinions freely here without content restrictions
+												{searchCommunity.search.articleCategory === 'FREE' && 'Discuss anything car-related with the community'}
+												{searchCommunity.search.articleCategory === 'RECOMMEND' && 'Get recommendations and share your favorite cars'}
+												{searchCommunity.search.articleCategory === 'NEWS' && 'Stay updated with the latest automotive news'}
+												{searchCommunity.search.articleCategory === 'HUMOR' && 'Share funny car memes and jokes'}
 											</Typography>
 										</Stack>
 										<Button
@@ -211,7 +229,7 @@ const Community: NextPage = ({ initialInput, ...props }: T) => {
 												</Stack>
 											) : boardArticles?.length > 0 ? (
 												boardArticles.map((boardArticle: BoardArticle) => {
-													return <CommunityCard boardArticle={boardArticle} key={boardArticle?._id} />;
+													return <CommunityCard boardArticle={boardArticle} key={boardArticle?._id} likeArticleHandler={likeArticleHandler} />;
 												})
 											) : (
 												<Stack className={'no-data'}>
@@ -234,7 +252,7 @@ const Community: NextPage = ({ initialInput, ...props }: T) => {
 												</Stack>
 											) : boardArticles?.length > 0 ? (
 												boardArticles.map((boardArticle: BoardArticle) => {
-													return <CommunityCard boardArticle={boardArticle} key={boardArticle?._id} />;
+													return <CommunityCard boardArticle={boardArticle} key={boardArticle?._id} likeArticleHandler={likeArticleHandler} />;
 												})
 											) : (
 												<Stack className={'no-data'}>
@@ -257,7 +275,7 @@ const Community: NextPage = ({ initialInput, ...props }: T) => {
 												</Stack>
 											) : boardArticles?.length > 0 ? (
 												boardArticles.map((boardArticle: BoardArticle) => {
-													return <CommunityCard boardArticle={boardArticle} key={boardArticle?._id} />;
+													return <CommunityCard boardArticle={boardArticle} key={boardArticle?._id} likeArticleHandler={likeArticleHandler} />;
 												})
 											) : (
 												<Stack className={'no-data'}>
@@ -280,7 +298,7 @@ const Community: NextPage = ({ initialInput, ...props }: T) => {
 												</Stack>
 											) : boardArticles?.length > 0 ? (
 												boardArticles.map((boardArticle: BoardArticle) => {
-													return <CommunityCard boardArticle={boardArticle} key={boardArticle?._id} />;
+													return <CommunityCard boardArticle={boardArticle} key={boardArticle?._id} likeArticleHandler={likeArticleHandler} />;
 												})
 											) : (
 												<Stack className={'no-data'}>
