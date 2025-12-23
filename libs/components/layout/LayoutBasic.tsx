@@ -25,61 +25,54 @@ const withLayoutBasic = (Component: any) => {
 		const memoizedValues = useMemo(() => {
 			let title = '',
 				desc = '',
-				bgImage = '';
+				breadcrumb = '';
 
 			switch (router.pathname) {
 				case '/property':
-					title = 'Browse Cars';
-					desc = 'Find your perfect vehicle';
-					bgImage = '/img/banner/car11.jpg';
+					const mode = router.query.mode as string;
+					title = mode === 'rent' ? 'Rent Cars' : mode === 'buy' ? 'Buy Cars' : 'Cars';
+					breadcrumb = mode === 'rent' ? 'Rent' : mode === 'buy' ? 'Buy' : 'Cars';
+					desc = mode === 'rent' ? 'Find cars for rent' : mode === 'buy' ? 'Find cars for sale' : 'Browse all cars';
 					break;
 				case '/agent':
-					title = 'Car Dealers';
-					desc = 'Trusted dealers across Spain';
-					bgImage = '/img/banner/handshake.jpg';
+					title = 'Dealers';
+					breadcrumb = 'Dealers';
 					break;
 				case '/agent/detail':
-					title = 'Dealer Profile';
-					desc = 'Professional car dealer';
-					bgImage = '/img/banner/dealer.png';
+					title = 'Dealer Detail';
+					breadcrumb = 'Dealers / Dealer Detail';
 					break;
 				case '/mypage':
 					title = 'My Page';
-					desc = 'Manage your cars and profile';
-					bgImage = '/img/banner/car8.png'
+					breadcrumb = 'My Page';
 					break;
 				case '/community':
 					title = 'Community';
-					desc = 'Car news and discussions';
-					bgImage = '/img/banner/car1.jpg';
+					breadcrumb = 'Community';
 					break;
 				case '/community/detail':
-					title = 'Article Detail';
-					desc = 'Community post';
-					bgImage = '/img/banner/header2.svg';
+					title = 'Community Article';
+					breadcrumb = 'Community / Article';
 					break;
 				case '/cs':
 					title = 'Customer Support';
-					desc = 'We are here to help!';
-					bgImage = '/img/banner/header2.svg';
+					breadcrumb = 'Customer Support';
 					break;
 				case '/account/join':
-					title = 'Login / Signup';
-					desc = 'Join TurboCar today';
-					bgImage = '/img/banner/header2.svg';
+					title = 'Login / Sign Up';
+					breadcrumb = 'Login / Sign Up';
 					setAuthHeader(true);
 					break;
 				case '/member':
 					title = 'Member Profile';
-					desc = 'View member details';
-					bgImage = '/img/banner/header1.svg';
+					breadcrumb = 'Member Profile';
 					break;
 				default:
 					break;
 			}
 
-			return { title, desc, bgImage };
-		}, [router.pathname]);
+			return { title, desc, breadcrumb };
+		}, [router.pathname, router.query.mode]);
 
 		/** LIFECYCLES **/
 		useEffect(() => {
@@ -105,7 +98,7 @@ const withLayoutBasic = (Component: any) => {
 							<Component {...props} />
 						</Stack>
 
-						<Stack id={'footer'}>
+						<Stack id={'footer'} sx={{ background: '#181a20 !important', backgroundColor: '#181a20 !important' }}>
 							<Footer />
 						</Stack>
 					</Stack>
@@ -123,20 +116,19 @@ const withLayoutBasic = (Component: any) => {
 							<Top />
 						</Stack>
 
-						<Stack
-							className={`header-basic ${authHeader && 'auth'} ${router.pathname === '/agent' ? 'agent-header' : ''}`}
-							style={{
-								backgroundImage: `url(${memoizedValues.bgImage})`,
-								backgroundSize: router.pathname === '/agent' ? undefined : 'cover',
-								backgroundPosition: router.pathname === '/agent' ? undefined : 'center',
-								backgroundRepeat: 'no-repeat',
-								backgroundColor: router.pathname === '/agent' ? '#000000' : 'transparent',
-								boxShadow: 'inset 10px 40px 150px 40px rgb(24 22 36)',
-							}}
-						>
+						{/* Simple Page Header - Topga yaqin */}
+						<Stack className={'simple-page-header'}>
 							<Stack className={'container'}>
-								<strong>{t(memoizedValues.title)}</strong>
-								<span>{t(memoizedValues.desc)}</span>
+								<h1 className={'page-title'}>{memoizedValues.title}</h1>
+								<p className={'breadcrumb'}>
+									<a href="/">Home</a>
+									{memoizedValues.breadcrumb && (
+										<>
+											<span>/</span>
+											<span>{memoizedValues.breadcrumb}</span>
+										</>
+									)}
+								</p>
 							</Stack>
 						</Stack>
 
@@ -144,9 +136,9 @@ const withLayoutBasic = (Component: any) => {
 							<Component {...props} />
 						</Stack>
 
-						{user?._id && <Chat />}
+						<Chat />
 
-						<Stack id={'footer'}>
+						<Stack id={'footer'} sx={{ background: '#181a20 !important', backgroundColor: '#181a20 !important' }}>
 							<Footer />
 						</Stack>
 					</Stack>

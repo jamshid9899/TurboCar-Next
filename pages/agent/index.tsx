@@ -2,9 +2,10 @@ import React, { ChangeEvent, MouseEvent, useEffect, useState } from 'react';
 import { NextPage } from 'next';
 import useDeviceDetect from '../../libs/hooks/useDeviceDetect';
 import withLayoutBasic from '../../libs/components/layout/LayoutBasic';
-import { Stack, Box, Button, Pagination } from '@mui/material';
+import { Stack, Box, Button, Pagination, InputAdornment, TextField } from '@mui/material';
 import { Menu, MenuItem } from '@mui/material';
 import KeyboardArrowDownRoundedIcon from '@mui/icons-material/KeyboardArrowDownRounded';
+import SearchIcon from '@mui/icons-material/Search';
 import AgentCard from '../../libs/components/common/AgentCard';
 import { useRouter } from 'next/router';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
@@ -182,7 +183,7 @@ const AgentList: NextPage = ({ initialInput, ...props }: any) => {
 				<Stack className={'container'}>
 					<Stack className={'filter'}>
 						<Box component={'div'} className={'left'}>
-							<input
+							<TextField
 								type="text"
 								placeholder={'Search for an agent'}
 								value={searchText}
@@ -197,6 +198,31 @@ const AgentList: NextPage = ({ initialInput, ...props }: any) => {
 										setSearchFilter(newFilter);
 										router.push(`/agent?input=${JSON.stringify(newFilter)}`, undefined, { scroll: false });
 									}
+								}}
+								InputProps={{
+									startAdornment: (
+										<InputAdornment position="start">
+											<SearchIcon sx={{ color: '#999' }} />
+										</InputAdornment>
+									),
+								}}
+								sx={{
+									'& .MuiOutlinedInput-root': {
+										borderRadius: '50px',
+										height: '50px',
+										width: '400px',
+										'& fieldset': {
+											borderColor: '#e0e0e0',
+											borderWidth: '2px',
+										},
+										'&:hover fieldset': {
+											borderColor: '#1890FF',
+										},
+										'&.Mui-focused fieldset': {
+											borderColor: '#1890FF',
+											borderWidth: '2px',
+										},
+									},
 								}}
 							/>
 						</Box>

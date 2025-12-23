@@ -50,6 +50,8 @@ body::-webkit-scrollbar {
 	/* Desktop layout: left sidebar navigation + main content */
 	background: transparent;
 	min-height: 100vh;
+	display: flex;
+	flex-direction: column;
 	
 	#top {
 		position: fixed;
@@ -271,6 +273,12 @@ body::-webkit-scrollbar {
 		margin-top: 0;
 		position: relative;
 		z-index: 1;
+		flex: 1;
+		
+		// Homepage should have transparent background
+		.home-page {
+			background: transparent;
+		}
 	}
 	
 	// Hero section animations
@@ -286,6 +294,7 @@ body::-webkit-scrollbar {
 
 	#footer {
 		margin-left: 0;
+		background: #181a20 !important;
 	}
 
 	// ✅ HERO SECTION - Split screen layout (using .hero-section-split in homepage.scss)
@@ -390,139 +399,210 @@ body::-webkit-scrollbar {
 		}
 	}
 
-	// ✅ CHAT
-	.chatting {
+// ✅ CHAT - Bottom Right (TurboCar Branding) - Global
+.chatting {
+		position: relative;
+		width: 100%;
+		height: 0;
+		
 		.chat-button {
 			border: none;
-			position: fixed;
-			bottom: 90px;
-			right: 30px;
-			height: 50px;
-			width: 50px;
-			display: flex;
+			position: fixed !important;
+			bottom: 90px !important;
+			right: 30px !important;
+			height: 60px !important;
+			width: 60px !important;
+			display: flex !important;
 			align-items: center;
 			justify-content: center;
 			border-radius: 50%;
-			background: #fff;
-			box-shadow: 0px 0px 10px 0px rgba(50, 50, 50, 0.2);
-			transition: transform 0.3s;
-			z-index: 999;
+			background: #ffffff !important;
+			box-shadow: 0px 4px 16px rgba(0, 0, 0, 0.15);
+			transition: all 0.3s ease;
+			z-index: 9999 !important;
 			cursor: pointer;
+			
 			&:hover {
 				transform: scale(1.1);
-				background-color: #fff;
+				box-shadow: 0px 6px 20px rgba(255, 107, 0, 0.3);
 			}
 		}
+		
 		.chat-frame {
-			position: fixed;
+			position: fixed !important;
 			right: -380px;
-			transition: right 0.7s ease-in-out;
-			width: 380px;
-			height: 500px;
-			display: flex;
+			transition: right 0.3s ease-in-out;
+			width: 380px !important;
+			height: 500px !important;
+			display: flex !important;
 			flex-direction: column;
-			background: rgb(233, 243, 255);
-			border-radius: 34px;
-			box-shadow: 0px 0px 15px 0px rgba(50, 50, 50, 0.3);
-			z-index: 100;
-			bottom: 150px;
+			background: #ffffff !important;
+			border-radius: 16px;
+			box-shadow: 0px 8px 32px rgba(0, 0, 0, 0.15);
+			z-index: 10000 !important;
+			bottom: 160px !important;
+			overflow: hidden;
+			
 			&.open {
-				right: 10px;
+				right: 10px !important;
 			}
+			
+			// Header with Orange Gradient
 			.chat-top {
 				width: 100%;
-				height: 103px;
+				padding: 16px 20px;
 				display: flex;
-				justify-content: center;
+				flex-direction: row;
+				justify-content: space-between;
 				align-items: center;
-				border-bottom: 1px solid rgba(205, 205, 205, 0.83);
-				font-size: 30px;
-				line-height: 54px;
-				color: #000000;
+				background: linear-gradient(135deg, #FF6B00, #FF8E53);
+				color: #fff;
+				border-radius: 16px 16px 0 0;
 			}
+			
 			.chat-content {
 				position: relative;
-				padding: 17px;
+				padding: 20px;
 				width: 100%;
 				height: 100%;
+				flex: 1;
 				display: flex;
 				flex-direction: column;
 				justify-content: flex-start;
-				overflow: auto;
+				overflow-y: auto;
+				background: #ffffff;
+				
 				.chat-main {
 					position: relative;
 					width: 100%;
 					display: flex;
 					flex-direction: column;
+					
+					// Support messages (left)
 					.msg-left {
-						margin-left: 10px;
-						padding: 9px;
-						width: auto;
-						height: auto;
-						display: flex;
-						background: #9fa7ac;
-						border-radius: 20px 20px 20px 0px;
-						color: #fff;
+						max-width: 75%;
+						padding: 12px 16px;
+						background: #F5F5F5;
+						border-radius: 16px;
+						color: #181a20;
+						font-family: $font;
+						font-size: 14px;
+						font-weight: 400;
+						line-height: 1.5;
+						word-wrap: break-word;
+						margin-bottom: 8px;
+					}
+					
+					// User messages (right)
+					.msg-right {
+						max-width: 75%;
+						padding: 12px 16px;
+						background: #FF6B00;
+						border-radius: 16px;
+						color: #ffffff;
+						font-family: $font;
+						font-size: 14px;
+						font-weight: 400;
+						line-height: 1.5;
+						word-wrap: break-word;
+						margin-left: auto;
+						margin-bottom: 8px;
 					}
 				}
 			}
+			
 			.chat-bott {
 				width: 100%;
-				height: 103px;
+				padding: 16px 20px;
 				display: flex;
+				flex-direction: row;
 				justify-content: center;
 				align-items: center;
-				border-top: 1px solid rgba(205, 205, 205, 0.83);
+				gap: 12px;
+				border-top: 1px solid #E0E0E0;
+				background: #ffffff;
+				
 				.msg-input {
-					padding: 20px;
-					width: 276px;
-					height: 50px;
-					display: flex;
-					flex-direction: column;
-					align-items: center;
-					background: #f7f7f7;
-					border-radius: 28px;
-					border: none;
-					outline-color: #257677;
-					font-family: 'Poppins';
-					font-style: normal;
+					flex: 1;
+					padding: 12px 16px;
+					height: 44px;
+					border: 1px solid #E0E0E0;
+					border-radius: 12px;
+					background: #ffffff;
+					font-family: $font;
+					font-size: 14px;
 					font-weight: 400;
-					font-size: 16px;
-					line-height: 24px;
+					color: #181a20;
+					outline: none;
+					transition: border-color 0.2s ease;
+					
+					&:focus {
+						border-color: #FF6B00;
+					}
+					
+					&::placeholder {
+						color: #999;
+					}
 				}
+				
 				.send-msg-btn {
-					margin-left: 14px;
-					width: 50px;
-					height: 50px;
+					width: 44px;
+					height: 44px;
 					display: flex;
-					justify-content: center;
 					align-items: center;
-					border-radius: 50%;
-					background: #33c1c1;
+					justify-content: center;
+					border-radius: 12px;
+					background: #FF6B00;
 					border: none;
 					cursor: pointer;
+					transition: background-color 0.2s ease;
+					
+					&:hover {
+						background: #e55a00;
+					}
+					
+					&:active {
+						transform: scale(0.95);
+					}
 				}
-			}
-			.msg-right {
-				padding: 9px;
-				width: auto;
-				height: auto;
-				display: flex;
-				background: #d0ece8;
-				border-radius: 20px 20px 0px 20px;
 			}
 		}
 	}
 
 	// ✅ FOOTER
 	#footer {
-		position: relative;
-		padding: 60px 0px 18px 0px;
-		width: 100%;
+		position: relative !important;
+		padding: 60px 0px 18px 0px !important;
+		width: 100% !important;
 		height: auto;
 		display: flex;
 		flex-direction: row;
-		background: #181a20;
+		background: #181a20 !important;
+		background-color: #181a20 !important;
+		margin-top: 0 !important;
+		margin-left: 0 !important;
+		margin-bottom: 0 !important;
+		z-index: 10;
+		clear: both;
+		
+		// Ensure footer is outside of main background with pseudo-element
+		&::before {
+			content: '';
+			position: absolute;
+			top: 0;
+			left: 0;
+			right: 0;
+			bottom: 0;
+			width: 100%;
+			height: 100%;
+			background: #181a20 !important;
+			z-index: -1;
+		}
+		
+		// Ensure footer container doesn't override background
+		& > * {
+			background: transparent !important;
+		}
 		.footer-container {
 			width: 1300px;
 			height: auto;

@@ -1,0 +1,119 @@
+// Simple page layout styles - Clean and minimal like Solven Agents page
+.simple-page-header {
+	padding: 40px 0 30px;
+	background: #f8f9fa;
+	border-bottom: 1px solid #e9ecef;
+	
+	.container {
+		max-width: 1200px;
+		margin: 0 auto;
+		padding: 0 20px;
+	}
+	
+	.page-title {
+		font-family: $font;
+		font-size: 36px;
+		font-weight: 700;
+		color: #181a20;
+		margin: 0 0 12px 0;
+		line-height: 1.2;
+	}
+	
+	.breadcrumb {
+		font-family: $font;
+		font-size: 14px;
+		color: #6c757d;
+		margin: 0;
+		
+		a {
+			color: #6c757d;
+			text-decoration: none;
+			transition: color 0.2s ease;
+			
+			&:hover {
+				color: #FF6B00;
+			}
+		}
+		
+		span {
+			margin: 0 8px;
+			color: #adb5bd;
+		}
+	}
+}
+
+.simple-page-content {
+	padding: 40px 0 80px;
+	background: #ffffff;
+	min-height: calc(100vh - 200px);
+	
+	.container {
+		max-width: 1200px;
+		margin: 0 auto;
+		padding: 0 20px;
+	}
+}
+
+// Update main background to white/light gray (but not for homepage)
+// Footer should NOT be affected by main background
+#main {
+	// Don't set background here - let body handle it
+	// background: #f8f9fa;
+	min-height: auto;
+	
+	// Homepage should have transparent background
+	.home-page {
+		background: transparent;
+	}
+}
+
+// Ensure footer is always dark and positioned correctly - OUTSIDE of #main
+#pc-wrap {
+	// Footer must be sibling of #main, not child
+	#footer {
+		position: relative !important;
+		background: #181a20 !important;
+		background-color: #181a20 !important;
+		width: 100% !important;
+		margin-top: 0 !important;
+		margin-left: 0 !important;
+		margin-bottom: 0 !important;
+		padding: 60px 0px 18px 0px !important;
+		z-index: 10;
+		clear: both;
+		
+		// Force dark background with pseudo-element covering entire footer
+		&::before {
+			content: '';
+			position: absolute;
+			top: 0;
+			left: 0;
+			right: 0;
+			bottom: 0;
+			width: 100%;
+			height: 100%;
+			background: #181a20 !important;
+			z-index: -1;
+		}
+		
+		& > * {
+			background: transparent !important;
+			position: relative;
+			z-index: 1;
+		}
+		
+		.footer-container {
+			background: transparent !important;
+		}
+	}
+	
+	// Ensure #main doesn't extend to footer
+	#main {
+		& ~ #footer {
+			background: #181a20 !important;
+		}
+	}
+}
+
+
+

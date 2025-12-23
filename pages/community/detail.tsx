@@ -21,6 +21,10 @@ import { T } from '../../libs/types/common';
 import EditIcon from '@mui/icons-material/Edit';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { BoardArticle } from '../../libs/types/board-article/board-article';
+import { useMutation, useLazyQuery } from '@apollo/client';
+import { GET_BOARD_ARTICLE } from '../../apollo/user/query';
+// import { CREATE_VIEW } from '../../apollo/user/mutation'; // Disabled - not available in backend
+import { ViewGroup } from '../../libs/enums/view.enum';
 const ToastViewerComponent = dynamic(() => import('../../libs/components/community/TViewer'), { ssr: false });
 
 export const getStaticProps = async ({ locale }: any) => ({
@@ -57,11 +61,41 @@ const CommunityDetail: NextPage = ({ initialInput, ...props }: T) => {
 	const [boardArticle, setBoardArticle] = useState<BoardArticle>();
 
 	/** APOLLO REQUESTS **/
+	const [getBoardArticle] = useLazyQuery(GET_BOARD_ARTICLE, {
+		fetchPolicy: 'network-only',
+		onCompleted: (data) => {
+			if (data?.getBoardArticle) {
+				setBoardArticle(data.getBoardArticle);
+			}
+		},
+	});
+	// const [createView] = useMutation(CREATE_VIEW); // Disabled - not available in backend
 
 	/** LIFECYCLES **/
 	useEffect(() => {
-		if (articleId) setSearchFilter({ ...searchFilter, search: { commentRefId: articleId } });
+		if (articleId) {
+			setSearchFilter({ ...searchFilter, search: { commentRefId: articleId } });
+			getBoardArticle({ variables: { input: articleId } });
+		}
 	}, [articleId]);
+
+	// Track view when article is loaded
+	// NOTE: createView mutation is disabled as it's not available in backend
+	// useEffect(() => {
+	// 	if (boardArticle?._id && user?._id) {
+	// 		createView({
+	// 			variables: {
+	// 				input: {
+	// 					memberId: user._id,
+	// 					viewRefId: boardArticle._id,
+	// 					viewGroup: ViewGroup.ARTICLE,
+	// 				},
+	// 			},
+	// 		}).catch((err) => {
+	// 			console.error('Error creating view:', err);
+	// 		});
+	// 	}
+	// }, [boardArticle?._id, user?._id, createView]);
 
 	/** HANDLERS **/
 	const tabChangeHandler = (event: React.SyntheticEvent, value: string) => {

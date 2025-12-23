@@ -20,6 +20,8 @@ import { REACT_APP_API_URL } from '../../libs/config';
 import { Message } from '../../libs/enums/common.enum';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { CREATE_COMMENT, LIKE_TARGET_PROPERTY } from '../../apollo/user/mutation';
+// import { CREATE_VIEW } from '../../apollo/user/mutation'; // Disabled - not available in backend
+import { ViewGroup } from '../../libs/enums/view.enum';
 import { GET_COMMENTS, GET_MEMBER, GET_PROPERTIES } from '../../apollo/user/query';
 import { T } from '../../libs/types/common';
 
@@ -50,6 +52,7 @@ const AgentDetail: NextPage = ({ initialInput, initialComment, ...props }: any) 
 	/** APOLLO REQUESTS **/
 	const [createComment] = useMutation(CREATE_COMMENT);
 	const [likeTargetProperty] = useMutation(LIKE_TARGET_PROPERTY);
+	// const [createView] = useMutation(CREATE_VIEW); // Disabled - not available in backend
 
 	const {
 		loading: getMemberLoading,
@@ -152,6 +155,24 @@ const AgentDetail: NextPage = ({ initialInput, initialComment, ...props }: any) 
 			});
 		}
 	}, [commentInquiry?.search?.commentRefId, getCommentsRefetch]);
+
+	// Track view when agent is loaded
+	// NOTE: createView mutation is disabled as it's not available in backend
+	// useEffect(() => {
+	// 	if (agent?._id && user?._id) {
+	// 		createView({
+	// 			variables: {
+	// 				input: {
+	// 					memberId: user._id,
+	// 					viewRefId: agent._id,
+	// 					viewGroup: ViewGroup.MEMBER,
+	// 				},
+	// 			},
+	// 		}).catch((err) => {
+	// 			console.error('Error creating view:', err);
+	// 		});
+	// 	}
+	// }, [agent?._id, user?._id, createView]);
 
 	/** HANDLERS **/
 	const redirectToMemberPageHandler = async (memberId: string) => {

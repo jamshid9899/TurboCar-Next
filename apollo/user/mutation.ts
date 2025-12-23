@@ -579,6 +579,23 @@ export const FINISH_RENTAL = gql`
 `;
 
 /**************************
+ *          VIEW          *
+ *************************/
+
+export const CREATE_VIEW = gql`
+  mutation CreateView($input: ViewInput!) {
+    createView(input: $input) {
+      _id
+      viewGroup
+      viewRefId
+      memberId
+      createdAt
+      updatedAt
+    }
+  }
+`;
+
+/**************************
  *      FILE UPLOAD       *
  *************************/
 

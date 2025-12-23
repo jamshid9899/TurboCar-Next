@@ -43,7 +43,7 @@ const withLayoutFull = (Component: any) => {
 							<Component {...props} />
 						</Stack>
 
-						<Stack id={'footer'}>
+						<Stack id={'footer'} sx={{ background: '#181a20 !important', backgroundColor: '#181a20 !important' }}>
 							<Footer />
 						</Stack>
 					</Stack>
@@ -67,9 +67,9 @@ const withLayoutFull = (Component: any) => {
 							<Component {...props} />
 						</Stack>
 
-						{user?._id && <Chat />}
+						<Chat />
 
-						<Stack id={'footer'}>
+						<Stack id={'footer'} sx={{ background: '#181a20 !important', backgroundColor: '#181a20 !important' }}>
 							<Footer />
 						</Stack>
 					</Stack>

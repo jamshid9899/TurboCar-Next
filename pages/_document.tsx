@@ -8,13 +8,13 @@ export default function Document() {
 				<link rel="icon" type="image/png" href="/img/logo/favicon.svg" />
 
 				{/* SEO */}
-				<meta name="keyword" content={'nestar, nestar.uz, devex mern, mern nestjs fullstack'} />
+				<meta name="keyword" content={'turbocar, turbocar.uz, car marketplace, buy rent cars spain'} />
 				<meta
 					name={'description'}
 					content={
-						'Buy and sell properties anywhere anytime in South Korea. Best Properties at Best prices on nestar.uz | ' +
-						'Покупайте и продавайте недвижимость в любой точке Южной Кореи в любое время. Лучшая недвижимость по лучшим ценам на nestar.uz | ' +
-						'대한민국 언제 어디서나 부동산을 사고팔 수 있습니다. Nestar.uz에서 최적의 가격으로 최고의 부동산을 만나보세요'
+						'Buy, rent and sell cars anywhere anytime in Spain. Best Cars at Best prices on TurboCar | ' +
+						'Покупайте, арендуйте и продавайте автомобили в любой точке Испании в любое время. Лучшие автомобили по лучшим ценам на TurboCar | ' +
+						'스페인 어디서나 언제든지 자동차를 사고, 렌트하고, 팔 수 있습니다. TurboCar에서 최적의 가격으로 최고의 자동차를 만나보세요'
 					}
 				/>
 			</Head>

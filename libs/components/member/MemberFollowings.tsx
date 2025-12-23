@@ -69,7 +69,7 @@ const MemberFollowings = (props: MemberFollowingsProps) => {
 	};
 
 	if (device === 'mobile') {
-		return <div>NESTAR FOLLOWS MOBILE</div>;
+		return <div>TURBOCAR FOLLOWS MOBILE</div>;
 	} else {
 		return (
 			<div id="member-follows-page">

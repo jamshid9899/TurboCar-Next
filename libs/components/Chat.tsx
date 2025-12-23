@@ -1,93 +1,144 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { Avatar, Box, Stack } from '@mui/material';
+import React, { useEffect, useRef, useState } from 'react';
+import { Avatar, Box, Stack, IconButton } from '@mui/material';
 import SendIcon from '@mui/icons-material/Send';
 import Badge from '@mui/material/Badge';
-import CloseFullscreenIcon from '@mui/icons-material/CloseFullscreen';
-import MarkChatUnreadIcon from '@mui/icons-material/MarkChatUnread';
+import CloseIcon from '@mui/icons-material/Close';
+import DirectionsCarIcon from '@mui/icons-material/DirectionsCar';
 import { useRouter } from 'next/router';
 import ScrollableFeed from 'react-scrollable-feed';
 
 const Chat = () => {
 	const chatContentRef = useRef<HTMLDivElement>(null);
 	const [messagesList, setMessagesList] = useState<any[]>([]);
-	const [onlineUsers, setOnlineUsers] = useState<number>(0);
+	const [unreadCount, setUnreadCount] = useState<number>(0);
 	const textInput = useRef<HTMLInputElement>(null);
 	const [message, setMessage] = useState<string>('');
 	const [open, setOpen] = useState(false);
-	const [openButton, setOpenButton] = useState(false);
 	const router = useRouter();
-
-	/** LIFECYCLES **/
-	useEffect(() => {
-		const timeoutId = setTimeout(() => {
-			setOpenButton(true);
-		}, 100);
-		return () => clearTimeout(timeoutId);
-	}, []);
-
-	useEffect(() => {
-		setOpenButton(false);
-	}, [router.pathname]);
 
 	/** HANDLERS **/
 	const handleOpenChat = () => {
-		setOpen((prevState) => !prevState);
+		setOpen((prevState) => {
+			if (!prevState) {
+				setUnreadCount(0); // Reset unread count when opening
+			}
+			return !prevState;
+		});
 	};
 
-	const getInputMessageHandler = useCallback(
-		(e: any) => {
-			const text = e.target.value;
-			setMessage(text);
-		},
-		[message],
-	);
+	const getInputMessageHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+		const text = e.target.value;
+		setMessage(text);
+	};
 
-	const getKeyHandler = (e: any) => {
-		try {
-			if (e.key == 'Enter') {
-				onClickHandler();
-			}
-		} catch (err: any) {
-			console.log(err);
+	const getKeyHandler = (e: React.KeyboardEvent<HTMLInputElement>) => {
+		if (e.key === 'Enter' && !e.shiftKey) {
+			e.preventDefault();
+			onClickHandler();
 		}
 	};
 
 	const onClickHandler = () => {
-		// TODO: Implement WebSocket message sending
-		if (message.trim()) {
-			console.log('Sending message:', message);
+		const trimmedMessage = message.trim();
+		if (trimmedMessage) {
+			// Add user message to messages list
+			const newMessage = {
+				text: trimmedMessage,
+				isMe: true,
+				timestamp: new Date(),
+			};
+			setMessagesList((prev) => [...prev, newMessage]);
 			setMessage('');
+			
+			// Clear input field
 			if (textInput.current) {
 				textInput.current.value = '';
+				textInput.current.focus(); // Keep focus on input
 			}
+			
+			// TODO: Send to backend via WebSocket/API
+			// Backend integration needed:
+			// 1. Check if backend has chat API endpoint
+			// 2. Use WebSocket (process.env.REACT_APP_API_WS) or GraphQL mutation
+			// 3. Listen for incoming messages from backend
+			
+			// For now, simulate auto-reply after 1 second
+			setTimeout(() => {
+				const autoReply = {
+					text: 'Thank you for your message! Our support team will get back to you shortly.',
+					isMe: false,
+					timestamp: new Date(),
+				};
+				setMessagesList((prev) => [...prev, autoReply]);
+			}, 1000);
 		}
 	};
 
+	/** LIFECYCLES **/
+	useEffect(() => {
+		const timeoutId = setTimeout(() => {
+			// Chat button always visible when user is logged in
+		}, 100);
+		return () => clearTimeout(timeoutId);
+	}, []);
+
 	return (
 		<Stack className="chatting">
-			{openButton ? (
-				<button className="chat-button" onClick={handleOpenChat}>
-					{open ? <CloseFullscreenIcon /> : <MarkChatUnreadIcon />}
-				</button>
-			) : null}
-			<Stack className={`chat-frame ${open ? 'open' : ''}`}>
+			{/* Chat Button - Bottom Right */}
+			<button className="chat-button" onClick={handleOpenChat}>
+				<Badge badgeContent={unreadCount > 0 ? unreadCount : 0} color="error" max={99}>
+					<DirectionsCarIcon sx={{ fontSize: '28px', color: unreadCount > 0 ? '#FF6B00' : '#181a20' }} />
+				</Badge>
+			</button>
+
+			{/* Chat Frame */}
+			<Stack className={`chat-frame ${open ? 'open' : ''}`} ref={chatContentRef}>
+				{/* Header with Orange Gradient */}
 				<Box className={'chat-top'} component={'div'}>
-					<div style={{ fontFamily: 'Nunito' }}>Live Chat</div>
-					<Badge
-						style={{
-							margin: '-30px 0 0 20px',
-							color: '#33c1c1',
-							background: 'none',
+					<Stack direction="row" alignItems="center" spacing={1.5}>
+						<DirectionsCarIcon sx={{ color: '#fff', fontSize: '24px' }} />
+						<Box component="span" sx={{ fontFamily: 'Poppins', fontSize: '18px', fontWeight: 700, color: '#fff' }}>
+							TurboCar Yordam
+						</Box>
+					</Stack>
+					<IconButton
+						onClick={() => setOpen(false)}
+						sx={{
+							color: '#fff',
+							padding: '4px',
+							'&:hover': {
+								backgroundColor: 'rgba(255, 255, 255, 0.2)',
+							},
 						}}
-						badgeContent={onlineUsers}
-					/>
+					>
+						<CloseIcon sx={{ fontSize: '20px' }} />
+					</IconButton>
 				</Box>
+
+				{/* Chat Content */}
 				<Box className={'chat-content'} id="chat-content" ref={chatContentRef} component={'div'}>
 					<ScrollableFeed>
 						<Stack className={'chat-main'}>
-							<Box flexDirection={'row'} style={{ display: 'flex' }} sx={{ m: '10px 0px' }} component={'div'}>
-								<div className={'msg-left'}>Welcome to TurboCar Live Chat!</div>
-							</Box>
+							{/* Welcome Message - Only show if no messages */}
+							{messagesList.length === 0 && (
+								<Box flexDirection={'row'} style={{ display: 'flex' }} sx={{ m: '16px 0px' }} component={'div'}>
+									<Avatar
+										sx={{
+											width: 32,
+											height: 32,
+											bgcolor: '#FF6B00',
+											marginRight: '8px',
+										}}
+									>
+										<DirectionsCarIcon sx={{ fontSize: '18px', color: '#fff' }} />
+									</Avatar>
+									<div className={'msg-left'}>
+										Welcome to TurboCar! How can we help you find your perfect car?
+									</div>
+								</Box>
+							)}
+
+							{/* Messages */}
 							{messagesList.map((msg: any, index: number) => (
 								<Box
 									key={index}
@@ -98,26 +149,39 @@ const Chat = () => {
 									sx={{ m: '10px 0px' }}
 									component={'div'}
 								>
-									{!msg.isMe && <Avatar alt={'user'} src={'/img/profile/defaultUser.svg'} />}
+									{!msg.isMe && (
+										<Avatar
+											sx={{
+												width: 32,
+												height: 32,
+												bgcolor: '#FF6B00',
+												marginRight: '8px',
+											}}
+										>
+											<DirectionsCarIcon sx={{ fontSize: '18px', color: '#fff' }} />
+										</Avatar>
+									)}
 									<div className={msg.isMe ? 'msg-right' : 'msg-left'}>{msg.text}</div>
 								</Box>
 							))}
 						</Stack>
 					</ScrollableFeed>
 				</Box>
+
+				{/* Input Section */}
 				<Box className={'chat-bott'} component={'div'}>
 					<input
 						ref={textInput}
 						type={'text'}
 						name={'message'}
 						className={'msg-input'}
-						placeholder={'Type message'}
+						placeholder={'Type message...'}
 						value={message}
 						onChange={getInputMessageHandler}
 						onKeyDown={getKeyHandler}
 					/>
 					<button className={'send-msg-btn'} onClick={onClickHandler}>
-						<SendIcon style={{ color: '#fff' }} />
+						<DirectionsCarIcon sx={{ fontSize: '20px', color: '#fff' }} />
 					</button>
 				</Box>
 			</Stack>

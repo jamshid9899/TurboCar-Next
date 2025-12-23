@@ -29,6 +29,8 @@ import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { GET_PROPERTY, GET_COMMENTS } from '../../apollo/user/query';
 import { LIKE_TARGET_PROPERTY, CREATE_COMMENT } from '../../apollo/user/mutation';
+// import { CREATE_VIEW } from '../../apollo/user/mutation'; // Disabled - not available in backend
+import { ViewGroup } from '../../libs/enums/view.enum';
 import 'swiper/css';
 import 'swiper/css/pagination';
 
@@ -76,6 +78,7 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 
 	const [likeTargetProperty] = useMutation(LIKE_TARGET_PROPERTY);
 	const [createComment] = useMutation(CREATE_COMMENT);
+	// const [createView] = useMutation(CREATE_VIEW); // Disabled - not available in backend
 	const [getComments] = useLazyQuery(GET_COMMENTS, {
 		fetchPolicy: 'network-only',
 		onCompleted: (data) => {
@@ -102,6 +105,24 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 			});
 		}
 	}, [router, getProperty]);
+
+	// Track view when property is loaded
+	// NOTE: createView mutation is disabled as it's not available in backend
+	// useEffect(() => {
+	// 	if (property?._id && user?._id) {
+	// 		createView({
+	// 			variables: {
+	// 				input: {
+	// 					memberId: user._id,
+	// 					viewRefId: property._id,
+	// 					viewGroup: ViewGroup.PROPERTY,
+	// 				},
+	// 			},
+	// 		}).catch((err) => {
+	// 			console.error('Error creating view:', err);
+	// 		});
+	// 	}
+	// }, [property?._id, user?._id, createView]);
 
 	useEffect(() => {
 		if (property?.propertyImages && property.propertyImages.length > 0 && !slideImage) {

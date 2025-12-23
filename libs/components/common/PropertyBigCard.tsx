@@ -114,19 +114,19 @@ const PropertyBigCard = (props: PropertyBigCardProps) => {
 					<Stack className="info-specs">
 						<Stack className="spec">
 							<img src="/img/icons/calendar.svg" alt="year" />
-							<span>{propertyYear}</span>
+							<span>{propertyYear || 'N/A'}</span>
 						</Stack>
 						<Stack className="spec">
 							<img src="/img/icons/speedometer.svg" alt="mileage" />
-							<span>{formatterStr(propertyMileage)} km</span>
+							<span>{formatterStr(propertyMileage || 0)} km</span>
 						</Stack>
 						<Stack className="spec">
 							<img src="/img/icons/fuel.svg" alt="fuel" />
-							<span>{propertyFuelType}</span>
+							<span>{propertyFuelType || 'N/A'}</span>
 						</Stack>
 						<Stack className="spec">
 							<img src="/img/icons/gear.svg" alt="transmission" />
-							<span>{propertyTransmission}</span>
+							<span>{propertyTransmission || 'N/A'}</span>
 						</Stack>
 					</Stack>
 
