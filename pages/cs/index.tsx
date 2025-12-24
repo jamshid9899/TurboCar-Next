@@ -36,37 +36,37 @@ const CS: NextPage = () => {
 	} else {
 		return (
 			<Stack className={'cs-page'}>
-				<Stack className={'container'}>
-					<Box component={'div'} className={'cs-main-info'}>
-						<Box component={'div'} className={'info'}>
+					<Stack className={'container'}>
+						<Box component={'div'} className={'cs-main-info'}>
+							<Box component={'div'} className={'info'}>
 							<span>TurboCar <span className="center-text">Support Center</span></span>
 							<p>We will answer your questions</p>
+							</Box>
+							<Box component={'div'} className={'btns'}>
+								<div
+									className={tab == 'notice' ? 'active' : ''}
+									onClick={() => {
+										changeTabHandler('notice');
+									}}
+								>
+									Notice
+								</div>
+								<div
+									className={tab == 'faq' ? 'active' : ''}
+									onClick={() => {
+										changeTabHandler('faq');
+									}}
+								>
+									FAQ
+								</div>
+							</Box>
 						</Box>
-						<Box component={'div'} className={'btns'}>
-							<div
-								className={tab == 'notice' ? 'active' : ''}
-								onClick={() => {
-									changeTabHandler('notice');
-								}}
-							>
-								Notice
-							</div>
-							<div
-								className={tab == 'faq' ? 'active' : ''}
-								onClick={() => {
-									changeTabHandler('faq');
-								}}
-							>
-								FAQ
-							</div>
+
+						<Box component={'div'} className={'cs-content'}>
+							{tab === 'notice' && <Notice />}
+
+							{tab === 'faq' && <Faq />}
 						</Box>
-					</Box>
-
-					<Box component={'div'} className={'cs-content'}>
-						{tab === 'notice' && <Notice />}
-
-						{tab === 'faq' && <Faq />}
-					</Box>
 				</Stack>
 			</Stack>
 		);

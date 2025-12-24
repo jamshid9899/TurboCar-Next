@@ -219,12 +219,12 @@ const Join: NextPage = () => {
 								)}
 
 								{loginView && (
-									<div className={'remember-info'}>
-										<FormGroup>
+								<div className={'remember-info'}>
+									<FormGroup>
 											<FormControlLabel control={<Checkbox defaultChecked size="small" />} label="Remember me" />
-										</FormGroup>
+									</FormGroup>
 										<a>Lost your password?</a>
-									</div>
+								</div>
 								)}
 
 								{loginView ? (

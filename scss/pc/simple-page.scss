@@ -1,7 +1,10 @@
 // Simple page layout styles - Clean and minimal like Solven Agents page
 .simple-page-header {
+	position: relative;
+	z-index: 1;
+	margin-top: 80px; // Top navigation balandligi
 	padding: 40px 0 30px;
-	background: #f8f9fa;
+	background: #f8f9fa !important;
 	border-bottom: 1px solid #e9ecef;
 	
 	.container {
@@ -14,7 +17,7 @@
 		font-family: $font;
 		font-size: 36px;
 		font-weight: 700;
-		color: #181a20;
+		color: #181a20 !important;
 		margin: 0 0 12px 0;
 		line-height: 1.2;
 	}
@@ -22,22 +25,22 @@
 	.breadcrumb {
 		font-family: $font;
 		font-size: 14px;
-		color: #6c757d;
+		color: #6c757d !important;
 		margin: 0;
 		
 		a {
-			color: #6c757d;
+			color: #6c757d !important;
 			text-decoration: none;
 			transition: color 0.2s ease;
 			
 			&:hover {
-				color: #FF6B00;
+				color: #FF6B00 !important;
 			}
 		}
 		
 		span {
 			margin: 0 8px;
-			color: #adb5bd;
+			color: #adb5bd !important;
 		}
 	}
 }

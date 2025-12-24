@@ -143,8 +143,8 @@ const Community: NextPage = ({ initialInput, ...props }: T) => {
 	} else {
 		return (
 			<div id="community-list-page">
-				<div className="container">
-					<TabContext value={searchCommunity.search.articleCategory}>
+					<div className="container">
+						<TabContext value={searchCommunity.search.articleCategory}>
 						<Stack className="main-box">
 							<Stack className="left-config">
 								<Stack className={'image-info'}>
@@ -313,27 +313,27 @@ const Community: NextPage = ({ initialInput, ...props }: T) => {
 						</Stack>
 					</TabContext>
 
-					{(boardArticles.length > 0 || totalCount > 0) && (
-						<Stack className="pagination-config">
-							{Math.ceil(totalCount / searchCommunity.limit) > 1 && (
-								<Stack className="pagination-box">
-									<Pagination
-										count={Math.ceil(totalCount / searchCommunity.limit)}
-										page={searchCommunity.page}
-										shape="circular"
-										color="primary"
-										onChange={paginationHandler}
-									/>
+						{(boardArticles.length > 0 || totalCount > 0) && (
+							<Stack className="pagination-config">
+								{Math.ceil(totalCount / searchCommunity.limit) > 1 && (
+									<Stack className="pagination-box">
+										<Pagination
+											count={Math.ceil(totalCount / searchCommunity.limit)}
+											page={searchCommunity.page}
+											shape="circular"
+											color="primary"
+											onChange={paginationHandler}
+										/>
+									</Stack>
+								)}
+								<Stack className="total-result">
+									<Typography>
+										Total {totalCount} article{totalCount !== 1 ? 's' : ''} available
+									</Typography>
 								</Stack>
-							)}
-							<Stack className="total-result">
-								<Typography>
-									Total {totalCount} article{totalCount !== 1 ? 's' : ''} available
-								</Typography>
 							</Stack>
-						</Stack>
-					)}
-				</div>
+						)}
+					</div>
 			</div>
 		);
 	}

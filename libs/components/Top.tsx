@@ -181,29 +181,29 @@ const Top = () => {
 						</Box>
 
 						{/* Navigation Links */}
-						<Box component={'div'} className={'nav-links'}>
-							<Link href={'/'}>
-								<div className={router.pathname === '/' ? 'active' : ''}>{t('Home')}</div>
+						<Box component={'div'} className={'nav-links'} sx={{ display: 'flex !important', alignItems: 'center !important', justifyContent: 'center !important', height: '100% !important', minHeight: '80px !important', padding: '0 !important', margin: '0 !important', overflow: 'visible !important', visibility: 'visible !important', opacity: '1 !important', zIndex: 100 }}>
+							<Link href={'/'} draggable={false} onDragStart={(e) => e.preventDefault()} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: 'auto', minHeight: '40px', maxHeight: '80px', margin: 0, padding: 0, transform: 'none', userSelect: 'none', WebkitUserDrag: 'none', visibility: 'visible', opacity: 1, overflow: 'visible', position: 'static', zIndex: 101 }}>
+								<div className={router.pathname === '/' ? 'active' : ''} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#181a20', fontFamily: 'inherit', fontSize: '15px', fontWeight: 600, padding: '10px 16px', borderRadius: '8px', cursor: 'pointer', whiteSpace: 'nowrap', minHeight: '40px', visibility: 'visible', opacity: 1, position: 'static', margin: 0, transform: 'none', zIndex: 102, textIndent: 0, textTransform: 'none', letterSpacing: 'normal', WebkitTextFillColor: '#181a20' }}>{t('Home')}</div>
 							</Link>
-							<Link href={'/property?mode=rent'}>
-								<div className={router.pathname === '/property' && router.query.mode === 'rent' ? 'active' : ''}>{t('Rent')}</div>
+							<Link href={'/property?mode=rent'} draggable={false} onDragStart={(e) => e.preventDefault()} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: 'auto', minHeight: '40px', maxHeight: '80px', margin: 0, padding: 0, transform: 'none', userSelect: 'none', WebkitUserDrag: 'none', visibility: 'visible', opacity: 1, overflow: 'visible', position: 'static', zIndex: 101 }}>
+								<div className={router.pathname === '/property' && router.query.mode === 'rent' ? 'active' : ''} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#181a20', fontFamily: 'inherit', fontSize: '15px', fontWeight: 600, padding: '10px 16px', borderRadius: '8px', cursor: 'pointer', whiteSpace: 'nowrap', minHeight: '40px', visibility: 'visible', opacity: 1, position: 'static', margin: 0, transform: 'none', zIndex: 102, textIndent: 0, textTransform: 'none', letterSpacing: 'normal', WebkitTextFillColor: '#181a20' }}>{t('Rent')}</div>
 							</Link>
-							<Link href={'/property?mode=buy'}>
-								<div className={router.pathname === '/property' && router.query.mode === 'buy' ? 'active' : ''}>{t('Buy')}</div>
+							<Link href={'/property?mode=buy'} draggable={false} onDragStart={(e) => e.preventDefault()} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: 'auto', minHeight: '40px', maxHeight: '80px', margin: 0, padding: 0, transform: 'none', userSelect: 'none', WebkitUserDrag: 'none', visibility: 'visible', opacity: 1, overflow: 'visible', position: 'static', zIndex: 101 }}>
+								<div className={router.pathname === '/property' && router.query.mode === 'buy' ? 'active' : ''} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#181a20', fontFamily: 'inherit', fontSize: '15px', fontWeight: 600, padding: '10px 16px', borderRadius: '8px', cursor: 'pointer', whiteSpace: 'nowrap', minHeight: '40px', visibility: 'visible', opacity: 1, position: 'static', margin: 0, transform: 'none', zIndex: 102, textIndent: 0, textTransform: 'none', letterSpacing: 'normal', WebkitTextFillColor: '#181a20' }}>{t('Buy')}</div>
 							</Link>
-							<Link href={'/agent'}>
-								<div className={router.pathname === '/agent' ? 'active' : ''}>{t('Dealers')}</div>
+							<Link href={'/agent'} draggable={false} onDragStart={(e) => e.preventDefault()} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: 'auto', minHeight: '40px', maxHeight: '80px', margin: 0, padding: 0, transform: 'none', userSelect: 'none', WebkitUserDrag: 'none', visibility: 'visible', opacity: 1, overflow: 'visible', position: 'static', zIndex: 101 }}>
+								<div className={router.pathname === '/agent' ? 'active' : ''} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#181a20', fontFamily: 'inherit', fontSize: '15px', fontWeight: 600, padding: '10px 16px', borderRadius: '8px', cursor: 'pointer', whiteSpace: 'nowrap', minHeight: '40px', visibility: 'visible', opacity: 1, position: 'static', margin: 0, transform: 'none', zIndex: 102, textIndent: 0, textTransform: 'none', letterSpacing: 'normal', WebkitTextFillColor: '#181a20' }}>{t('Dealers')}</div>
 							</Link>
 							{user?._id && (
-								<Link href={'/mypage'}>
-									<div className={router.pathname === '/mypage' ? 'active' : ''}>{t('My Page')}</div>
+								<Link href={'/mypage'} draggable={false} onDragStart={(e) => e.preventDefault()} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: 'auto', minHeight: '40px', maxHeight: '80px', margin: 0, padding: 0, transform: 'none', userSelect: 'none', WebkitUserDrag: 'none', visibility: 'visible', opacity: 1, overflow: 'visible', position: 'static', zIndex: 101 }}>
+									<div className={router.pathname === '/mypage' ? 'active' : ''} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#181a20', fontFamily: 'inherit', fontSize: '15px', fontWeight: 600, padding: '10px 16px', borderRadius: '8px', cursor: 'pointer', whiteSpace: 'nowrap', minHeight: '40px', visibility: 'visible', opacity: 1, position: 'static', margin: 0, transform: 'none', zIndex: 102, textIndent: 0, textTransform: 'none', letterSpacing: 'normal', WebkitTextFillColor: '#181a20' }}>{t('My Page')}</div>
 								</Link>
 							)}
-							<Link href={'/community?articleCategory=FREE'}>
-								<div className={router.pathname === '/community' ? 'active' : ''}>{t('Community')}</div>
+							<Link href={'/community?articleCategory=FREE'} draggable={false} onDragStart={(e) => e.preventDefault()} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: 'auto', minHeight: '40px', maxHeight: '80px', margin: 0, padding: 0, transform: 'none', userSelect: 'none', WebkitUserDrag: 'none', visibility: 'visible', opacity: 1, overflow: 'visible', position: 'static', zIndex: 101 }}>
+								<div className={router.pathname === '/community' ? 'active' : ''} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#181a20', fontFamily: 'inherit', fontSize: '15px', fontWeight: 600, padding: '10px 16px', borderRadius: '8px', cursor: 'pointer', whiteSpace: 'nowrap', minHeight: '40px', visibility: 'visible', opacity: 1, position: 'static', margin: 0, transform: 'none', zIndex: 102, textIndent: 0, textTransform: 'none', letterSpacing: 'normal', WebkitTextFillColor: '#181a20' }}>{t('Community')}</div>
 							</Link>
-							<Link href={'/cs'}>
-								<div className={router.pathname === '/cs' ? 'active' : ''}>{t('CS')}</div>
+							<Link href={'/cs'} draggable={false} onDragStart={(e) => e.preventDefault()} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: 'auto', minHeight: '40px', maxHeight: '80px', margin: 0, padding: 0, transform: 'none', userSelect: 'none', WebkitUserDrag: 'none', visibility: 'visible', opacity: 1, overflow: 'visible', position: 'static', zIndex: 101 }}>
+								<div className={router.pathname === '/cs' ? 'active' : ''} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#181a20', fontFamily: 'inherit', fontSize: '15px', fontWeight: 600, padding: '10px 16px', borderRadius: '8px', cursor: 'pointer', whiteSpace: 'nowrap', minHeight: '40px', visibility: 'visible', opacity: 1, position: 'static', margin: 0, transform: 'none', zIndex: 102, textIndent: 0, textTransform: 'none', letterSpacing: 'normal', WebkitTextFillColor: '#181a20' }}>{t('CS')}</div>
 							</Link>
 						</Box>
 
