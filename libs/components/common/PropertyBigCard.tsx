@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { Stack, Box, Typography, IconButton } from '@mui/material';
+import { Stack, Box, Typography, IconButton, Chip } from '@mui/material';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
 import { REACT_APP_API_URL } from '../../config';
 import { Property } from '../../types/property/property';
@@ -10,6 +10,10 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import { formatterStr } from '../../utils';
+import { PropertyCondition, PropertyFuelType, PropertyType, PropertyBrand, PropertyStatus } from '../../enums/property.enum';
+import DirectionsCarIcon from '@mui/icons-material/DirectionsCar';
+import ElectricCarIcon from '@mui/icons-material/ElectricCar';
+import StarIcon from '@mui/icons-material/Star';
 
 interface PropertyBigCardProps {
 	property: Property;
@@ -40,7 +44,75 @@ const PropertyBigCard = (props: PropertyBigCardProps) => {
 		propertyViews,
 		propertyLikes,
 		memberData,
+		propertyCondition,
+		propertyType,
+		propertyBrand,
+		propertyStatus,
+		createdAt,
 	} = property;
+
+	// Check if car is new (created within last 7 days)
+	const isNewArrival = useMemo(() => {
+		if (!createdAt) return false;
+		const createdDate = new Date(createdAt);
+		const now = new Date();
+		const diffTime = Math.abs(now.getTime() - createdDate.getTime());
+		const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+		return diffDays <= 7;
+	}, [createdAt]);
+
+	// Check if electric car
+	const isElectric = useMemo(() => {
+		return propertyFuelType === PropertyFuelType.ELECTRIC || propertyType === PropertyType.ELECTRIC;
+	}, [propertyFuelType, propertyType]);
+
+	// Check if premium/luxury brand
+	const isPremium = useMemo(() => {
+		const luxuryBrands = [
+			PropertyBrand.PORSCHE,
+			PropertyBrand.FERRARI,
+			PropertyBrand.LAMBORGHINI,
+			PropertyBrand.BENTLEY,
+			PropertyBrand.ROLLS_ROYCE,
+			PropertyBrand.ASTON_MARTIN,
+			PropertyBrand.MCLAREN,
+			PropertyBrand.MASERATI,
+			PropertyBrand.BUGATTI,
+		];
+		return luxuryBrands.includes(propertyBrand);
+	}, [propertyBrand]);
+
+	// Get fuel type display text
+	const getFuelTypeText = () => {
+		switch (propertyFuelType) {
+			case PropertyFuelType.GASOLINE:
+				return 'Petrol';
+			case PropertyFuelType.DIESEL:
+				return 'Diesel';
+			case PropertyFuelType.ELECTRIC:
+				return 'Electric';
+			case PropertyFuelType.HYBRID:
+				return 'Hybrid';
+			case PropertyFuelType.PLUG_IN_HYBRID:
+				return 'Plug-in Hybrid';
+			default:
+				return propertyFuelType || 'N/A';
+		}
+	};
+
+	// Get transmission display text
+	const getTransmissionText = () => {
+		switch (propertyTransmission) {
+			case 'AUTOMATIC':
+				return 'Auto';
+			case 'MANUAL':
+				return 'Manual';
+			case 'CVT':
+				return 'CVT';
+			default:
+				return propertyTransmission || 'N/A';
+		}
+	};
 
 	/** HANDLERS **/
 	const pushPropertyDetail = async (id: string) => {
@@ -87,8 +159,74 @@ const PropertyBigCard = (props: PropertyBigCardProps) => {
 				>
 					{/* @ts-ignore - TypeScript limitation with complex union types */}
 					<Box className="card-status">
-						{isForSale && <span className="sale">FOR SALE</span>}
-						{isForRent && <span className="rent">FOR RENT</span>}
+						{isForSale && <span className="sale">🚗 FOR SALE</span>}
+						{isForRent && <span className="rent">🚗 FOR RENT</span>}
+						{isNewArrival && propertyCondition === PropertyCondition.NEW && (
+							<Chip
+								label="NEW ARRIVAL"
+								size="small"
+								sx={{
+									height: '24px',
+									fontSize: '10px',
+									fontWeight: 700,
+									backgroundColor: '#10B981',
+									color: '#ffffff',
+									'& .MuiChip-label': {
+										padding: '0 8px',
+									},
+								}}
+							/>
+						)}
+						{isElectric && (
+							<Chip
+								icon={<ElectricCarIcon sx={{ fontSize: '14px !important', color: '#ffffff !important' }} />}
+								label="ELECTRIC"
+								size="small"
+								sx={{
+									height: '24px',
+									fontSize: '10px',
+									fontWeight: 700,
+									backgroundColor: '#3B82F6',
+									color: '#ffffff',
+									'& .MuiChip-label': {
+										padding: '0 6px',
+									},
+								}}
+							/>
+						)}
+						{isPremium && (
+							<Chip
+								icon={<StarIcon sx={{ fontSize: '14px !important', color: '#FFD700 !important' }} />}
+								label="PREMIUM"
+								size="small"
+								sx={{
+									height: '24px',
+									fontSize: '10px',
+									fontWeight: 700,
+									backgroundColor: '#1F2937',
+									color: '#FFD700',
+									'& .MuiChip-label': {
+										padding: '0 6px',
+									},
+								}}
+							/>
+						)}
+						{propertyStatus === PropertyStatus.SOLD && (
+							<Chip
+								label="SOLD"
+								size="small"
+								sx={{
+									height: '24px',
+									fontSize: '10px',
+									fontWeight: 700,
+									backgroundColor: '#EF4444',
+									color: '#ffffff',
+									'& .MuiChip-label': {
+										padding: '0 8px',
+									},
+								}}
+							/>
+						)}
 					</Box>
 					{/* @ts-ignore - TypeScript limitation with complex union types */}
 					<Box className="card-rank">
@@ -122,11 +260,11 @@ const PropertyBigCard = (props: PropertyBigCardProps) => {
 						</Stack>
 						<Stack className="spec">
 							<img src="/img/icons/fuel.svg" alt="fuel" />
-							<span>{propertyFuelType || 'N/A'}</span>
+							<span>{getFuelTypeText()}</span>
 						</Stack>
 						<Stack className="spec">
 							<img src="/img/icons/gear.svg" alt="transmission" />
-							<span>{propertyTransmission || 'N/A'}</span>
+							<span>{getTransmissionText()}</span>
 						</Stack>
 					</Stack>
 
@@ -135,7 +273,12 @@ const PropertyBigCard = (props: PropertyBigCardProps) => {
 						<Box className="price-box">
 							<Typography className="price">€{formatterStr(propertyPrice)}</Typography>
 							{isForRent && propertyRentPrice && (
-								<Typography className="rent-price">€{formatterStr(propertyRentPrice)}/day</Typography>
+								<Typography className="rent-price">From €{formatterStr(propertyRentPrice)}/day</Typography>
+							)}
+							{!isForRent && (
+								<Typography className="rent-price" sx={{ fontSize: '12px', color: '#717171', marginTop: '2px' }}>
+									Starting from
+								</Typography>
 							)}
 						</Box>
 						<Stack sx={{ flexDirection: 'row', alignItems: 'center', gap: '16px' }}>

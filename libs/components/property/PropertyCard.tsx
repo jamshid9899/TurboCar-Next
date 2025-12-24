@@ -1,5 +1,5 @@
-import React from 'react';
-import { Stack, Box, Typography, IconButton } from '@mui/material';
+import React, { useMemo } from 'react';
+import { Stack, Box, Typography, IconButton, Chip } from '@mui/material';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
 import { REACT_APP_API_URL } from '../../config';
 import { Property } from '../../types/property/property';
@@ -12,7 +12,11 @@ import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import SpeedIcon from '@mui/icons-material/Speed';
 import LocalGasStationIcon from '@mui/icons-material/LocalGasStation';
+import SettingsIcon from '@mui/icons-material/Settings';
+import ElectricCarIcon from '@mui/icons-material/ElectricCar';
+import StarIcon from '@mui/icons-material/Star';
 import { formatterStr } from '../../utils';
+import { PropertyCondition, PropertyFuelType, PropertyType, PropertyBrand, PropertyStatus } from '../../enums/property.enum';
 
 interface PropertyCardProps {
 	property: Property;
@@ -26,6 +30,69 @@ const PropertyCard = (props: PropertyCardProps) => {
 	const device = useDeviceDetect();
 	const router = useRouter();
 	const user = useReactiveVar(userVar);
+
+	// Check if car is new (created within last 7 days)
+	const isNewArrival = useMemo(() => {
+		if (!property?.createdAt) return false;
+		const createdDate = new Date(property.createdAt);
+		const now = new Date();
+		const diffTime = Math.abs(now.getTime() - createdDate.getTime());
+		const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+		return diffDays <= 7;
+	}, [property?.createdAt]);
+
+	// Check if electric car
+	const isElectric = useMemo(() => {
+		return property?.propertyFuelType === PropertyFuelType.ELECTRIC || property?.propertyType === PropertyType.ELECTRIC;
+	}, [property?.propertyFuelType, property?.propertyType]);
+
+	// Check if premium/luxury brand
+	const isPremium = useMemo(() => {
+		const luxuryBrands = [
+			PropertyBrand.PORSCHE,
+			PropertyBrand.FERRARI,
+			PropertyBrand.LAMBORGHINI,
+			PropertyBrand.BENTLEY,
+			PropertyBrand.ROLLS_ROYCE,
+			PropertyBrand.ASTON_MARTIN,
+			PropertyBrand.MCLAREN,
+			PropertyBrand.MASERATI,
+			PropertyBrand.BUGATTI,
+		];
+		return property?.propertyBrand && luxuryBrands.includes(property.propertyBrand);
+	}, [property?.propertyBrand]);
+
+	// Get fuel type display text
+	const getFuelTypeText = () => {
+		switch (property?.propertyFuelType) {
+			case PropertyFuelType.GASOLINE:
+				return 'Petrol';
+			case PropertyFuelType.DIESEL:
+				return 'Diesel';
+			case PropertyFuelType.ELECTRIC:
+				return 'Electric';
+			case PropertyFuelType.HYBRID:
+				return 'Hybrid';
+			case PropertyFuelType.PLUG_IN_HYBRID:
+				return 'Plug-in Hybrid';
+			default:
+				return property?.propertyFuelType || 'N/A';
+		}
+	};
+
+	// Get transmission display text
+	const getTransmissionText = () => {
+		switch (property?.propertyTransmission) {
+			case 'AUTOMATIC':
+				return 'Auto';
+			case 'MANUAL':
+				return 'Manual';
+			case 'CVT':
+				return 'CVT';
+			default:
+				return property?.propertyTransmission || 'N/A';
+		}
+	};
 
 	/** HANDLERS **/
 	const pushPropertyDetail = async (id: string) => {
@@ -95,8 +162,61 @@ const PropertyCard = (props: PropertyCardProps) => {
 						</IconButton>
 					)}
 					<div className="property-status">
-						{property?.isForSale && <span className="sale">FOR SALE</span>}
-						{property?.isForRent && <span className="rent">FOR RENT</span>}
+						{property?.isForSale && <span className="sale">🚗 FOR SALE</span>}
+						{property?.isForRent && <span className="rent">🚗 FOR RENT</span>}
+						{isNewArrival && property?.propertyCondition === PropertyCondition.NEW && (
+							<Chip
+								label="NEW"
+								size="small"
+								sx={{
+									height: '22px',
+									fontSize: '9px',
+									fontWeight: 700,
+									backgroundColor: '#10B981',
+									color: '#ffffff',
+									marginLeft: '6px',
+									'& .MuiChip-label': {
+										padding: '0 6px',
+									},
+								}}
+							/>
+						)}
+						{isElectric && (
+							<Chip
+								icon={<ElectricCarIcon sx={{ fontSize: '12px !important', color: '#ffffff !important' }} />}
+								label="ELECTRIC"
+								size="small"
+								sx={{
+									height: '22px',
+									fontSize: '9px',
+									fontWeight: 700,
+									backgroundColor: '#3B82F6',
+									color: '#ffffff',
+									marginLeft: '6px',
+									'& .MuiChip-label': {
+										padding: '0 4px',
+									},
+								}}
+							/>
+						)}
+						{isPremium && (
+							<Chip
+								icon={<StarIcon sx={{ fontSize: '12px !important', color: '#FFD700 !important' }} />}
+								label="PREMIUM"
+								size="small"
+								sx={{
+									height: '22px',
+									fontSize: '9px',
+									fontWeight: 700,
+									backgroundColor: '#1F2937',
+									color: '#FFD700',
+									marginLeft: '6px',
+									'& .MuiChip-label': {
+										padding: '0 4px',
+									},
+								}}
+							/>
+						)}
 					</div>
 				</div>
 
@@ -117,7 +237,11 @@ const PropertyCard = (props: PropertyCardProps) => {
 						</Stack>
 						<Stack className="spec">
 							<LocalGasStationIcon sx={{ fontSize: 18, color: '#717171' }} />
-							<span>{property?.propertyFuelType || 'N/A'}</span>
+							<span>{getFuelTypeText()}</span>
+						</Stack>
+						<Stack className="spec">
+							<SettingsIcon sx={{ fontSize: 18, color: '#717171' }} />
+							<span>{getTransmissionText()}</span>
 						</Stack>
 					</Stack>
 

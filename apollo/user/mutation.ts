@@ -637,3 +637,19 @@ export const IMAGES_UPLOADER = gql`
     imagesUploader(files: $files, target: $target)
   }
 `;
+
+/**************************
+ *      NEWSLETTER        *
+ *************************/
+
+export const SUBSCRIBE_NEWSLETTER = gql`
+  mutation SubscribeNewsletter($input: String!) {
+    subscribeNewsletter(input: $input) {
+      _id
+      email
+      status
+      createdAt
+      updatedAt
+    }
+  }
+`;

@@ -569,23 +569,22 @@ body::-webkit-scrollbar {
 		}
 	}
 
-	// ✅ FOOTER
+	// ✅ FOOTER - Professional Redesign (Turo/Autotrader Style)
 	#footer {
 		position: relative !important;
-		padding: 60px 0px 18px 0px !important;
+		padding: 0 !important;
 		width: 100% !important;
 		height: auto;
 		display: flex;
-		flex-direction: row;
-		background: #181a20 !important;
-		background-color: #181a20 !important;
+		flex-direction: column;
+		background: linear-gradient(180deg, #181a20 0%, #0f1115 100%) !important;
 		margin-top: 0 !important;
 		margin-left: 0 !important;
 		margin-bottom: 0 !important;
 		z-index: 10;
 		clear: both;
+		border-top: 3px solid #FF6B00;
 		
-		// Ensure footer is outside of main background with pseudo-element
 		&::before {
 			content: '';
 			position: absolute;
@@ -595,203 +594,414 @@ body::-webkit-scrollbar {
 			bottom: 0;
 			width: 100%;
 			height: 100%;
-			background: #181a20 !important;
+			background: linear-gradient(180deg, #181a20 0%, #0f1115 100%) !important;
 			z-index: -1;
 		}
 		
-		// Ensure footer container doesn't override background
 		& > * {
 			background: transparent !important;
 		}
+
+		// TOP SECTION - Category Tabs
+		.footer-top-section {
+			width: 100%;
+			max-width: 1300px;
+			margin: 0 auto;
+			padding: 60px 20px 40px 20px;
+			border-bottom: 1px solid rgba(255, 107, 0, 0.2);
+			
+			.footer-tabs {
+				margin-bottom: 32px;
+				border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+				
+				.MuiTab-root {
+					transition: all 0.3s ease;
+					
+					&:hover {
+						background: rgba(255, 107, 0, 0.1);
+						border-radius: 6px 6px 0 0;
+					}
+				}
+			}
+			
+			.footer-tab-content {
+				min-height: 120px;
+				padding: 30px 0;
+				
+				.footer-grid-links {
+					display: grid;
+					grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+					gap: 12px;
+					
+					&.footer-grid-3col {
+						grid-template-columns: repeat(3, 1fr);
+						gap: 16px 24px;
+					}
+					
+					span {
+						color: #fff;
+						font-family: $font;
+						font-size: 14px;
+						font-weight: 400;
+						cursor: pointer;
+						padding: 8px 0;
+						transition: all 0.3s ease;
+						text-align: left;
+						position: relative;
+						
+						&::after {
+							content: '';
+							position: absolute;
+							bottom: 4px;
+							left: 0;
+							width: 0;
+							height: 2px;
+							background: #FF6B00;
+							transition: width 0.3s ease;
+						}
+						
+						&:hover {
+							color: #FF6B00;
+							transform: translateX(4px);
+							
+							&::after {
+								width: 100%;
+							}
+						}
+					}
+				}
+			}
+		}
+
 		.footer-container {
-			width: 1300px;
+			width: 100%;
+			max-width: 1400px;
 			height: auto;
 			margin: 0 auto;
+			padding: 0 40px;
+			
 			.main {
-				display: flex;
-				flex-direction: row;
-				justify-content: space-between;
+				display: grid;
+				grid-template-columns: 1.5fr 1fr 1fr 1.2fr;
+				gap: 50px;
+				width: 100%;
+				padding: 50px 0 40px 0;
+				align-items: start;
+				position: relative;
+				
+				// Column 1: Logo, Contact & Social
 				.left {
-					height: 360px;
 					display: flex;
 					flex-direction: column;
-					justify-content: space-between;
+					
 					.footer-box {
 						display: flex;
 						flex-direction: column;
-						.logo {
-							width: 128px;
-							height: 52px;
-							cursor: pointer;
+						width: 100%;
+						
+						.logo-box {
+							display: flex;
+							align-items: center;
+							margin-bottom: 0;
+							
+							.logo {
+								width: 140px;
+								height: auto;
+								cursor: pointer;
+								transition: all 0.3s ease;
+								
+								&:hover {
+									opacity: 0.8;
+								}
+							}
 						}
+						
+						.media-box {
+							display: flex;
+							flex-direction: row;
+							align-items: center;
+							gap: 12px;
+							margin-top: 8px;
+							
+							svg {
+								font-size: 24px;
+								cursor: pointer;
+								transition: all 0.3s ease;
+							}
+						}
+					}
+				}
+				
+				// Column 2: Quick Links
+				.center-left {
+					display: flex;
+					flex-direction: column;
+					
+					.footer-box {
+						display: flex;
+						flex-direction: column;
+						gap: 16px;
+						width: 100%;
+						
+						strong {
+							color: #fff;
+							font-family: $font;
+							font-size: 16px;
+							font-weight: 700;
+							margin-bottom: 16px;
+							text-transform: uppercase;
+							letter-spacing: 0.5px;
+						}
+						
 						span {
 							color: #bebdbd;
 							font-family: $font;
 							font-size: 14px;
-							font-style: normal;
 							font-weight: 400;
-							text-transform: capitalize;
+							cursor: pointer;
+							transition: all 0.3s ease;
+							margin-bottom: 10px;
+							display: block;
+							
+							&:hover {
+								color: #FF6B00;
+								transform: translateX(4px);
+							}
 						}
+					}
+				}
+				
+				// Column 3: Support
+				.center-right {
+					display: flex;
+					flex-direction: column;
+					
+					.footer-box {
+						display: flex;
+						flex-direction: column;
+						gap: 16px;
+						width: 100%;
+						
+						strong {
+							color: #fff;
+							font-family: $font;
+							font-size: 16px;
+							font-weight: 700;
+							margin-bottom: 16px;
+							text-transform: uppercase;
+							letter-spacing: 0.5px;
+						}
+						
+						span {
+							color: #bebdbd;
+							font-family: $font;
+							font-size: 13px;
+							font-weight: 400;
+						}
+						
 						p {
 							color: #fff;
 							font-family: $font;
 							font-size: 15px;
-							font-style: normal;
 							font-weight: 600;
-							line-height: normal;
-							text-transform: capitalize;
+							margin: 4px 0 12px 0;
+							line-height: 1.4;
 						}
+						
+						.MuiStack-root {
+							margin-top: 8px;
+							margin-bottom: 4px;
+							
+							svg {
+								font-size: 18px !important;
+							}
+						}
+					}
+				}
+				
+				// Column 4: Connect & Newsletter
+				.right {
+					display: flex;
+					flex-direction: column;
+					
+					.footer-box {
+						display: flex;
+						flex-direction: column;
+						gap: 20px;
+						width: 100%;
+						
+						strong {
+							color: #fff;
+							font-family: $font;
+							font-size: 16px;
+							font-weight: 700;
+							margin-bottom: 12px;
+							text-transform: uppercase;
+							letter-spacing: 0.5px;
+						}
+						
 						.media-box {
-							margin-top: 12px;
-							color: #929495;
 							display: flex;
 							flex-direction: row;
 							align-items: center;
-							gap: 8px;
-							svg {
-								font-size: 32px;
-								cursor: pointer;
+							gap: 12px;
+							margin-top: 8px;
+							
+							button, a {
+								width: 44px;
+								height: 44px;
+								border-radius: 50%;
+								background: #FF6B00 !important;
+								border: none;
+								display: flex;
+								align-items: center;
+								justify-content: center;
 								transition: all 0.3s ease;
+								
+								svg {
+									color: #fff !important;
+									font-size: 20px;
+								}
+								
 								&:hover {
-									color: #FF6B00; // TurboCar orange
+									background: #FF8E53 !important;
 									transform: scale(1.1);
 								}
 							}
 						}
 					}
 				}
-				.right {
-					display: flex;
-					flex-direction: column;
-					.top {
-						display: flex;
-						flex-direction: column;
-						strong {
-							color: #fff;
-							font-family: $font;
-							font-size: 15px;
-							font-style: normal;
-							font-weight: 600;
-							line-height: normal;
-							text-transform: capitalize;
-						}
-						div {
-							padding: 20px 30px;
-							margin-top: 20px;
-							width: 667px;
-							height: 70px;
-							display: flex;
-							flex-direction: row;
-							align-items: center;
-							box-sizing: border-box;
-							border-radius: 12px;
-							background: #212329;
-							input {
-								margin-right: 10px;
-								width: 85%;
-								border: none;
-								outline: none;
-								color: #fff;
-								font-family: $font;
-								font-size: 14px;
-								font-style: normal;
-								font-weight: 400;
-								line-height: 26px;
-								background: none;
-								&::placeholder {
-									color: #717171;
-								}
-							}
-							span {
-								color: #fff;
-								font-family: $font;
-								font-size: 15px;
-								font-style: normal;
-								font-weight: 600;
-								line-height: normal;
-								cursor: pointer;
-								transition: all 0.3s ease;
-								&:hover {
-									color: #FF6B00; // TurboCar orange
-									transform: scale(1.05);
-								}
-							}
+			}
+			
+			// BOTTOM SECTION
+			.second {
+				margin-top: 60px;
+				padding: 40px 0;
+				border-top: 1px solid rgba(255, 107, 0, 0.2);
+				display: flex;
+				flex-direction: row;
+				justify-content: space-between;
+				align-items: center;
+				flex-wrap: wrap;
+				gap: 16px;
+				
+				span {
+					color: #bebdbd;
+					font-family: $font;
+					font-size: 14px;
+					font-weight: 400;
+					cursor: pointer;
+					transition: all 0.3s ease;
+					position: relative;
+					
+					&::after {
+						content: '';
+						position: absolute;
+						bottom: -2px;
+						left: 0;
+						width: 0;
+						height: 1.5px;
+						background: #FF6B00;
+						transition: width 0.3s ease;
+					}
+					
+					&:hover {
+						color: #FF6B00;
+						transform: translateY(-2px);
+						
+						&::after {
+							width: 100%;
 						}
 					}
-					.bottom {
-						margin-top: 60px;
-						display: flex;
-						flex-direction: row;
-						justify-content: space-between;
-						div {
-							display: flex;
-							flex-direction: column;
-							strong {
-								margin-bottom: 3px;
-								color: #fff;
-								font-family: $font;
-								font-size: 15px;
-								font-style: normal;
-								font-weight: 600;
-								line-height: normal;
-								text-transform: capitalize;
-							}
-							span {
-								margin-top: 25px;
-								color: #bebdbd;
-								font-family: $font;
-								font-size: 14px;
-								font-style: normal;
-								font-weight: 400;
-								cursor: pointer;
-								transition: all 0.2s ease;
-								text-decoration: none;
-								display: block;
-								pointer-events: auto;
-								&:hover {
-									color: #FF6B00; // TurboCar orange
-									text-decoration: none;
-									transform: translateX(4px);
-								}
-							}
+					
+					// Separator dots
+					&:nth-child(2),
+					&:nth-child(4) {
+						color: #717171;
+						cursor: default;
+						&:hover {
+							color: #717171;
+							transform: none;
 							
-							// Ensure Link components are clickable
-							a {
-								text-decoration: none;
-								color: inherit;
-								display: block;
-								pointer-events: auto;
-								cursor: pointer;
-								
-								span {
-									pointer-events: none; // Prevent double click events
-								}
+							&::after {
+								width: 0;
 							}
 						}
 					}
 				}
 			}
-			.second {
-				margin-top: 60px;
-				height: 45px;
-				border-top: 1px solid #212329;
+		}
+		
+		// Mobile Footer Styles
+		.footer-container-mobile {
+			width: 100%;
+			padding: 30px 20px 20px 20px;
+			background: linear-gradient(180deg, #181a20 0%, #0f1115 100%);
+			border-top: 3px solid #FF6B00;
+			
+			.main-mobile {
 				display: flex;
-				flex-direction: row;
-				justify-content: space-between;
-				align-items: flex-end;
+				flex-direction: column;
+				gap: 30px;
+				
+				.logo-section-mobile {
+					display: flex;
+					flex-direction: column;
+					align-items: center;
+					text-align: center;
+					
+					.logo {
+						width: 100px;
+						height: auto;
+					}
+				}
+				
+				.links-section-mobile {
+					div {
+						display: flex;
+						flex-direction: column;
+						gap: 12px;
+						
+						strong {
+							color: #fff;
+							font-family: $font;
+							font-size: 16px;
+							font-weight: 700;
+							margin-bottom: 8px;
+						}
+						
+						span {
+							color: #bebdbd;
+							font-family: $font;
+							font-size: 14px;
+							cursor: pointer;
+							transition: all 0.2s ease;
+							&:hover {
+								color: #FF6B00;
+							}
+						}
+					}
+				}
+				
+				.social-section-mobile {
+					.media-box {
+						display: flex;
+						justify-content: center;
+						gap: 16px;
+					}
+				}
+			}
+			
+			.second-mobile {
+				margin-top: 30px;
+				padding-top: 20px;
+				border-top: 1px solid rgba(255, 107, 0, 0.2);
+				text-align: center;
+				
 				span {
 					color: #bebdbd;
 					font-family: $font;
-					font-size: 14px;
-					font-style: normal;
-					font-weight: 400;
-					line-height: normal;
-					cursor: pointer;
-					transition: all 0.2s ease;
-					text-decoration: none;
-					&:hover {
-						color: #FF6B00; // TurboCar orange
-					}
+					font-size: 12px;
 				}
 			}
 		}
