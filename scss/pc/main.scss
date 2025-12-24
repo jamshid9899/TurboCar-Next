@@ -60,17 +60,24 @@ body::-webkit-scrollbar {
 		right: 0;
 		width: 100%;
 		height: 80px;
+		max-height: 80px;
+		min-height: 80px;
 		z-index: 99;
 		pointer-events: auto;
+		overflow: hidden !important; // Navigation tugmalarini cheklash uchun
 		
 		.top-navbar {
 			width: 100%;
-			height: 100%;
+			height: 80px;
+			max-height: 80px;
+			min-height: 80px;
+			overflow: hidden !important;
 			
 			.top-navbar-main {
 				position: relative;
 				width: 100%;
-				height: 100%;
+				height: 80px;
+				max-height: 80px;
 				min-height: 80px;
 				padding: 0;
 				display: flex;
@@ -78,7 +85,7 @@ body::-webkit-scrollbar {
 				background: #ffffff;
 				box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.08);
 				transition: all 0.3s ease;
-				overflow: visible !important;
+				overflow: visible !important; // Navigation tugmalari ko'rinishi uchun
 
 				&.scrolled {
 					background: rgba(255, 255, 255, 0.98);
@@ -95,7 +102,8 @@ body::-webkit-scrollbar {
 					max-width: 1400px;
 					margin: 0 auto;
 					padding: 0 40px;
-					height: 100%;
+					height: 80px;
+					max-height: 80px;
 					min-height: 80px;
 					display: flex;
 					flex-direction: row;
@@ -121,7 +129,8 @@ body::-webkit-scrollbar {
 						align-items: center;
 						justify-content: center;
 						gap: 8px;
-						height: 100%;
+						height: 80px;
+						max-height: 80px;
 						min-height: 80px;
 						padding: 0 !important;
 						margin: 0 !important;
@@ -384,6 +393,26 @@ body::-webkit-scrollbar {
 		position: relative;
 		z-index: 1;
 		flex: 1;
+		overflow: visible !important;
+		display: flex;
+		flex-direction: column;
+		
+		// Simple page header - #main ichida, to'g'ri joylashgan
+		.simple-page-header {
+			margin-top: 0;
+			margin-bottom: 0;
+			position: relative;
+			z-index: 1;
+			width: 100%;
+			flex-shrink: 0;
+			order: 1; // Birinchi bo'lib ko'rsatiladi
+		}
+		
+		// Page content - simple-page-header'dan keyin
+		> *:not(.simple-page-header) {
+			order: 2; // Keyin ko'rsatiladi
+			flex: 1;
+		}
 		
 		// Homepage should have transparent background
 		.home-page {

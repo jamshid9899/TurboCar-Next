@@ -116,23 +116,23 @@ const withLayoutBasic = (Component: any) => {
 							<Top />
 						</Stack>
 
-						{/* Simple Page Header - Topga yaqin */}
-						<Stack className={'simple-page-header'}>
-							<Stack className={'container'}>
-								<h1 className={'page-title'}>{memoizedValues.title}</h1>
-								<p className={'breadcrumb'}>
-									<a href="/">Home</a>
-									{memoizedValues.breadcrumb && (
-										<>
-											<span>/</span>
-											<span>{memoizedValues.breadcrumb}</span>
-										</>
-									)}
-								</p>
-							</Stack>
-						</Stack>
-
 						<Stack id={'main'}>
+							{/* Simple Page Header - #main ichida */}
+							<Stack className={'simple-page-header'}>
+								<Stack className={'container'}>
+									<h1 className={'page-title'}>{memoizedValues.title}</h1>
+									<p className={'breadcrumb'}>
+										<a href="/">Home</a>
+										{memoizedValues.breadcrumb && (
+											<>
+												<span>/</span>
+												<span>{memoizedValues.breadcrumb}</span>
+											</>
+										)}
+									</p>
+								</Stack>
+							</Stack>
+
 							<Component {...props} />
 						</Stack>
 

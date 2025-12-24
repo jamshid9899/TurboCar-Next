@@ -2,10 +2,18 @@
 .simple-page-header {
 	position: relative;
 	z-index: 1;
-	margin-top: 80px; // Top navigation balandligi
+	margin-top: 0;
+	margin-bottom: 0;
 	padding: 40px 0 30px;
 	background: #f8f9fa !important;
 	border-bottom: 1px solid #e9ecef;
+	width: 100%;
+	display: block;
+	// #top fixed bo'lgani uchun, #main padding-top: 80px bilan birga ishlaydi
+	// Text yuqoriga chiqmasligi uchun
+	top: 0;
+	left: 0;
+	right: 0;
 	
 	.container {
 		max-width: 1200px;
@@ -19,7 +27,11 @@
 		font-weight: 700;
 		color: #181a20 !important;
 		margin: 0 0 12px 0;
+		padding: 0;
 		line-height: 1.2;
+		position: relative;
+		z-index: 2;
+		display: block;
 	}
 	
 	.breadcrumb {
@@ -27,11 +39,17 @@
 		font-size: 14px;
 		color: #6c757d !important;
 		margin: 0;
+		padding: 0;
+		position: relative;
+		z-index: 2;
+		display: block;
 		
 		a {
 			color: #6c757d !important;
 			text-decoration: none;
 			transition: color 0.2s ease;
+			position: relative;
+			z-index: 3;
 			
 			&:hover {
 				color: #FF6B00 !important;
@@ -41,6 +59,8 @@
 		span {
 			margin: 0 8px;
 			color: #adb5bd !important;
+			position: relative;
+			z-index: 3;
 		}
 	}
 }

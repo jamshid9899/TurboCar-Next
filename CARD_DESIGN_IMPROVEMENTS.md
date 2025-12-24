@@ -246,3 +246,4 @@ Hozirgi card dizaynlari hali ham Nestar (uy-joy marketplace) dizayniga o'xshash.
 **Yakuniy maqsad:** TurboCar card dizaynlari to'liq car marketplace ko'rinishida bo'lishi, Nestar'ga o'xshash elementlar bo'lmasligi kerak.
 
 
+

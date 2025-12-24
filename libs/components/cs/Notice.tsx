@@ -30,11 +30,6 @@ const Notice = () => {
 			<Stack className={'notice-content'}>
 				<span className={'title'}>Notice</span>
 				<Stack className={'main'}>
-					<Box component={'div'} className={'top'}>
-						<span>number</span>
-						<span>title</span>
-						<span>date</span>
-					</Box>
 					<Stack className={'bottom'}>
 						{data.map((ele: any) => (
 							<div className={`notice-card ${ele?.event && 'event'}`} key={ele.title}>

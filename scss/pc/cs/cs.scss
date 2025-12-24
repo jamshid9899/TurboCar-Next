@@ -8,12 +8,13 @@
     .container {
       display: flex;
       flex-direction: column;
+      gap: 40px;
       .cs-main-info {
         display: flex;
         flex-direction: column;
         align-items: center;
         padding: 50px 40px;
-        margin-bottom: 30px;
+        margin-bottom: 0;
         border-radius: 16px;
         background: #ffffff;
         box-shadow: 0px 2px 12px rgba(24, 26, 32, 0.08);
@@ -106,6 +107,7 @@
         border-radius: 16px;
         background: #ffffff;
         box-shadow: 0px 2px 12px rgba(24, 26, 32, 0.08);
+        margin-bottom: 0;
         
         .title {
           margin-bottom: 30px;
@@ -142,26 +144,6 @@
             border-radius: 12px;
             overflow: hidden;
             background: #ffffff;
-            
-            .top {
-              padding: 20px 30px;
-              display: flex;
-              flex-direction: row;
-              justify-content: space-between;
-              background: #f8f9fa;
-              border-bottom: 1px solid #e0e0e0;
-              
-              span {
-                color: #717171;
-                font-family: $font;
-                font-size: 13px;
-                font-style: normal;
-                font-weight: 600;
-                line-height: normal;
-                text-transform: uppercase;
-                letter-spacing: 0.5px;
-              }
-            }
             
             .bottom {
               display: flex;
