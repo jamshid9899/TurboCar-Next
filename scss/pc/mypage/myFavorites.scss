@@ -257,11 +257,12 @@
 							align-items: center;
 							border-radius: 6px;
 							padding: 6px 20px;
-							background: #eb6753;
+							background: linear-gradient(135deg, #FF6B00, #FF8E53); // TurboCar orange gradient
 							color: #fff;
 							text-align: center;
-							text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+							text-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
 							font-family: $font;
+							box-shadow: 0px 2px 8px rgba(255, 107, 0, 0.3); // Orange shadow
 							font-size: 12px;
 							font-style: normal;
 							font-weight: 600;
