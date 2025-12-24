@@ -180,20 +180,21 @@
 		}
 	}
 	
-	// ✅ COMMUNITY FORUM CARD - Horizontal Automotive Forum Style
+	// ✅ COMMUNITY FORUM CARD - Horizontal Automotive Forum Style (REAL CAR MARKETPLACE)
 	.community-forum-card {
 		width: 100%;
 		background: #ffffff;
-		border: 1px solid #e0e0e0;
-		border-radius: 8px;
+		border: 1px solid #f0f0f0;
+		border-radius: 16px;
 		cursor: pointer;
-		transition: all 0.2s ease;
-		margin-bottom: 12px;
+		transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+		margin-bottom: 16px;
+		box-shadow: 0px 4px 16px rgba(24, 26, 32, 0.08);
 		
 		&:hover {
-			border-color: #FF6B00;
-			box-shadow: 0px 2px 8px rgba(255, 107, 0, 0.1);
-			transform: translateX(4px);
+			border-color: rgba(255, 107, 0, 0.2);
+			box-shadow: 0px 8px 24px rgba(24, 26, 32, 0.16);
+			transform: translateY(-4px);
 		}
 		
 		.forum-card-content {

@@ -1,69 +1,86 @@
-// ✅ PROPERTY BIG CARD (Featured Cars)
+// ✅ PROPERTY BIG CARD (Featured Cars) - REAL CAR MARKETPLACE STYLE
 .property-big-card {
 	width: 420px;
 	cursor: pointer;
-	transition: transform 0.3s ease;
+	transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 	position: relative;
 	z-index: 2;
+	background: #ffffff;
+	border-radius: 16px;
+	overflow: hidden;
+	box-shadow: 0px 4px 16px rgba(24, 26, 32, 0.08);
+	border: 1px solid #f0f0f0;
 
 	&:hover {
-		transform: translateY(-5px);
+		transform: translateY(-8px);
+		box-shadow: 0px 12px 32px rgba(24, 26, 32, 0.16);
+		border-color: rgba(255, 107, 0, 0.2);
+		
+		.card-img {
+			transform: scale(1.08);
+		}
 	}
 
 	.card-img {
 		position: relative;
 		width: 100%;
-		height: 280px;
-		border-radius: 16px;
+		height: 300px; // Increased for better car image visibility
+		border-radius: 16px 16px 0 0;
 		background-size: cover;
 		background-position: center;
 		background-repeat: no-repeat;
-		margin-bottom: 20px;
+		margin-bottom: 0;
 		overflow: hidden;
+		transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 
 		.card-status {
 			position: absolute;
-			top: 20px;
-			left: 20px;
+			top: 16px;
+			left: 16px;
 			display: flex;
 			flex-direction: row;
 			align-items: center;
-			gap: 6px;
+			gap: 8px;
 			flex-wrap: wrap;
+			z-index: 10;
 
 			.sale,
 			.rent {
-				padding: 6px 12px;
-				border-radius: 6px;
+				padding: 6px 14px;
+				border-radius: 8px;
 				font-family: $font;
-				font-size: 12px;
-				font-weight: 600;
+				font-size: 11px;
+				font-weight: 700;
 				text-transform: uppercase;
 				color: #ffffff;
 				white-space: nowrap;
+				letter-spacing: 0.5px;
+				box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.2);
 			}
 
 			.sale {
-				background: #eb6753;
+				background: linear-gradient(135deg, #FF6B00, #FF8E53); // TurboCar orange
 			}
 
 			.rent {
-				background: #f17742;
+				background: linear-gradient(135deg, #0066FF, #4D9EFF); // Blue for rent
 			}
 		}
 
 		.card-rank {
 			position: absolute;
-			top: 20px;
-			right: 20px;
+			top: 16px;
+			right: 16px;
 			display: flex;
 			flex-direction: row;
 			align-items: center;
 			gap: 6px;
-			padding: 6px 12px;
-			border-radius: 6px;
-			background: rgba(255, 255, 255, 0.9);
+			padding: 8px 14px;
+			border-radius: 8px;
+			background: rgba(255, 255, 255, 0.95);
 			backdrop-filter: blur(10px);
+			box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.15);
+			z-index: 10;
 
 			img {
 				width: 16px;
@@ -74,20 +91,23 @@
 				color: #181a20;
 				font-family: $font;
 				font-size: 14px;
-				font-weight: 600;
+				font-weight: 700;
 			}
 		}
 	}
 
 	.card-info {
+		padding: 20px;
+		background: #ffffff;
+		
 		.info-top {
 			margin-bottom: 16px;
 
 			.car-title {
 				color: #181a20;
 				font-family: $font;
-				font-size: 20px;
-				font-weight: 600;
+				font-size: 22px;
+				font-weight: 700;
 				line-height: 1.3;
 				margin-bottom: 8px;
 				display: -webkit-box;
@@ -95,7 +115,8 @@
 				-webkit-box-orient: vertical;
 				overflow: hidden;
 				text-overflow: ellipsis;
-				max-height: 52px; // 2 lines max
+				max-height: 56px; // 2 lines max
+				letter-spacing: -0.02em;
 			}
 
 			.car-location {
@@ -104,6 +125,9 @@
 				font-size: 14px;
 				font-weight: 400;
 				line-height: 1.6;
+				display: flex;
+				align-items: center;
+				gap: 6px;
 			}
 		}
 
@@ -114,20 +138,23 @@
 			margin-bottom: 20px;
 			flex-wrap: wrap;
 			align-items: center;
+			padding: 16px 0;
+			border-top: 1px solid #f0f0f0;
+			border-bottom: 1px solid #f0f0f0;
 
 			.spec {
 				display: flex;
 				flex-direction: row;
 				align-items: center;
-				gap: 6px;
+				gap: 8px;
 				position: relative;
-				padding-right: 16px;
-				margin-right: 16px;
+				padding-right: 20px;
+				margin-right: 20px;
 
 				img {
-					width: 18px;
-					height: 18px;
-					opacity: 0.8;
+					width: 20px;
+					height: 20px;
+					opacity: 0.9;
 					flex-shrink: 0;
 					display: block;
 				}
@@ -136,7 +163,7 @@
 					color: #181a20;
 					font-family: $font;
 					font-size: 14px;
-					font-weight: 400;
+					font-weight: 500;
 					white-space: nowrap;
 				}
 				
@@ -146,7 +173,7 @@
 					position: absolute;
 					right: 0;
 					width: 1px;
-					height: 16px;
+					height: 20px;
 					background: #e0e0e0;
 				}
 			}
@@ -156,22 +183,25 @@
 			display: flex;
 			flex-direction: row;
 			justify-content: space-between;
-			align-items: center;
+			align-items: flex-end;
 
 			.price-box {
 				.price {
-					color: #181a20;
+					color: #FF6B00; // TurboCar orange
 					font-family: $font;
-					font-size: 24px;
-					font-weight: 700;
+					font-size: 28px;
+					font-weight: 800;
 					margin-bottom: 4px;
+					letter-spacing: -0.02em;
 				}
 
 				.rent-price {
 					color: #717171;
 					font-family: $font;
-					font-size: 14px;
-					font-weight: 400;
+					font-size: 13px;
+					font-weight: 500;
+					text-transform: uppercase;
+					letter-spacing: 0.5px;
 				}
 			}
 
@@ -179,20 +209,33 @@
 				display: flex;
 				flex-direction: row;
 				align-items: center;
-				gap: 10px;
+				gap: 8px;
+				padding: 6px 12px;
+				border-radius: 20px;
+				background: #f8f9fa;
+				transition: all 0.2s ease;
+
+				&:hover {
+					background: #f0f0f0;
+				}
 
 				img {
-					width: 32px;
-					height: 32px;
+					width: 28px;
+					height: 28px;
 					border-radius: 50%;
 					object-fit: cover;
+					border: 2px solid #ffffff;
 				}
 
 				span {
 					color: #181a20;
 					font-family: $font;
-					font-size: 14px;
+					font-size: 13px;
 					font-weight: 500;
+					max-width: 100px;
+					overflow: hidden;
+					text-overflow: ellipsis;
+					white-space: nowrap;
 				}
 			}
 		}

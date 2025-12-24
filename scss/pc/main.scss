@@ -644,13 +644,17 @@ body::-webkit-scrollbar {
 						.media-box {
 							margin-top: 12px;
 							color: #929495;
+							display: flex;
+							flex-direction: row;
+							align-items: center;
+							gap: 8px;
 							svg {
 								font-size: 32px;
-								margin-right: 22px;
 								cursor: pointer;
+								transition: all 0.3s ease;
 								&:hover {
-									color: #f17742;
-									transition: 0.3s;
+									color: #FF6B00; // TurboCar orange
+									transform: scale(1.1);
 								}
 							}
 						}
@@ -706,9 +710,10 @@ body::-webkit-scrollbar {
 								font-weight: 600;
 								line-height: normal;
 								cursor: pointer;
+								transition: all 0.3s ease;
 								&:hover {
-									color: #f17742;
-									transition: 0.3s;
+									color: #FF6B00; // TurboCar orange
+									transform: scale(1.05);
 								}
 							}
 						}
@@ -739,9 +744,27 @@ body::-webkit-scrollbar {
 								font-style: normal;
 								font-weight: 400;
 								cursor: pointer;
+								transition: all 0.2s ease;
+								text-decoration: none;
+								display: block;
+								pointer-events: auto;
 								&:hover {
-									color: #ffffff;
-									text-decoration-line: underline;
+									color: #FF6B00; // TurboCar orange
+									text-decoration: none;
+									transform: translateX(4px);
+								}
+							}
+							
+							// Ensure Link components are clickable
+							a {
+								text-decoration: none;
+								color: inherit;
+								display: block;
+								pointer-events: auto;
+								cursor: pointer;
+								
+								span {
+									pointer-events: none; // Prevent double click events
 								}
 							}
 						}
@@ -763,6 +786,12 @@ body::-webkit-scrollbar {
 					font-style: normal;
 					font-weight: 400;
 					line-height: normal;
+					cursor: pointer;
+					transition: all 0.2s ease;
+					text-decoration: none;
+					&:hover {
+						color: #FF6B00; // TurboCar orange
+					}
 				}
 			}
 		}

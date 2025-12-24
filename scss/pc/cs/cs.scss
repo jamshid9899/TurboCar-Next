@@ -1,84 +1,134 @@
 #pc-wrap {
   .cs-page {
     position: relative;
-    padding: 60px 0px 60px;
+    padding: 100px 0px 75px;
     width: 100%;
     height: auto;
+    background: #f8f9fa;
     .container {
       display: flex;
       flex-direction: column;
       .cs-main-info {
         display: flex;
         flex-direction: column;
+        align-items: center;
+        padding: 50px 40px;
+        margin-bottom: 30px;
+        border-radius: 16px;
+        background: #ffffff;
+        box-shadow: 0px 2px 12px rgba(24, 26, 32, 0.08);
+        
         .info {
           display: flex;
           flex-direction: column;
           align-items: center;
+          text-align: center;
+          margin-bottom: 40px;
+          
           span {
-            color: #000;
+            color: #181a20;
             font-family: $font;
-            font-size: 35px;
+            font-size: 42px;
             font-style: normal;
-            font-weight: 700;
-            line-height: normal;
-            letter-spacing: 0.525px;
+            font-weight: 800;
+            line-height: 1.2;
+            letter-spacing: -0.5px;
+            margin-bottom: 12px;
+            
+            .center-text {
+              color: #FF6B00; // TurboCar orange
+              font-weight: 800;
+            }
           }
+          
           p {
-            color: #757575;
+            color: #717171;
             font-family: $font;
             font-size: 16px;
             font-style: normal;
             font-weight: 400;
-            line-height: normal;
+            line-height: 1.6;
+            margin-top: 8px;
           }
         }
+        
         .btns {
-          margin-top: 50px;
+          margin-top: 0;
           display: flex;
           flex-direction: row;
           justify-content: center;
-          :first-child {
-            border-radius: 4px 0 0 4px;
-          }
-          :last-child {
-            border-radius: 0 4px 4px 0;
-          }
+          gap: 12px;
+          
           div {
-            width: 204px;
-            height: 46px;
+            min-width: 180px;
+            height: 48px;
             display: flex;
             justify-content: center;
             align-items: center;
-            border: 1px solid #EEE;
+            border-radius: 24px; // Pill-style
+            border: 1px solid #e0e0e0;
             cursor: pointer;
-            color: #BDBDBD;
+            color: #717171;
             font-family: $font;
-            font-size: 14px;
+            font-size: 15px;
             font-style: normal;
-            font-weight: 700;
+            font-weight: 600;
             line-height: normal;
-            letter-spacing: 0.42px;
+            letter-spacing: 0.3px;
+            background: #ffffff;
+            transition: all 0.2s ease;
+            
+            &:hover {
+              border-color: #FF6B00;
+              color: #FF6B00;
+              background: rgba(255, 107, 0, 0.05);
+            }
+            
             &.active {
-              border: 1px solid #725CE8;
-              background: #EB6753;
-              color: #FFF;
+              border: 1px solid #FF6B00;
+              background: linear-gradient(135deg, #FF6B00, #FF8E53); // TurboCar orange gradient
+              color: #ffffff;
+              box-shadow: 0px 4px 12px rgba(255, 107, 0, 0.3);
+              
+              &:hover {
+                transform: translateY(-2px);
+                box-shadow: 0px 6px 16px rgba(255, 107, 0, 0.4);
+              }
             }
           }
         }
       }
       .cs-content {
-        margin-top: 25px;
+        margin-top: 0;
         display: flex;
         flex-direction: column;
+        padding: 40px;
+        border-radius: 16px;
+        background: #ffffff;
+        box-shadow: 0px 2px 12px rgba(24, 26, 32, 0.08);
+        
         .title {
-          margin-bottom: 25px;
-          color: #000;
+          margin-bottom: 30px;
+          color: #181a20;
           font-family: $font;
-          font-size: 27px;
+          font-size: 28px;
           font-style: normal;
           font-weight: 700;
           line-height: normal;
-          letter-spacing: 0.54px;
+          letter-spacing: -0.3px;
+          position: relative;
+          padding-bottom: 12px;
+          
+          &::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 60px;
+            height: 3px;
+            background: linear-gradient(135deg, #FF6B00, #FF8E53); // TurboCar orange gradient
+            border-radius: 2px;
+          }
         }
         .pagination {
           margin-top: 50px;
@@ -88,135 +138,240 @@
         }
         .notice-content {
           .main {
-            border: 1px solid #EEE;
+            border: 1px solid #e0e0e0;
+            border-radius: 12px;
+            overflow: hidden;
+            background: #ffffff;
+            
             .top {
-              padding: 25px 33px;
+              padding: 20px 30px;
               display: flex;
               flex-direction: row;
               justify-content: space-between;
+              background: #f8f9fa;
+              border-bottom: 1px solid #e0e0e0;
+              
               span {
-                color: #000;
+                color: #717171;
                 font-family: $font;
-                font-size: 14px;
+                font-size: 13px;
                 font-style: normal;
-                font-weight: 400;
+                font-weight: 600;
                 line-height: normal;
-                text-transform: capitalize;
+                text-transform: uppercase;
+                letter-spacing: 0.5px;
               }
             }
+            
             .bottom {
               display: flex;
               flex-direction: column;
+              
               .notice-card {
-                padding: 20px 14px 20px 30px;
+                padding: 20px 30px;
                 display: flex;
                 flex-direction: row;
                 justify-content: space-between;
-                border: 1px solid #EEE;
+                align-items: center;
+                border-bottom: 1px solid #f0f0f0;
+                transition: all 0.2s ease;
+                cursor: pointer;
+                
+                &:hover {
+                  background: #f8f9fa;
+                }
+                
+                &:last-child {
+                  border-bottom: none;
+                }
+                
                 &.event {
-                  background: #F6D79A;
+                  background: rgba(255, 107, 0, 0.05); // Light orange tint
+                  border-left: 4px solid #FF6B00; // Orange left border
+                  
+                  &:hover {
+                    background: rgba(255, 107, 0, 0.1);
+                  }
                 }
+                
                 div {
-                  padding: 6px 9px;
-                  border-radius: 12px;
-                  border: 1px solid #EB6753;
-                  color: #EB6753;
+                  padding: 6px 12px;
+                  border-radius: 6px;
+                  border: 1px solid #FF6B00;
+                  background: rgba(255, 107, 0, 0.1);
+                  color: #FF6B00;
                   font-family: $font;
-                  font-size: 12px;
+                  font-size: 11px;
                   font-style: normal;
-                  font-weight: 400;
+                  font-weight: 600;
+                  text-transform: uppercase;
+                  letter-spacing: 0.5px;
                 }
+                
                 .notice-number {
-                  margin-left: 18px;
-                  width: 39px;
-                  color: #BDBDBD;
+                  margin-left: 0;
+                  min-width: 50px;
+                  color: #717171;
                   font-family: $font;
                   font-size: 14px;
                   font-style: normal;
-                  font-weight: 400;
+                  font-weight: 500;
                   line-height: normal;
+                  text-align: left;
                 }
+                
                 .notice-title {
-                  width: 1060px;
-                  color: #000;
+                  flex: 1;
+                  margin-left: 20px;
+                  color: #181a20;
                   font-family: $font;
-                  font-size: 16px;
+                  font-size: 15px;
                   font-style: normal;
-                  font-weight: 400;
-                  line-height: normal;
+                  font-weight: 500;
+                  line-height: 1.5;
+                  text-align: left;
                 }
+                
                 .notice-date {
-                  color: #BDBDBD;
+                  min-width: 120px;
+                  color: #717171;
                   font-family: $font;
-                  font-size: 14px;
+                  font-size: 13px;
                   font-style: normal;
                   font-weight: 400;
                   line-height: normal;
+                  text-align: right;
                 }
               }
             }
-
           }
-
         }
         .faq-content {
-          margin-top: 25px;
+          margin-top: 0;
           display: flex;
           flex-direction: column;
+          
           .categories {
             display: flex;
             flex-direction: row;
             justify-content: center;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #e0e0e0;
+            
             div {
-              width: 14%;
+              min-width: 120px;
               height: 40px;
               display: flex;
               justify-content: center;
               align-items: center;
-              color: #BDBDBD;
+              color: #717171;
               text-align: center;
               font-family: $font;
-              font-size: 15px;
+              font-size: 14px;
               font-style: normal;
-              font-weight: 400;
+              font-weight: 500;
               line-height: normal;
-              letter-spacing: -0.225px;
+              letter-spacing: 0.2px;
               cursor: pointer;
+              padding: 0 16px;
+              border-radius: 20px;
+              transition: all 0.2s ease;
+              
+              &:hover {
+                color: #FF6B00;
+                background: rgba(255, 107, 0, 0.05);
+              }
+              
               &.active {
-                border-bottom: 1px solid #EB6753;
-                color: #EB6753;
+                border-bottom: none;
+                background: linear-gradient(135deg, #FF6B00, #FF8E53); // TurboCar orange gradient
+                color: #ffffff;
+                font-weight: 600;
+                box-shadow: 0px 2px 8px rgba(255, 107, 0, 0.2);
               }
             }
           }
+          
           .wrap {
-            margin-top: 50px;
-            .MuiAccordionDetails-root {
-              padding: 30px 20px;
-              background: #FAFAFA;
-            }
-            .badge {
-              margin: 0 24px;
-              display: inline-block;
-              padding: 4px 10px;
-              border: 1px solid #725CE8;
-              border-radius: 7px;
-              color: #725CE8;
-            }
-            .question {
-              .badge {
-                background: #e92C28;
-                color: #fff;
+            margin-top: 0;
+            
+            .MuiAccordion-root {
+              border: 1px solid #e0e0e0;
+              border-radius: 8px;
+              margin-bottom: 12px;
+              overflow: hidden;
+              transition: all 0.2s ease;
+              
+              &:hover {
+                border-color: #FF6B00;
+                box-shadow: 0px 2px 8px rgba(255, 107, 0, 0.1);
+              }
+              
+              &:before {
+                display: none;
               }
             }
-            .answer {
-              margin-left: 80px;
-              display: flex;
-              white-space: nowrap;
+            
+            .MuiAccordionSummary-root {
+              padding: 20px 24px;
+              background: #ffffff;
+              
+              &:hover {
+                background: #f8f9fa;
+              }
+            }
+            
+            .MuiAccordionDetails-root {
+              padding: 24px 24px 24px 80px;
+              background: #f8f9fa;
+              border-top: 1px solid #e0e0e0;
+            }
+            
+            .badge {
+              margin: 0 16px 0 0;
+              display: inline-flex;
               align-items: center;
-              flex-direction: row;
+              justify-content: center;
+              min-width: 32px;
+              height: 32px;
+              padding: 0;
+              border-radius: 50%;
+              font-family: $font;
+              font-size: 14px;
+              font-weight: 700;
+            }
+            
+            .question {
               .badge {
-                color: #EB6753;
-                border: 1px solid #EB6753;
+                background: linear-gradient(135deg, #FF6B00, #FF8E53); // TurboCar orange gradient
+                color: #ffffff;
+                border: none;
+              }
+            }
+            
+            .answer {
+              margin-left: 0;
+              display: flex;
+              white-space: normal;
+              align-items: flex-start;
+              flex-direction: row;
+              
+              .badge {
+                color: #ffffff;
+                background: #1890FF; // Blue for answer
+                border: none;
+                flex-shrink: 0;
+              }
+              
+              .MuiTypography-root {
+                color: #181a20;
+                font-family: $font;
+                font-size: 14px;
+                font-weight: 400;
+                line-height: 1.6;
               }
             }
           }
