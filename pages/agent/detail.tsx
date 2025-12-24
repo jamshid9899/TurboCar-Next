@@ -126,7 +126,7 @@ const AgentDetail: NextPage = ({ initialInput, initialComment, ...props }: any) 
 		notifyOnNetworkStatusChange: true,
 		onCompleted: (data: T) => {
 			setAgentComments(data?.getComments?.list || []);
-			setCommentTotal(data?.getComments?.totalCount || 0);
+			setCommentTotal(data?.getComments?.metaCounter?.[0]?.total || data?.getComments?.totalCount || 0);
 		},
 		onError: (error) => {
 			console.error('Error fetching comments:', error);
@@ -198,12 +198,51 @@ const AgentDetail: NextPage = ({ initialInput, initialComment, ...props }: any) 
 		try {
 			if (!user?._id) throw new Error(Message.NOT_AUTHENTICATED);
 			if (user._id === agentId) throw new Error('Cannot write a review for yourself');
+			if (!insertCommentData.commentContent || insertCommentData.commentContent.trim() === '') {
+				await sweetMixinErrorAlert('Please enter a review');
+				return;
+			}
 
-			await createComment({ variables: { input: insertCommentData } });
+			console.log('🔵 Creating comment with data:', insertCommentData);
+
+			// Create comment
+			const result = await createComment({ variables: { input: insertCommentData } });
+			console.log('🔵 Comment created, result:', result);
+			
+			// Clear input immediately
 			setInsertCommentData({ ...insertCommentData, commentContent: '' });
-			await getCommentsRefetch({ input: commentInquiry });
-			await sweetTopSmallSuccessAlert('Review submitted!', 800);
+			
+			// Prepare updated comment inquiry (reset to page 1 to show new comment)
+			const updatedCommentInquiry = {
+				...commentInquiry,
+				page: 1, // Reset to first page to show new comment
+			};
+			
+			// Update commentInquiry state first
+			setCommentInquiry(updatedCommentInquiry);
+			
+			// Wait a bit for state to update, then refetch
+			await new Promise(resolve => setTimeout(resolve, 100));
+			
+			// Refetch comments
+			console.log('🔵 Refetching comments with inquiry:', updatedCommentInquiry);
+			const refetchResult = await getCommentsRefetch({ input: updatedCommentInquiry });
+			console.log('🔵 Refetch result:', refetchResult);
+			
+			// Update state directly from refetch result
+			if (refetchResult?.data?.getComments) {
+				const newComments = refetchResult.data.getComments.list || [];
+				const newTotal = refetchResult.data.getComments.metaCounter?.[0]?.total || refetchResult.data.getComments.totalCount || 0;
+				console.log('✅ Setting comments:', newComments.length, 'Total:', newTotal);
+				setAgentComments(newComments);
+				setCommentTotal(newTotal);
+			} else {
+				console.error('❌ Refetch result is empty or invalid');
+			}
+			
+			await sweetTopSmallSuccessAlert('Review submitted successfully!', 800);
 		} catch (err: any) {
+			console.error('❌ ERROR, createCommentHandler:', err);
 			await sweetErrorHandling(err);
 		}
 	};
