@@ -306,7 +306,7 @@ h6 {
 	border-radius: 12px;
 	box-shadow: 0px 1px 4px 0px rgba(24, 26, 32, 0.07);
 	padding: 0;
-	overflow: hidden;
+	overflow: visible;
 	transition: all 0.3s ease;
 	cursor: pointer;
 	height: 100%;
@@ -314,183 +314,161 @@ h6 {
 	&:hover {
 		transform: translateY(-4px);
 		box-shadow: 0px 8px 24px rgba(24, 26, 32, 0.15);
-		border: 2px solid transparent;
-		background-image: linear-gradient(white, white), 
-			linear-gradient(135deg, #FF6B00, #1890FF);
-		background-origin: border-box;
-		background-clip: padding-box, border-box;
 	}
 	
 	.agent-card-content {
 		display: flex;
-		flex-direction: row;
+		flex-direction: column;
 		width: 100%;
-		min-height: 200px;
-		height: 100%;
+		align-items: center;
+		padding: 20px;
 	}
 	
 	.agent-img {
 		position: relative;
-		width: 180px;
-		min-width: 180px;
-		height: 100%;
-		min-height: 200px;
-		cursor: pointer;
-		overflow: hidden;
-		flex-shrink: 0;
-		border-radius: 12px 0 0 12px;
+		width: 100%;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		margin-bottom: 20px;
 		
-		img {
-			width: 100%;
-			height: 100%;
-			object-fit: cover;
-			transition: transform 0.3s ease;
+		// Hexagonal wrapper
+		.hexagon-wrapper {
+			position: relative;
+			width: 200px;
+			height: 200px;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			
+			.hexagon {
+				position: relative;
+				width: 200px;
+				height: 200px;
+				background: #2a2a2a; // Dark gray background
+				clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				overflow: hidden;
+				
+				img {
+					width: 100%;
+					height: 100%;
+					object-fit: cover;
+					clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+					
+					// If image is default user icon, make it white
+					&[src*="defaultUser"] {
+						filter: brightness(0) invert(1);
+						opacity: 0.8;
+						width: 80px;
+						height: 80px;
+						object-fit: contain;
+					}
+				}
+			}
 		}
 		
-		&:hover img {
-			transform: scale(1.1);
-		}
-		
-		// Cars Listed Badge - Blue
+		// Cars Listed Badge - Dark Gray
 		.cars-badge {
 			position: absolute;
-			top: 12px;
-			left: 12px;
+			top: 20px;
+			left: 20px;
 			display: flex;
 			align-items: center;
-			padding: 6px 10px;
+			padding: 6px 12px;
 			border-radius: 6px;
-			background: #1890FF;
+			background: rgba(24, 26, 32, 0.85);
 			color: #fff;
 			font-family: $font;
-			font-size: 11px;
+			font-size: 12px;
 			font-style: normal;
 			font-weight: 600;
 			line-height: normal;
 			z-index: 10;
-			box-shadow: 0px 2px 8px rgba(24, 144, 255, 0.3);
+			backdrop-filter: blur(4px);
 			
 			span {
 				white-space: nowrap;
 			}
 		}
-		
-		// Verified Badge
-		.verified-badge {
-			position: absolute;
-			top: 12px;
-			right: 12px;
-			display: flex;
-			align-items: center;
-			justify-content: center;
-			width: 28px;
-			height: 28px;
-			border-radius: 50%;
-			background: #52C41A;
-			color: #fff;
-			z-index: 10;
-			box-shadow: 0px 2px 8px rgba(82, 196, 26, 0.3);
-		}
-		
-		// Top Rated Badge
-		.top-rated-badge {
-			position: absolute;
-			bottom: 12px;
-			left: 12px;
-			right: 12px;
-			display: flex;
-			align-items: center;
-			justify-content: center;
-			padding: 4px 8px;
-			border-radius: 6px;
-			background: rgba(255, 184, 0, 0.95);
-			color: #fff;
-			font-family: $font;
-			font-size: 10px;
-			font-weight: 600;
-			z-index: 10;
-			backdrop-filter: blur(4px);
-		}
 	}
 	
 	.agent-desc {
-		flex: 1;
+		width: 100%;
 		display: flex;
 		flex-direction: column;
-		justify-content: space-between;
-		padding: 20px;
-		min-height: 200px;
+		align-items: center;
+		padding: 0;
 		
 		.agent-info {
+			width: 100%;
 			display: flex;
 			flex-direction: column;
+			align-items: center;
+			gap: 8px;
 			
-			strong {
-				color: $text-dark;
+			.agent-name {
+				color: #181a20;
 				font-family: $font;
 				font-size: 18px;
 				font-style: normal;
 				font-weight: 700;
 				line-height: normal;
 				cursor: pointer;
-				margin-bottom: 4px;
+				text-align: center;
 				transition: color 0.2s ease;
 				
 				&:hover {
-					color: #1890FF;
+					color: #FF6B00;
 				}
 			}
 			
-			.agent-role {
-				color: #717171;
-				font-family: $font;
-				font-size: 13px;
-				font-style: normal;
-				font-weight: 500;
-				line-height: normal;
-				text-transform: uppercase;
-				letter-spacing: 0.5px;
-			}
-			
-			.rating {
+			.agent-role-row {
+				width: 100%;
 				display: flex;
+				flex-direction: row;
+				justify-content: center;
 				align-items: center;
-			}
-			
-			.location {
-				display: flex;
-				align-items: center;
-			}
-		}
-		
-		.buttons {
-			width: auto;
-			display: flex;
-			flex-direction: row;
-			justify-content: flex-start;
-			align-items: center;
-			gap: 4px;
-			margin-top: auto;
-			padding-top: 12px;
-			border-top: 1px solid #f0f0f0;
-			
-			svg {
-				width: 18px;
-				height: 18px;
-				cursor: pointer;
-				color: #717171;
-				transition: color 0.2s ease;
+				gap: 12px;
+				flex-wrap: wrap;
 				
-				&:hover {
-					color: #1890FF;
+				.agent-role {
+					color: #717171;
+					font-family: $font;
+					font-size: 14px;
+					font-style: normal;
+					font-weight: 500;
+					line-height: normal;
 				}
-			}
-			
-			.view-cnt {
-				font-size: 13px;
-				color: #717171;
-				margin: 0 4px;
-				font-weight: 500;
+				
+				.agent-stats {
+					display: flex;
+					flex-direction: row;
+					align-items: center;
+					gap: 8px;
+					
+					.stat-count {
+						font-size: 14px;
+						color: #717171;
+						font-family: $font;
+						font-weight: 500;
+					}
+					
+					svg {
+						color: #717171;
+						transition: color 0.2s ease;
+					}
+					
+					.MuiIconButton-root {
+						padding: 2px;
+						
+						&:hover {
+							background-color: rgba(255, 107, 0, 0.1);
+						}
+					}
+				}
 			}
 		}
 	}

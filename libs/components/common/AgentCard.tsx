@@ -57,139 +57,81 @@ const AgentCard = (props: AgentCardProps) => {
 					}}
 					style={{ textDecoration: 'none', color: 'inherit' }}
 				>
-					<Stack className="agent-card-content" direction="row">
-						{/* Image Section - Left */}
+					<Stack className="agent-card-content" direction="column">
+						{/* Image Section - Top (Hexagonal) */}
 						<Box
 							component={'div'}
 							className={'agent-img'}
 							sx={{
 								position: 'relative',
-								overflow: 'hidden',
+								overflow: 'visible',
 							}}
 						>
-							<img
-								src={getImagePath()}
-								alt={agent?.memberFullName || agent?.memberNick || 'Agent'}
-								style={{
-									width: '100%',
-									height: '100%',
-									objectFit: 'cover',
-								}}
-								onError={() => setImageError(true)}
-							/>
+							<div className="hexagon-wrapper">
+								<div className="hexagon">
+									<img
+										src={getImagePath()}
+										alt={agent?.memberFullName || agent?.memberNick || 'Agent'}
+										onError={() => setImageError(true)}
+									/>
+								</div>
+							</div>
 							{/* Cars Listed Badge */}
 							<Box className="cars-badge">
-								<DirectionsCarIcon sx={{ fontSize: '14px', mr: 0.5 }} />
-								<span>{carsCount} {carsCount === 1 ? 'Car' : 'Cars'} Listed</span>
+								<span>{carsCount} {carsCount === 1 ? 'Car' : 'Cars'}</span>
 							</Box>
-							{/* Verified Badge */}
-							{isVerified && (
-								<Box className="verified-badge">
-									<VerifiedIcon sx={{ fontSize: '16px' }} />
-								</Box>
-							)}
-							{/* Top Rated Badge */}
-							{isTopRated && (
-								<Box className="top-rated-badge">
-									<StarIcon sx={{ fontSize: '14px', mr: 0.3 }} />
-									<span>Top Rated</span>
-								</Box>
-							)}
 						</Box>
 
-						{/* Info Section - Right */}
-						<Stack className={'agent-desc'} sx={{ flex: 1 }}>
+						{/* Info Section - Bottom */}
+						<Stack className={'agent-desc'}>
 							<Box component={'div'} className={'agent-info'}>
-								<Stack direction="row" alignItems="center" spacing={1} mb={1}>
-									<Link
-										href={{
-											pathname: '/agent/detail',
-											query: { agentId: agent?._id },
-										}}
-										style={{ textDecoration: 'none', color: 'inherit' }}
-									>
-										<strong>{agent?.memberFullName ?? agent?.memberNick}</strong>
-									</Link>
-								</Stack>
-								
-								<Stack direction="row" alignItems="center" spacing={1} mb={1}>
-									<span className="agent-role">Dealer</span>
-									{rating > 0 && (
-										<Stack direction="row" alignItems="center" spacing={0.3} className="rating">
-											<StarIcon sx={{ fontSize: '16px', color: '#FFB800' }} />
-											<Typography variant="body2" sx={{ fontSize: '13px', fontWeight: 600 }}>
-												{rating.toFixed(1)}
-											</Typography>
-										</Stack>
-									)}
-								</Stack>
-
-								{/* Location - Mock data, can be replaced with actual location */}
-								<Stack direction="row" alignItems="center" spacing={0.5} mb={1.5} className="location">
-									<LocationOnIcon sx={{ fontSize: '14px', color: '#717171' }} />
-									<Typography variant="body2" sx={{ fontSize: '13px', color: '#717171' }}>
-										{agent?.memberLocation || 'Madrid, Spain'}
+								<Link
+									href={{
+										pathname: '/agent/detail',
+										query: { agentId: agent?._id },
+									}}
+									style={{ textDecoration: 'none', color: 'inherit' }}
+								>
+									<Typography className="agent-name">
+										{agent?.memberFullName ?? agent?.memberNick}
 									</Typography>
-								</Stack>
-
-								{/* Experience Badge */}
-								{carsCount > 0 && (
-									<Chip
-										label={`${Math.min(10, Math.floor(carsCount / 2) + 1)}+ Years Experience`}
-										size="small"
-										sx={{
-											height: '22px',
-											fontSize: '11px',
-											fontWeight: 500,
-											backgroundColor: '#E3F2FD',
-											color: '#1976D2',
-											mb: 1.5,
-											width: 'fit-content',
-										}}
-									/>
-								)}
-							</Box>
-
-							{/* Stats Section */}
-							<Box component={'div'} className={'buttons'}>
-								<Stack direction="row" alignItems="center" spacing={1}>
-									<IconButton color={'default'} size="small">
-										<RemoveRedEyeIcon sx={{ fontSize: '18px' }} />
-									</IconButton>
-									<Typography className="view-cnt">{agent?.memberViews || 0}</Typography>
-									
-									{likeMemberHandler && (
-										<>
-											<IconButton 
-												color={'default'} 
-												size="small"
-												onClick={(e) => {
-													e.preventDefault();
-													e.stopPropagation();
-													likeMemberHandler(user, agent?._id);
-												}}
-											>
-												{agent?.meLiked && agent?.meLiked[0]?.myFavorite ? (
-													<FavoriteIcon color={'primary'} sx={{ fontSize: '18px' }} />
-												) : (
-													<FavoriteBorderIcon sx={{ fontSize: '18px' }} />
-												)}
-											</IconButton>
-											<Typography className="view-cnt">{agent?.memberLikes || 0}</Typography>
-										</>
-									)}
-									{!likeMemberHandler && (
-										<>
-											<IconButton color={'default'} size="small">
-												{agent?.meLiked && agent?.meLiked[0]?.myFavorite ? (
-													<FavoriteIcon color={'primary'} sx={{ fontSize: '18px' }} />
-												) : (
-													<FavoriteBorderIcon sx={{ fontSize: '18px' }} />
-												)}
-											</IconButton>
-											<Typography className="view-cnt">{agent?.memberLikes || 0}</Typography>
-										</>
-									)}
+								</Link>
+								
+								<Stack direction="row" alignItems="center" spacing={1} className="agent-role-row">
+									<Typography className="agent-role">Dealer</Typography>
+									{/* Stats Section */}
+									<Stack direction="row" alignItems="center" spacing={1} className="agent-stats">
+										<RemoveRedEyeIcon sx={{ fontSize: '16px', color: '#717171' }} />
+										<Typography className="stat-count">{agent?.memberViews || 0}</Typography>
+										
+										{likeMemberHandler && (
+											<>
+												<IconButton 
+													color={'default'} 
+													size="small"
+													sx={{ padding: '2px' }}
+													onClick={(e) => {
+														e.preventDefault();
+														e.stopPropagation();
+														likeMemberHandler(user, agent?._id);
+													}}
+												>
+													{agent?.meLiked && agent?.meLiked[0]?.myFavorite ? (
+														<FavoriteIcon sx={{ fontSize: '16px', color: '#FF6B00' }} />
+													) : (
+														<FavoriteBorderIcon sx={{ fontSize: '16px', color: '#717171' }} />
+													)}
+												</IconButton>
+												<Typography className="stat-count">{agent?.memberLikes || 0}</Typography>
+											</>
+										)}
+										{!likeMemberHandler && (
+											<>
+												<FavoriteBorderIcon sx={{ fontSize: '16px', color: '#717171' }} />
+												<Typography className="stat-count">{agent?.memberLikes || 0}</Typography>
+											</>
+										)}
+									</Stack>
 								</Stack>
 							</Box>
 						</Stack>
