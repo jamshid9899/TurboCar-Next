@@ -1,3 +1,145 @@
+// ✅ BREADCRUMB COMPONENT STYLES
+.breadcrumb-container {
+	position: relative;
+	width: 100%;
+	background: #f8f9fa;
+	border-bottom: 1px solid #e9ecef;
+	transition: background-color 0.3s ease, border-color 0.3s ease;
+	
+	// Dark mode
+	.dark &,
+	[data-theme='dark'] & {
+		background: #1a1a1a;
+		border-bottom-color: #3a3a3a;
+	}
+	
+	&.breadcrumb-top {
+		padding: 40px 0 30px;
+		margin-top: 0;
+		margin-bottom: 0;
+	}
+	
+	&.breadcrumb-bottom {
+		padding: 30px 0 40px;
+		margin-top: 40px;
+		margin-bottom: 0;
+		border-top: 1px solid #e9ecef;
+		border-bottom: none;
+		
+		// Dark mode
+		.dark &,
+		[data-theme='dark'] & {
+			border-top-color: #3a3a3a;
+		}
+	}
+	
+	.container {
+		max-width: 1200px;
+		margin: 0 auto;
+		padding: 0 20px;
+		display: flex;
+		flex-direction: column;
+		gap: 12px;
+	}
+	
+	.page-title {
+		font-family: $font;
+		font-size: 36px;
+		font-weight: 700;
+		color: #181a20;
+		margin: 0;
+		padding: 0;
+		line-height: 1.2;
+		transition: color 0.3s ease;
+		
+		// Dark mode
+		.dark &,
+		[data-theme='dark'] & {
+			color: #ffffff;
+		}
+	}
+	
+	.breadcrumb-nav {
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		gap: 8px;
+		flex-wrap: wrap;
+		
+		.breadcrumb-link {
+			display: flex;
+			flex-direction: row;
+			align-items: center;
+			gap: 6px;
+			font-family: $font;
+			font-size: 14px;
+			font-weight: 500;
+			color: #6c757d;
+			text-decoration: none;
+			transition: all 0.2s ease;
+			cursor: pointer;
+			
+			&:hover {
+				color: #FF6B00;
+				
+				.home-icon {
+					color: #FF6B00;
+				}
+			}
+			
+			.home-icon {
+				font-size: 16px;
+				color: #6c757d;
+				transition: color 0.2s ease;
+			}
+			
+			span {
+				line-height: 1;
+			}
+		}
+		
+		.breadcrumb-current {
+			display: flex;
+			flex-direction: row;
+			align-items: center;
+			gap: 6px;
+			font-family: $font;
+			font-size: 14px;
+			font-weight: 600;
+			color: #181a20;
+			transition: color 0.3s ease;
+			
+			// Dark mode
+			.dark &,
+			[data-theme='dark'] & {
+				color: #ffffff;
+			}
+			
+			.home-icon {
+				font-size: 16px;
+				color: #FF6B00;
+			}
+			
+			span {
+				line-height: 1;
+			}
+		}
+		
+		.breadcrumb-separator {
+			font-size: 16px;
+			color: #adb5bd;
+			margin: 0 4px;
+			transition: color 0.3s ease;
+			
+			// Dark mode
+			.dark &,
+			[data-theme='dark'] & {
+				color: #6c757d;
+			}
+		}
+	}
+}
+
 // Simple page layout styles - Clean and minimal like Solven Agents page
 .simple-page-header {
 	position: relative;

@@ -49,8 +49,8 @@
 					.tab-button {
 						width: 216.612px;
 						height: 36px;
-						padding: 0;
-						justify-content: center;
+						padding: 0 12px;
+						justify-content: flex-start;
 						align-items: center;
 						border-radius: 6px;
 						border: 1px solid #181a20;
@@ -63,18 +63,28 @@
 						line-height: 150%;
 						letter-spacing: -0.266px;
 						transition: all 0.2s ease;
+						text-transform: none;
+						
+						.MuiTab-iconWrapper {
+							margin-right: 8px;
+							margin-left: 0;
+						}
 						
 						&:hover {
 							background: rgba(255, 107, 0, 0.1);
 							border-color: #FF6B00;
 							color: #FF6B00;
+							
+							.MuiTab-iconWrapper {
+								color: #FF6B00;
+							}
 						}
 					}
 					.tab-button.active {
 						width: 216.612px;
 						height: 36px;
-						padding: 0;
-						justify-content: center;
+						padding: 0 12px;
+						justify-content: flex-start;
 						align-items: center;
 						background: linear-gradient(135deg, #FF6B00, #FF8E53);
 						color: #ffffff;
@@ -87,6 +97,13 @@
 						font-weight: 500;
 						line-height: 150%;
 						letter-spacing: -0.266px;
+						text-transform: none;
+						
+						.MuiTab-iconWrapper {
+							margin-right: 8px;
+							margin-left: 0;
+							color: #ffffff;
+						}
 					}
 				}
 				.right-config {
@@ -100,49 +117,74 @@
 							height: auto;
 							flex-direction: row;
 							justify-content: space-between;
-							align-items: center;
-							margin-bottom: 45px;
+							align-items: flex-start;
+							margin-bottom: 24px;
 							.left {
 								width: 60%;
 								height: auto;
 								.title {
-									color: #000;
+									color: #181a20;
 									font-family: $font;
-									font-size: 24px;
+									font-size: 32px;
 									font-style: normal;
-									font-weight: 600;
-									line-height: normal;
-									letter-spacing: 0.24px;
+									font-weight: 700;
+									line-height: 1.2;
+									letter-spacing: 0.5px;
+									margin-bottom: 8px;
 								}
 								.sub-title {
-									color: #757575;
+									color: #717171;
 									font-family: $font;
-									font-size: 13px;
+									font-size: 15px;
 									font-style: normal;
 									font-weight: 400;
-									line-height: normal;
-									letter-spacing: 0.325px;
-									margin-top: 8px;
+									line-height: 1.5;
+									letter-spacing: 0.2px;
 								}
 							}
 							.right {
-								width: 91px;
-								height: 32px;
-								border-radius: 6px;
+								width: auto;
+								min-width: 91px;
+								height: 40px;
+								padding: 0 24px;
+								border-radius: 8px;
 								background: linear-gradient(135deg, #FF6B00, #FF8E53);
 								color: #fff;
 								font-family: $font;
-								font-size: 13px;
+								font-size: 14px;
 								font-style: normal;
-								font-weight: 500;
+								font-weight: 600;
 								line-height: normal;
-								letter-spacing: 0.39px;
+								letter-spacing: 0.5px;
+								text-transform: none;
 								transition: all 0.2s ease;
 								
 								&:hover {
 									transform: translateY(-2px);
 									box-shadow: 0px 4px 12px rgba(255, 107, 0, 0.3);
+									background: linear-gradient(135deg, #eb6753, #FF8E53);
 								}
+							}
+						}
+						
+						.section-header-card {
+							width: 100%;
+							height: auto;
+							padding: 12px 16px;
+							background: #ffffff;
+							border: 1px solid #f0f0f0;
+							border-radius: 8px;
+							flex-direction: row;
+							align-items: center;
+							margin-bottom: 20px;
+							box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.04);
+							
+							.section-header-text {
+								color: #181a20;
+								font-family: $font;
+								font-size: 14px;
+								font-weight: 600;
+								line-height: 1.4;
 							}
 						}
 						.list-box {

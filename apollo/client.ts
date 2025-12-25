@@ -64,7 +64,13 @@ function createIsomorphicLink() {
 					...getHeaders(),
 				},
 			}));
-			console.warn('requesting.. ', operation);
+			// Log the operation for debugging
+			if (operation.operationName === 'CreateBoardArticle') {
+				console.log('=== CreateBoardArticle Apollo Operation ===');
+				console.log('Variables:', JSON.stringify(operation.variables, null, 2));
+				console.log('Variables input:', JSON.stringify(operation.variables?.input, null, 2));
+				console.log('Input field names:', operation.variables?.input ? Object.keys(operation.variables.input) : 'N/A');
+			}
 			return forward(operation);
 		});
 

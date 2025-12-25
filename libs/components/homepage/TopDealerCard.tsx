@@ -7,6 +7,7 @@ import { useRouter } from 'next/router';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import CallIcon from '@mui/icons-material/Call';
 import VerifiedIcon from '@mui/icons-material/Verified';
+import DirectionsCarIcon from '@mui/icons-material/DirectionsCar';
 import { useReactiveVar } from '@apollo/client';
 import { userVar } from '../../../apollo/store';
 
@@ -54,14 +55,6 @@ const TopDealerCard = (props: TopDealerCardProps) => {
 				>
 					{/* Gradient Overlay */}
 					<div className="gradient-overlay" />
-					
-					{/* Verified Badge */}
-					<Chip
-						icon={<VerifiedIcon />}
-						label="Verified Dealer"
-						size="small"
-						className="verified-badge"
-					/>
 				</Box>
 				<Stack className="dealer-info">
 					<Typography className="dealer-name">
@@ -69,30 +62,32 @@ const TopDealerCard = (props: TopDealerCardProps) => {
 					</Typography>
 					<Stack className="dealer-stats">
 						<Stack className="stat">
-							<img src="/img/icons/car.svg" alt="" />
+							<DirectionsCarIcon />
 							<span>{dealer?.memberProperties || 0} Cars</span>
 						</Stack>
-						<Stack className="stat">
-							<LocationOnIcon />
-							<span>{dealer?.memberAddress || 'Spain'}</span>
-						</Stack>
+						{dealer?.memberPhone && (
+							<Stack className="stat">
+								<CallIcon />
+								<span>{dealer.memberPhone}</span>
+							</Stack>
+						)}
+						{dealer?.memberAddress && (
+							<Stack className="stat">
+								<LocationOnIcon />
+								<span>{dealer.memberAddress}</span>
+							</Stack>
+						)}
 					</Stack>
-					{dealer?.memberPhone && (
-						<Stack className="dealer-phone">
-							<CallIcon />
-							<span>{dealer.memberPhone}</span>
-						</Stack>
-					)}
 					<Stack className="dealer-rating">
-						<img src="/img/icons/star.svg" alt="" />
-						<span>{dealer?.memberRank || 0} Rating</span>
+						<VerifiedIcon />
+						<span>Verified Dealer</span>
 					</Stack>
 					{user?._id !== dealer?._id && (subscribeHandler || unsubscribeHandler) && (
 						<Button
 							variant={dealer?.meFollowed && dealer?.meFollowed[0]?.myFollowing ? 'outlined' : 'contained'}
 							className="follow-btn"
 							sx={{
-								marginTop: '20px',
+								marginTop: '12px',
 								background: dealer?.meFollowed && dealer?.meFollowed[0]?.myFollowing 
 									? 'transparent' 
 									: 'linear-gradient(135deg, #f17742 0%, #dc2626 100%)',
@@ -101,11 +96,11 @@ const TopDealerCard = (props: TopDealerCardProps) => {
 								borderWidth: '2px',
 								borderStyle: 'solid',
 								textTransform: 'uppercase',
-								fontWeight: 800,
-								fontSize: '14px',
-								letterSpacing: '1px',
-								padding: '14px 32px',
-								borderRadius: '12px',
+								fontWeight: 700,
+								fontSize: '12px',
+								letterSpacing: '0.5px',
+								padding: '10px 24px',
+								borderRadius: '10px',
 								boxShadow: dealer?.meFollowed && dealer?.meFollowed[0]?.myFollowing 
 									? '0px 2px 8px rgba(241, 119, 66, 0.15)' 
 									: '0px 6px 20px rgba(241, 119, 66, 0.35), 0px 2px 6px rgba(220, 38, 38, 0.2)',
@@ -117,13 +112,13 @@ const TopDealerCard = (props: TopDealerCardProps) => {
 										? 'linear-gradient(135deg, rgba(241, 119, 66, 0.15) 0%, rgba(241, 119, 66, 0.05) 100%)'
 										: 'linear-gradient(135deg, #dc2626 0%, #f17742 100%)',
 									borderColor: '#f17742',
-									transform: 'translateY(-4px) scale(1.03)',
+									transform: 'translateY(-2px) scale(1.02)',
 									boxShadow: dealer?.meFollowed && dealer?.meFollowed[0]?.myFollowing 
-										? '0px 4px 16px rgba(241, 119, 66, 0.25)' 
-										: '0px 12px 32px rgba(241, 119, 66, 0.5), 0px 4px 12px rgba(220, 38, 38, 0.3)',
+										? '0px 3px 12px rgba(241, 119, 66, 0.2)' 
+										: '0px 8px 24px rgba(241, 119, 66, 0.4), 0px 3px 8px rgba(220, 38, 38, 0.25)',
 								},
 								'&:active': {
-									transform: 'translateY(-2px) scale(1.01)',
+									transform: 'translateY(-1px) scale(1.01)',
 								},
 							}}
 							onClick={handleFollowClick}

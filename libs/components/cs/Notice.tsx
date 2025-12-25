@@ -13,13 +13,23 @@ const Notice = () => {
 		{
 			no: 1,
 			event: true,
-			title: 'Register to use and get discounts',
+			title: 'Register now and get exclusive car deals and discounts',
 			date: '01.03.2024',
 		},
 		{
 			no: 2,
-			title: "It's absolutely free to upload and trade properties",
+			title: "It's absolutely free to list and trade cars on TurboCar",
 			date: '31.03.2024',
+		},
+		{
+			no: 3,
+			title: 'New feature: Rent cars by the hour or day',
+			date: '15.04.2024',
+		},
+		{
+			no: 4,
+			title: 'Verified dealers now available in all major cities',
+			date: '20.04.2024',
 		},
 	];
 

@@ -125,16 +125,18 @@ const TopDealers = () => {
 			<Stack className={'top-dealers'}>
 				<Stack className={'container'}>
 					<Stack className={'info-box'}>
-						<Stack className="left">
-							<Typography className={'main-title'}>Top Dealers</Typography>
-							<Typography className={'sub-title'}>Most trusted car dealers</Typography>
-						</Stack>
-						<Stack className="right">
-							<div className={'more-box'}>
-								<span>See All Dealers</span>
-								<img src="/img/icons/rightup.svg" alt="" />
-							</div>
-						</Stack>
+						{/* Premium Overline with Decorative Lines */}
+						<div className={'overline-section'}>
+							<div className={'decorative-line'}></div>
+							<span className={'overline-text'}>TRUSTED PARTNERS</span>
+							<div className={'decorative-line'}></div>
+						</div>
+
+						{/* Main Title with Gradient */}
+						<h2 className={'main-title'}>Top Dealers</h2>
+
+						{/* Subtitle */}
+						<p className={'subtitle'}>Most trusted car dealers</p>
 					</Stack>
 					<Stack className={'card-box'}>
 						{topDealers.map((dealer: Member) => {

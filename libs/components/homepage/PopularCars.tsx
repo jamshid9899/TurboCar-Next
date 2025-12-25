@@ -1,10 +1,17 @@
 import React, { useState } from 'react';
-import { Stack, Box } from '@mui/material';
+import { Stack, Box, Button } from '@mui/material';
+import { useRouter } from 'next/router';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay, Navigation, Pagination } from 'swiper';
 import WestIcon from '@mui/icons-material/West';
 import EastIcon from '@mui/icons-material/East';
+
+// Import Swiper styles
+import 'swiper/css';
+import 'swiper/css/navigation';
+import 'swiper/css/pagination';
+import 'swiper/css/autoplay';
 import PopularCarCard from './PopularCarCard';
 import { Property } from '../../types/property/property';
 import { PropertiesInquiry } from '../../types/property/property.input';
@@ -15,6 +22,9 @@ import { LIKE_TARGET_PROPERTY } from '../../../apollo/user/mutation';
 import { sweetMixinErrorAlert, sweetTopSmallSuccessAlert } from '../../sweetAlert';
 import { Message } from '../../enums/common.enum';
 import { userVar } from '../../../apollo/store';
+import { Direction } from '../../enums/common.enum';
+import ScrollAnimation from '../common/ScrollAnimation';
+import CategoryFilter from './CategoryFilter';
 
 interface PopularCarsProps {
 	initialInput: PropertiesInquiry;
@@ -74,13 +84,21 @@ const PopularCars = (props: PopularCarsProps) => {
 					<Stack className={'info-box'}>
 						<span>Most Popular Cars</span>
 					</Stack>
+					<CategoryFilter />
 					<Stack className={'card-box'}>
 						<Swiper
 							className={'popular-car-swiper'}
-							slidesPerView={'auto'}
-							centeredSlides={true}
-							spaceBetween={25}
 							modules={[Autoplay]}
+							slidesPerView={1.5}
+							centeredSlides={true}
+							spaceBetween={15}
+							loop={true}
+							autoplay={{
+								delay: 3500,
+								disableOnInteraction: false,
+								pauseOnMouseEnter: true,
+							}}
+							speed={800}
 						>
 							{popularCars.map((property: Property) => {
 								return (
@@ -90,6 +108,9 @@ const PopularCars = (props: PopularCarsProps) => {
 								);
 							})}
 						</Swiper>
+						
+						{/* Pagination - Bottom center */}
+						<div className={'swiper-popular-pagination'}></div>
 					</Stack>
 				</Stack>
 			</Stack>
@@ -99,61 +120,106 @@ const PopularCars = (props: PopularCarsProps) => {
 			<Stack className={'popular-cars'}>
 				<Stack className={'container'}>
 					<Stack className={'info-box'}>
-						<Box component={'div'} className={'left'}>
-							<span>Most Popular Cars</span>
-							<p>Browse the most viewed vehicles</p>
-						</Box>
-						<Box component={'div'} className={'middle'}>
-							<div className={'pagination-box'}>
-								<WestIcon className={'swiper-popular-prev'} />
-								<div className={'swiper-popular-pagination'}></div>
-								<EastIcon className={'swiper-popular-next'} />
-							</div>
-						</Box>
-						<Box component={'div'} className={'right'}>
-							<div className={'more-box'}>
-								<span>See All Cars</span>
-								<img src="/img/icons/rightup.svg" alt="" />
-							</div>
-						</Box>
+						{/* Premium Overline with Decorative Lines */}
+						<div className={'overline-section'}>
+							<div className={'decorative-line'}></div>
+							<span className={'overline-text'}>POPULAR SELECTION</span>
+							<div className={'decorative-line'}></div>
+						</div>
+
+						{/* Main Title with Gradient */}
+						<h2 className={'main-title'}>Most Popular Cars</h2>
+
+						{/* Subtitle */}
+						<p className={'subtitle'}>Browse the most viewed vehicles</p>
 					</Stack>
+					<CategoryFilter />
 					<Stack className={'card-box'}>
+						{/* Left Arrow */}
+						<WestIcon className={'swiper-popular-prev carousel-arrow-left'} />
+						
+						{/* Right Arrow */}
+						<EastIcon className={'swiper-popular-next carousel-arrow-right'} />
+						
 						<Swiper
 							className={'popular-car-swiper'}
-							slidesPerView={'auto'}
-							spaceBetween={25}
 							modules={[Autoplay, Navigation, Pagination]}
+							slidesPerView={4}
+							spaceBetween={30}
+							loop={true}
+							autoplay={{
+								delay: 3500,
+								disableOnInteraction: false,
+								pauseOnMouseEnter: true,
+							}}
+							speed={800}
 							navigation={{
 								nextEl: '.swiper-popular-next',
 								prevEl: '.swiper-popular-prev',
 							}}
 							pagination={{
 								el: '.swiper-popular-pagination',
+								clickable: true,
+							}}
+							breakpoints={{
+								320: {
+									slidesPerView: 1,
+									spaceBetween: 15,
+								},
+								640: {
+									slidesPerView: 2,
+									spaceBetween: 20,
+								},
+								1024: {
+									slidesPerView: 3,
+									spaceBetween: 25,
+								},
+								1280: {
+									slidesPerView: 4,
+									spaceBetween: 30,
+								},
 							}}
 						>
-							{popularCars.map((property: Property) => {
+							{popularCars.map((property: Property, index: number) => {
 								return (
 									<SwiperSlide key={property._id} className={'popular-car-slide'}>
-										<PopularCarCard property={property} likePropertyHandler={likePropertyHandler} />
+										<ScrollAnimation 
+											animationType="fade-up" 
+											duration={0.6} 
+											delay={index * 100}
+											className="scroll-stagger"
+										>
+											<PopularCarCard property={property} likePropertyHandler={likePropertyHandler} />
+										</ScrollAnimation>
 									</SwiperSlide>
 								);
 							})}
 						</Swiper>
+						
+						{/* Pagination - Bottom center */}
+						<div className={'swiper-popular-pagination'}></div>
 					</Stack>
+					
+					{/* See All Cars Button */}
+					<Box component="div" className="see-all-button-container">
+						<Button 
+							className="see-all-button"
+							onClick={() => router.push('/property')}
+						>
+							See All Cars
+						</Button>
+					</Box>
 				</Stack>
 			</Stack>
 		);
 	}
 };
 
-
-import { Direction } from '../../enums/common.enum';
-
 PopularCars.defaultProps = {
 	initialInput: {
 		page: 1,
 		limit: 7,
-		sort: 'propertyViews',
+		sort: 'propertyViews', 
 		direction: Direction.DESC,
 		search: {
 			isForSale: true,

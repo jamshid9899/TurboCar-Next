@@ -1,10 +1,28 @@
 import React from 'react';
 import { Stack, Box, Typography } from '@mui/material';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import CitySearchFilters from './CitySearchFilters';
+import { PropertyLocation, PropertyType } from '../../enums/property.enum';
 
-const HeroSection = () => {
+interface HeroSectionProps {
+	mode: 'RENT' | 'BUY';
+	onModeChange: (mode: 'RENT' | 'BUY') => void;
+	selectedLocation: PropertyLocation | null;
+	onLocationSelect: (location: PropertyLocation) => void;
+	selectedType: PropertyType | null;
+	onTypeSelect: (type: PropertyType) => void;
+	onSearch: () => void;
+}
 
-
+const HeroSection: React.FC<HeroSectionProps> = ({
+	mode,
+	onModeChange,
+	selectedLocation,
+	onLocationSelect,
+	selectedType,
+	onTypeSelect,
+	onSearch,
+}) => {
 	return (
 		<Stack className="hero-full-width">
 			{/* Background Image with Overlay */}
@@ -21,8 +39,21 @@ const HeroSection = () => {
 
 				{/* Tagline/Slogan */}
 				<Typography className="hero-tagline">
-					Find Your Dream Car - Buy, Sell, Rent
+					Find your next car faster
 				</Typography>
+
+				{/* Search Filters in Hero - Centered */}
+				<Box component="div" className="hero-search-container">
+					<CitySearchFilters
+						mode={mode}
+						onModeChange={onModeChange}
+						selectedLocation={selectedLocation}
+						onLocationSelect={onLocationSelect}
+						selectedType={selectedType}
+						onTypeSelect={onTypeSelect}
+						onSearch={onSearch}
+					/>
+				</Box>
 			</Stack>
 
 			{/* Scroll Indicator */}

@@ -67,3 +67,30 @@ $z-modal: 100;
 $z-dropdown: 98;
 $z-overlay: 97;
 $z-sticky: 90;
+
+// ✅ DARK MODE CSS VARIABLES
+:root {
+	--bg-primary: #ffffff;
+	--bg-secondary: #f6f6f6;
+	--bg-tertiary: #f8f9fa;
+	--text-primary: #181a20;
+	--text-secondary: #717171;
+	--text-tertiary: #bdbdbd;
+	--border-color: #e3e3e3;
+	--card-bg: #ffffff;
+	--shadow-color: rgba(0, 0, 0, 0.1);
+}
+
+// Dark mode - using .dark class (simpler approach)
+.dark,
+[data-theme='dark'] {
+	--bg-primary: #0a0a0a;
+	--bg-secondary: #1a1a1a;
+	--bg-tertiary: #2a2a2a;
+	--text-primary: #ffffff;
+	--text-secondary: #e0e0e0;
+	--text-tertiary: #a0a0a0;
+	--border-color: #3a3a3a;
+	--card-bg: #1a1a1a;
+	--shadow-color: rgba(0, 0, 0, 0.4);
+}

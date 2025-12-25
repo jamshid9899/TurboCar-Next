@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 import { getJwtToken, logOut, updateUserInfo } from '../auth';
-import { Stack, Box } from '@mui/material';
+import { Stack, Box, IconButton } from '@mui/material';
 import MenuItem from '@mui/material/MenuItem';
 import Button from '@mui/material/Button';
 import { alpha, styled } from '@mui/material/styles';
@@ -16,12 +16,16 @@ import { useReactiveVar } from '@apollo/client';
 import { userVar } from '../../apollo/store';
 import { Logout } from '@mui/icons-material';
 import { REACT_APP_API_URL } from '../config';
+import { toggleTheme, getTheme } from '../utils/theme';
+import Brightness4Icon from '@mui/icons-material/Brightness4';
+import Brightness7Icon from '@mui/icons-material/Brightness7';
 
 const Top = () => {
 	const device = useDeviceDetect();
 	const user = useReactiveVar(userVar);
 	const { t, i18n } = useTranslation('common');
 	const router = useRouter();
+	const [themeMode, setThemeMode] = useState<'light' | 'dark'>(() => getTheme());
 	const [anchorEl2, setAnchorEl2] = useState<null | HTMLElement>(null);
 	const [lang, setLang] = useState<string | null>('en');
 	const drop = Boolean(anchorEl2);
@@ -29,6 +33,11 @@ const Top = () => {
 	const [bgColor, setBgColor] = useState<boolean>(false);
 	const [logoutAnchor, setLogoutAnchor] = React.useState<null | HTMLElement>(null);
 	const logoutOpen = Boolean(logoutAnchor);
+
+	const handleThemeToggle = () => {
+		const newMode = toggleTheme();
+		setThemeMode(newMode);
+	};
 
 	/** LIFECYCLES **/
 	useEffect(() => {
@@ -163,6 +172,9 @@ const Top = () => {
 				<Link href={'/community?articleCategory=FREE'}>
 					<div>{t('Community')}</div>
 				</Link>
+				<Link href={'/about'}>
+					<div>{t('About Us')}</div>
+				</Link>
 				<Link href={'/cs'}>
 					<div>{t('CS')}</div>
 				</Link>
@@ -202,6 +214,9 @@ const Top = () => {
 							<Link href={'/community?articleCategory=FREE'} draggable={false} onDragStart={(e) => e.preventDefault()} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: 'auto', minHeight: '40px', maxHeight: '80px', margin: 0, padding: 0, transform: 'none', userSelect: 'none', WebkitUserDrag: 'none', visibility: 'visible', opacity: 1, overflow: 'visible', position: 'static', zIndex: 101 }}>
 								<div className={router.pathname === '/community' ? 'active' : ''} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#181a20', fontFamily: 'inherit', fontSize: '15px', fontWeight: 600, padding: '10px 16px', borderRadius: '8px', cursor: 'pointer', whiteSpace: 'nowrap', minHeight: '40px', visibility: 'visible', opacity: 1, position: 'static', margin: 0, transform: 'none', zIndex: 102, textIndent: 0, textTransform: 'none', letterSpacing: 'normal', WebkitTextFillColor: '#181a20' }}>{t('Community')}</div>
 							</Link>
+							<Link href={'/about'} draggable={false} onDragStart={(e) => e.preventDefault()} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: 'auto', minHeight: '40px', maxHeight: '80px', margin: 0, padding: 0, transform: 'none', userSelect: 'none', WebkitUserDrag: 'none', visibility: 'visible', opacity: 1, overflow: 'visible', position: 'static', zIndex: 101 }}>
+								<div className={router.pathname === '/about' ? 'active' : ''} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#181a20', fontFamily: 'inherit', fontSize: '15px', fontWeight: 600, padding: '10px 16px', borderRadius: '8px', cursor: 'pointer', whiteSpace: 'nowrap', minHeight: '40px', visibility: 'visible', opacity: 1, position: 'static', margin: 0, transform: 'none', zIndex: 102, textIndent: 0, textTransform: 'none', letterSpacing: 'normal', WebkitTextFillColor: '#181a20' }}>{t('About Us')}</div>
+							</Link>
 							<Link href={'/cs'} draggable={false} onDragStart={(e) => e.preventDefault()} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: 'auto', minHeight: '40px', maxHeight: '80px', margin: 0, padding: 0, transform: 'none', userSelect: 'none', WebkitUserDrag: 'none', visibility: 'visible', opacity: 1, overflow: 'visible', position: 'static', zIndex: 101 }}>
 								<div className={router.pathname === '/cs' ? 'active' : ''} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#181a20', fontFamily: 'inherit', fontSize: '15px', fontWeight: 600, padding: '10px 16px', borderRadius: '8px', cursor: 'pointer', whiteSpace: 'nowrap', minHeight: '40px', visibility: 'visible', opacity: 1, position: 'static', margin: 0, transform: 'none', zIndex: 102, textIndent: 0, textTransform: 'none', letterSpacing: 'normal', WebkitTextFillColor: '#181a20' }}>{t('CS')}</div>
 							</Link>
@@ -209,6 +224,22 @@ const Top = () => {
 
 						{/* User & Language */}
 						<Box component={'div'} className={'user-actions'}>
+							{/* Dark Mode Toggle */}
+							<IconButton
+								onClick={handleThemeToggle}
+								className="theme-toggle"
+								sx={{
+									color: 'inherit',
+									padding: '8px',
+									marginRight: '8px',
+									'&:hover': {
+										backgroundColor: 'rgba(241, 119, 66, 0.1)',
+									},
+								}}
+							>
+								{themeMode === 'dark' ? <Brightness7Icon /> : <Brightness4Icon />}
+							</IconButton>
+
 							{user?._id ? (
 								<>
 									{user?._id && <NotificationsOutlinedIcon className={'notification-icon'} />}

@@ -2,7 +2,9 @@ import React, { ChangeEvent, MouseEvent, useEffect, useState } from 'react';
 import { NextPage } from 'next';
 import useDeviceDetect from '../../libs/hooks/useDeviceDetect';
 import withLayoutBasic from '../../libs/components/layout/LayoutBasic';
-import { Stack, Box, Button, Pagination, InputAdornment, TextField } from '@mui/material';
+import { Stack, Box, Button, Pagination, InputAdornment, TextField, IconButton } from '@mui/material';
+import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
+import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import { Menu, MenuItem } from '@mui/material';
 import KeyboardArrowDownRoundedIcon from '@mui/icons-material/KeyboardArrowDownRounded';
 import SearchIcon from '@mui/icons-material/Search';
@@ -262,19 +264,84 @@ const AgentList: NextPage = ({ initialInput, ...props }: any) => {
 						)}
 					</Stack>
 					<Stack className={'pagination'}>
-						<Stack className="pagination-box">
-							{agents.length !== 0 && Math.ceil(total / searchFilter.limit) > 1 && (
-								<Stack className="pagination-box">
-									<Pagination
-										page={currentPage}
-										count={Math.ceil(total / searchFilter.limit)}
-										onChange={paginationChangeHandler}
-										shape="circular"
-										color="primary"
-									/>
-								</Stack>
-							)}
-						</Stack>
+						{agents.length !== 0 && Math.ceil(total / searchFilter.limit) > 1 && (
+							<Stack className="pagination-box" direction="row" alignItems="center" gap={1}>
+								<IconButton
+									onClick={() => {
+										if (currentPage > 1) {
+											paginationChangeHandler({} as ChangeEvent<unknown>, currentPage - 1);
+										}
+									}}
+									disabled={currentPage === 1}
+									sx={{
+										width: '40px',
+										height: '40px',
+										borderRadius: '50%',
+										border: '1px solid #e3e3e3',
+										background: '#ffffff',
+										color: currentPage === 1 ? '#d0d0d0' : '#717171',
+										'&:hover': {
+											background: currentPage === 1 ? '#ffffff' : '#f6f6f6',
+											borderColor: currentPage === 1 ? '#e3e3e3' : '#f17742',
+											color: currentPage === 1 ? '#d0d0d0' : '#f17742',
+										},
+										'&.Mui-disabled': {
+											background: '#ffffff',
+											borderColor: '#e3e3e3',
+											color: '#d0d0d0',
+										},
+									}}
+								>
+									<ChevronLeftIcon />
+								</IconButton>
+								
+								<Box
+									sx={{
+										width: '40px',
+										height: '40px',
+										borderRadius: '50%',
+										background: '#f17742',
+										color: '#ffffff',
+										display: 'flex',
+										alignItems: 'center',
+										justifyContent: 'center',
+										fontSize: '16px',
+										fontWeight: 600,
+									}}
+								>
+									{currentPage}
+								</Box>
+								
+								<IconButton
+									onClick={() => {
+										if (currentPage < Math.ceil(total / searchFilter.limit)) {
+											paginationChangeHandler({} as ChangeEvent<unknown>, currentPage + 1);
+										}
+									}}
+									disabled={currentPage >= Math.ceil(total / searchFilter.limit)}
+									sx={{
+										width: '40px',
+										height: '40px',
+										borderRadius: '50%',
+										border: '1px solid #e3e3e3',
+										background: '#ffffff',
+										color: currentPage >= Math.ceil(total / searchFilter.limit) ? '#d0d0d0' : '#717171',
+										'&:hover': {
+											background: currentPage >= Math.ceil(total / searchFilter.limit) ? '#ffffff' : '#f6f6f6',
+											borderColor: currentPage >= Math.ceil(total / searchFilter.limit) ? '#e3e3e3' : '#f17742',
+											color: currentPage >= Math.ceil(total / searchFilter.limit) ? '#d0d0d0' : '#f17742',
+										},
+										'&.Mui-disabled': {
+											background: '#ffffff',
+											borderColor: '#e3e3e3',
+											color: '#d0d0d0',
+										},
+									}}
+								>
+									<ChevronRightIcon />
+								</IconButton>
+							</Stack>
+						)}
 
 						{agents.length !== 0 && (
 							<span>

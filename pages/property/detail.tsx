@@ -31,6 +31,7 @@ import { GET_PROPERTY, GET_COMMENTS } from '../../apollo/user/query';
 import { LIKE_TARGET_PROPERTY, CREATE_COMMENT } from '../../apollo/user/mutation';
 // import { CREATE_VIEW } from '../../apollo/user/mutation'; // Disabled - not available in backend
 import { ViewGroup } from '../../libs/enums/view.enum';
+import { PropertyLocation } from '../../libs/enums/property.enum';
 import 'swiper/css';
 import 'swiper/css/pagination';
 
@@ -144,6 +145,32 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 	const commentPaginationChangeHandler = async (event: ChangeEvent<unknown>, value: number) => {
 		commentInquiry.page = value;
 		setCommentInquiry({ ...commentInquiry });
+	};
+
+	// Helper function to get Google Maps embed URL for Spain cities
+	const getMapEmbedUrl = (location: PropertyLocation | undefined): string => {
+		if (!location) {
+			// Default to Madrid if no location
+			return 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3037.4960605471!2d-3.7037902!3d40.4167754!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd422997800a3c81%3A0xc436dec1618c2269!2sMadrid%2C%20Spain!5e0!3m2!1sen!2ses!4v1695537640704!5m2!1sen!2ses';
+		}
+
+		// Spain city Google Maps embed URLs
+		const cityMapUrls: Record<PropertyLocation, string> = {
+			[PropertyLocation.MADRID]: 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3037.4960605471!2d-3.7037902!3d40.4167754!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd422997800a3c81%3A0xc436dec1618c2269!2sMadrid%2C%20Spain!5e0!3m2!1sen!2ses!4v1695537640704!5m2!1sen!2ses',
+			[PropertyLocation.BARCELONA]: 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d95777.339063445!2d2.0787284!3d41.3947688!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x12a49816718e30e5%3A0x44b0e2584b38f7ae!2sBarcelona%2C%20Spain!5e0!3m2!1sen!2ses!4v1695537640704!5m2!1sen!2ses',
+			[PropertyLocation.VALENCIA]: 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3080.274905982!2d-0.3762881!3d39.4699075!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd604f4cf0efb06f%3A0xbcdb7219f2df5be!2sValencia%2C%20Spain!5e0!3m2!1sen!2ses!4v1695537640704!5m2!1sen!2ses',
+			[PropertyLocation.SEVILLA]: 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d50657.218476!2d-5.9844589!3d37.3890924!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd126c1114e13be1%3A0x1a3f6e9e8c8c8c8c!2sSeville%2C%20Spain!5e0!3m2!1sen!2ses!4v1695537640704!5m2!1sen!2ses',
+			[PropertyLocation.MALAGA]: 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d10147.123456!2d-4.4213889!3d36.7212616!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd72f66989dbdabf%3A0x6f5fa4c29e6f5fa4!2sM%C3%A1laga%2C%20Spain!5e0!3m2!1sen!2ses!4v1695537640704!5m2!1sen!2ses',
+			[PropertyLocation.BILBAO]: 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d11652.345678!2d-2.9252812!3d43.2629852!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd4e4e4e4e4e4e4e%3A0x4e4e4e4e4e4e4e4e!2sBilbao%2C%20Spain!5e0!3m2!1sen!2ses!4v1695537640704!5m2!1sen!2ses',
+			[PropertyLocation.ZARAGOZA]: 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d11947.567890!2d-0.8890625!3d41.6488236!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd591b4c4c4c4c4c%3A0x4c4c4c4c4c4c4c4c!2sZaragoza%2C%20Spain!5e0!3m2!1sen!2ses!4v1695537640704!5m2!1sen!2ses',
+			[PropertyLocation.MURCIA]: 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d10000.123456!2d-1.1306543!3d37.9922398!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd638211638211638%3A0x2116382116382116!2sMurcia%2C%20Spain!5e0!3m2!1sen!2ses!4v1695537640704!5m2!1sen!2ses',
+			[PropertyLocation.ALICANTE]: 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d9876.543210!2d-0.4810063!3d38.3451733!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd62362362362362%3A0x3623623623623623!2sAlicante%2C%20Spain!5e0!3m2!1sen!2ses!4v1695537640704!5m2!1sen!2ses',
+			[PropertyLocation.GRANADA]: 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d10123.456789!2d-3.5985571!3d37.1773367!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd71ddc962dc962dc%3A0x962dc962dc962dc9!2sGranada%2C%20Spain!5e0!3m2!1sen!2ses!4v1695537640704!5m2!1sen!2ses',
+			[PropertyLocation.CORDOBA]: 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d9876.123456!2d-4.7793837!3d37.8881751!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd6cdf050f050f05%3A0xf050f050f050f050!2sC%C3%B3rdoba%2C%20Spain!5e0!3m2!1sen!2ses!4v1695537640704!5m2!1sen!2ses',
+			[PropertyLocation.PALMA]: 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d9876.789012!2d2.6501936!3d39.5696005!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1297926880d0d0d0%3A0xd0d0d0d0d0d0d0d0!2sPalma%2C%20Balearic%20Islands%2C%20Spain!5e0!3m2!1sen!2ses!4v1695537640704!5m2!1sen!2ses',
+		};
+
+		return cityMapUrls[location] || cityMapUrls[PropertyLocation.MADRID];
 	};
 
 	const handleLikeProperty = async (e?: React.MouseEvent) => {
@@ -611,7 +638,7 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 									<Typography className={'title'}>Address</Typography>
 									<Stack className={'map-box'}>
 										<iframe
-											src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d25867.098915951767!2d128.68632810247993!3d35.86402299180927!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x35660bba427bf179%3A0x1fc02da732b9072f!2sGeumhogangbyeon-ro%2C%20Dong-gu%2C%20Daegu!5e0!3m2!1suz!2skr!4v1695537640704!5m2!1suz!2skr"
+											src={getMapEmbedUrl(property?.propertyLocation)}
 											width="100%"
 											height="100%"
 											style={{ border: 0 }}

@@ -2,6 +2,7 @@
 @import '/scss/variables.scss';
 @import '/scss/pc/general.scss';
 
+@import '/scss/pc/common/scroll-animations.scss';
 @import '/scss/pc/homepage/homepage';
 @import '/scss/pc/homepage/property-cards.scss';
 
@@ -39,11 +40,17 @@ body {
 	-ms-overflow-style: none;
 	scrollbar-width: none;
 	overflow-y: scroll;
-	background: transparent;
+	background: var(--bg-primary);
+	transition: background-color 0.3s ease;
 }
 
 body::-webkit-scrollbar {
 	display: none;
+}
+
+// Dark mode transitions
+* {
+	transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
 }
 
 #pc-wrap {
@@ -87,14 +94,32 @@ body::-webkit-scrollbar {
 				transition: all 0.3s ease;
 				overflow: visible !important; // Navigation tugmalari ko'rinishi uchun
 
+				// Dark mode styles
+				.dark &,
+				[data-theme='dark'] & {
+					background: #1a1a1a;
+					box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.4);
+				}
+
 				&.scrolled {
 					background: rgba(255, 255, 255, 0.98);
 					backdrop-filter: blur(10px);
 					box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.12);
+
+					.dark &,
+					[data-theme='dark'] & {
+						background: rgba(26, 26, 26, 0.98);
+						box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.5);
+					}
 				}
 
 				&.transparent {
 					background: rgba(255, 255, 255, 0.95);
+
+					.dark &,
+					[data-theme='dark'] & {
+						background: rgba(26, 26, 26, 0.95);
+					}
 				}
 
 				.container {
@@ -222,6 +247,13 @@ body::-webkit-scrollbar {
 								-webkit-text-fill-color: #181a20 !important;
 								-webkit-text-stroke: none !important;
 
+								// Dark mode text color
+								.dark &,
+								[data-theme='dark'] & {
+									color: #ffffff !important;
+									-webkit-text-fill-color: #ffffff !important;
+								}
+
 								&:hover {
 									background: rgba(241, 119, 66, 0.1) !important;
 									color: #f17742 !important;
@@ -286,6 +318,12 @@ body::-webkit-scrollbar {
 							&:hover {
 								color: #f17742;
 							}
+
+							// Dark mode
+							.dark &,
+							[data-theme='dark'] & {
+								color: #ffffff;
+							}
 						}
 
 						.join-box {
@@ -319,6 +357,26 @@ body::-webkit-scrollbar {
 								line-height: normal;
 								color: #181a20;
 							}
+
+							// Dark mode
+							.dark &,
+							[data-theme='dark'] & {
+								background: #2a2a2a;
+								border-color: #3a3a3a;
+
+								&:hover {
+									border-color: #f17742;
+									background: rgba(241, 119, 66, 0.1);
+								}
+
+								svg {
+									color: #ffffff;
+								}
+
+								span {
+									color: #ffffff;
+								}
+							}
 						}
 
 						.login-user {
@@ -335,6 +393,16 @@ body::-webkit-scrollbar {
 									border-color: #f17742;
 									box-shadow: 0 0 0 3px rgba(241, 119, 66, 0.1);
 								}
+
+								// Dark mode
+								.dark &,
+								[data-theme='dark'] & {
+									border-color: #3a3a3a;
+
+									&:hover {
+										border-color: #f17742;
+									}
+								}
 							}
 						}
 
@@ -349,6 +417,19 @@ body::-webkit-scrollbar {
 							&:hover {
 								border-color: #f17742;
 								background: rgba(241, 119, 66, 0.05);
+							}
+
+							// Dark mode
+							.dark &,
+							[data-theme='dark'] & {
+								background: #2a2a2a;
+								border-color: #3a3a3a;
+								color: #ffffff;
+
+								&:hover {
+									border-color: #f17742;
+									background: rgba(241, 119, 66, 0.1);
+								}
 							}
 
 							.flag {
@@ -723,6 +804,14 @@ body::-webkit-scrollbar {
 		z-index: 10;
 		clear: both;
 		border-top: 3px solid #FF6B00;
+		transition: background 0.3s ease, border-color 0.3s ease;
+		
+		// Dark mode
+		.dark &,
+		[data-theme='dark'] & {
+			background: linear-gradient(180deg, #0a0a0a 0%, #000000 100%) !important;
+			border-top-color: #FF6B00;
+		}
 		
 		&::before {
 			content: '';
@@ -735,6 +824,13 @@ body::-webkit-scrollbar {
 			height: 100%;
 			background: linear-gradient(180deg, #181a20 0%, #0f1115 100%) !important;
 			z-index: -1;
+			transition: background 0.3s ease;
+			
+			// Dark mode
+			.dark &,
+			[data-theme='dark'] & {
+				background: linear-gradient(180deg, #0a0a0a 0%, #000000 100%) !important;
+			}
 		}
 		
 		& > * {
@@ -1077,6 +1173,14 @@ body::-webkit-scrollbar {
 			padding: 30px 20px 20px 20px;
 			background: linear-gradient(180deg, #181a20 0%, #0f1115 100%);
 			border-top: 3px solid #FF6B00;
+			transition: background 0.3s ease, border-color 0.3s ease;
+			
+			// Dark mode
+			.dark &,
+			[data-theme='dark'] & {
+				background: linear-gradient(180deg, #0a0a0a 0%, #000000 100%);
+				border-top-color: #FF6B00;
+			}
 			
 			.main-mobile {
 				display: flex;

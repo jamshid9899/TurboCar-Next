@@ -14,19 +14,23 @@ import moment from 'moment';
 import { useReactiveVar } from '@apollo/client';
 import { userVar } from '../../apollo/store';
 import { PropertyType, PropertyBrand, PropertyLocation } from '../enums/property.enum';
+import { useSignupModal } from './common/SignupModalContext';
 
 const Footer = () => {
 	const device = useDeviceDetect();
 	const router = useRouter();
 	const user = useReactiveVar(userVar);
+	const { openSignupModal } = useSignupModal();
 	const [activeTab, setActiveTab] = useState<number>(0);
 
 	/** HANDLERS **/
 	const handleSubscribe = () => {
 		if (!user?._id) {
-			router.push('/account/join?action=subscribe');
+			// Open signup modal instead of navigating
+			openSignupModal();
 		} else {
-			router.push('/account/join?action=subscribe');
+			// If user is logged in, navigate to account page
+			router.push('/mypage');
 		}
 	};
 
@@ -134,6 +138,7 @@ const Footer = () => {
 							<strong>Quick Links</strong>
 							<span onClick={() => router.push('/property?mode=buy')}>Cars for Sale</span>
 							<span onClick={() => router.push('/property?mode=rent')}>Cars for Rent</span>
+							<span onClick={() => router.push('/about')}>About Us</span>
 							<span onClick={() => router.push('/cs?tab=terms')}>Terms</span>
 							<span onClick={() => router.push('/cs?tab=privacy')}>Privacy</span>
 							<span onClick={() => router.push('/cs')}>Support</span>
@@ -356,6 +361,7 @@ const Footer = () => {
 							</span>
 							<span onClick={() => router.push('/agent')}>Find Dealers</span>
 							<span onClick={() => router.push('/community')}>Community</span>
+							<span onClick={() => router.push('/about')}>About Us</span>
 							<span onClick={() => router.push('/cs?tab=terms')}>Terms of Use</span>
 							<span onClick={() => router.push('/cs?tab=privacy')}>Privacy Policy</span>
 							<span onClick={() => router.push('/cs?tab=faq')}>FAQs</span>

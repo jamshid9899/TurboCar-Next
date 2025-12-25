@@ -3,6 +3,10 @@ import { NextPage } from 'next';
 import { useRouter } from 'next/router';
 import { TabContext, TabList, TabPanel } from '@mui/lab';
 import { Stack, Tab, Typography, Button, Pagination } from '@mui/material';
+import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
+import DirectionsCarIcon from '@mui/icons-material/DirectionsCar';
+import ArticleIcon from '@mui/icons-material/Article';
+import MoodIcon from '@mui/icons-material/Mood';
 import CommunityCard from '../../libs/components/common/CommunityCard';
 import useDeviceDetect from '../../libs/hooks/useDeviceDetect';
 import withLayoutBasic from '../../libs/components/layout/LayoutBasic';
@@ -10,7 +14,7 @@ import { BoardArticle } from '../../libs/types/board-article/board-article';
 import { T } from '../../libs/types/common';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { BoardArticlesInquiry } from '../../libs/types/board-article/board-article.input';
-import { BoardArticleCategory } from '../../libs/enums/board-article.enum';
+import { BoardArticleCategory, BOARD_ARTICLE_CATEGORY_CONFIG } from '../../libs/enums/board-article.enum';
 import { useQuery, useMutation } from '@apollo/client';
 import { GET_BOARD_ARTICLES } from '../../apollo/user/query';
 import { LIKE_TARGET_BOARD_ARTICLE } from '../../apollo/user/mutation';
@@ -144,7 +148,7 @@ const Community: NextPage = ({ initialInput, ...props }: T) => {
 		return (
 			<div id="community-list-page">
 					<div className="container">
-						<TabContext value={searchCommunity.search.articleCategory}>
+						<TabContext value={searchCommunity.search.articleCategory || BoardArticleCategory.FREE}>
 						<Stack className="main-box">
 							<Stack className="left-config">
 								<Stack className={'image-info'}>
@@ -162,26 +166,25 @@ const Community: NextPage = ({ initialInput, ...props }: T) => {
 									}}
 									onChange={tabChangeHandler}
 								>
-									<Tab
-										value={'FREE'}
-										label={'General Discussion'}
-										className={`tab-button ${searchCommunity.search.articleCategory == 'FREE' ? 'active' : ''}`}
-									/>
-									<Tab
-										value={'RECOMMEND'}
-										label={'Car Recommendations'}
-										className={`tab-button ${searchCommunity.search.articleCategory == 'RECOMMEND' ? 'active' : ''}`}
-									/>
-									<Tab
-										value={'NEWS'}
-										label={'Auto News'}
-										className={`tab-button ${searchCommunity.search.articleCategory == 'NEWS' ? 'active' : ''}`}
-									/>
-									<Tab
-										value={'HUMOR'}
-										label={'Car Memes'}
-										className={`tab-button ${searchCommunity.search.articleCategory == 'HUMOR' ? 'active' : ''}`}
-									/>
+									{Object.values(BoardArticleCategory).map((category) => {
+										const config = BOARD_ARTICLE_CATEGORY_CONFIG[category];
+										const IconComponent = 
+											category === BoardArticleCategory.FREE ? ChatBubbleOutlineIcon :
+											category === BoardArticleCategory.RECOMMEND ? DirectionsCarIcon :
+											category === BoardArticleCategory.NEWS ? ArticleIcon :
+											MoodIcon;
+										
+										return (
+											<Tab
+												key={category}
+												value={category}
+												icon={<IconComponent sx={{ fontSize: '20px', marginRight: '8px' }} />}
+												iconPosition="start"
+												label={config.label}
+												className={`tab-button ${searchCommunity.search.articleCategory === category ? 'active' : ''}`}
+											/>
+										);
+									})}
 								</TabList>
 							</Stack>
 							<Stack className="right-config">
@@ -189,16 +192,10 @@ const Community: NextPage = ({ initialInput, ...props }: T) => {
 									<Stack className="title-box">
 										<Stack className="left">
 											<Typography className="title">
-												{searchCommunity.search.articleCategory === 'FREE' && 'GENERAL DISCUSSION'}
-												{searchCommunity.search.articleCategory === 'RECOMMEND' && 'CAR RECOMMENDATIONS'}
-												{searchCommunity.search.articleCategory === 'NEWS' && 'AUTO NEWS'}
-												{searchCommunity.search.articleCategory === 'HUMOR' && 'CAR MEMES'}
+												{BOARD_ARTICLE_CATEGORY_CONFIG[searchCommunity.search.articleCategory]?.title || 'COMMUNITY'}
 											</Typography>
 											<Typography className="sub-title">
-												{searchCommunity.search.articleCategory === 'FREE' && 'Discuss anything car-related with the community'}
-												{searchCommunity.search.articleCategory === 'RECOMMEND' && 'Get recommendations and share your favorite cars'}
-												{searchCommunity.search.articleCategory === 'NEWS' && 'Stay updated with the latest automotive news'}
-												{searchCommunity.search.articleCategory === 'HUMOR' && 'Share funny car memes and jokes'}
+												{BOARD_ARTICLE_CATEGORY_CONFIG[searchCommunity.search.articleCategory]?.subtitle || 'Join the car community'}
 											</Typography>
 										</Stack>
 										<Button
@@ -215,8 +212,27 @@ const Community: NextPage = ({ initialInput, ...props }: T) => {
 											Write
 										</Button>
 									</Stack>
+									
+									{/* Section Header Card */}
+									<Stack className="section-header-card">
+										{searchCommunity.search.articleCategory === BoardArticleCategory.FREE && (
+											<ChatBubbleOutlineIcon sx={{ fontSize: '20px', color: '#FF6B00', marginRight: '8px' }} />
+										)}
+										{searchCommunity.search.articleCategory === BoardArticleCategory.RECOMMEND && (
+											<DirectionsCarIcon sx={{ fontSize: '20px', color: '#FF6B00', marginRight: '8px' }} />
+										)}
+										{searchCommunity.search.articleCategory === BoardArticleCategory.NEWS && (
+											<ArticleIcon sx={{ fontSize: '20px', color: '#FF6B00', marginRight: '8px' }} />
+										)}
+										{searchCommunity.search.articleCategory === BoardArticleCategory.HUMOR && (
+											<MoodIcon sx={{ fontSize: '20px', color: '#FF6B00', marginRight: '8px' }} />
+										)}
+										<Typography className="section-header-text">
+											{BOARD_ARTICLE_CATEGORY_CONFIG[searchCommunity.search.articleCategory]?.label || 'Community'}
+										</Typography>
+									</Stack>
 
-									<TabPanel value="FREE">
+									<TabPanel value={BoardArticleCategory.FREE}>
 										<Stack className="list-box">
 											{getBoardArticlesLoading ? (
 												<Stack className={'no-data'}>
@@ -239,7 +255,7 @@ const Community: NextPage = ({ initialInput, ...props }: T) => {
 											)}
 										</Stack>
 									</TabPanel>
-									<TabPanel value="RECOMMEND">
+									<TabPanel value={BoardArticleCategory.RECOMMEND}>
 										<Stack className="list-box">
 											{getBoardArticlesLoading ? (
 												<Stack className={'no-data'}>
@@ -262,7 +278,7 @@ const Community: NextPage = ({ initialInput, ...props }: T) => {
 											)}
 										</Stack>
 									</TabPanel>
-									<TabPanel value="NEWS">
+									<TabPanel value={BoardArticleCategory.NEWS}>
 										<Stack className="list-box">
 											{getBoardArticlesLoading ? (
 												<Stack className={'no-data'}>
@@ -285,7 +301,7 @@ const Community: NextPage = ({ initialInput, ...props }: T) => {
 											)}
 										</Stack>
 									</TabPanel>
-									<TabPanel value="HUMOR">
+									<TabPanel value={BoardArticleCategory.HUMOR}>
 										<Stack className="list-box">
 											{getBoardArticlesLoading ? (
 												<Stack className={'no-data'}>

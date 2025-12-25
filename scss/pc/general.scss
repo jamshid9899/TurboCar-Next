@@ -15,10 +15,11 @@ body {
 	font-family: $font;
 	font-size: 16px;
 	line-height: 1.6;
-	color: $text-dark;
-	background: $bg-white;
+	color: var(--text-primary);
+	background: var(--bg-primary);
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
+	transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 // ✅ CONTAINER
@@ -84,7 +85,7 @@ h6 {
 	font-family: $font-heading;
 	font-weight: 700;
 	line-height: 1.2;
-	color: $text-dark;
+	color: var(--text-primary);
 	letter-spacing: -0.02em;
 }
 

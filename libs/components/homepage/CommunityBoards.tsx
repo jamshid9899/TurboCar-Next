@@ -54,16 +54,18 @@ const CommunityBoards = () => {
 			<Stack className={'community-boards'}>
 				<Stack className={'container'}>
 					<Stack className={'info-box'}>
-						<Stack className="left">
-							<Typography className={'main-title'}>Community Hub</Typography>
-							<Typography className={'sub-title'}>Latest news and discussions</Typography>
-						</Stack>
-						<Stack className="right">
-							<div className={'more-box'}>
-								<span>View All Posts</span>
-								<img src="/img/icons/rightup.svg" alt="" />
-							</div>
-						</Stack>
+						{/* Premium Overline with Decorative Lines */}
+						<div className={'overline-section'}>
+							<div className={'decorative-line'}></div>
+							<span className={'overline-text'}>COMMUNITY</span>
+							<div className={'decorative-line'}></div>
+						</div>
+
+						{/* Main Title with Gradient */}
+						<h2 className={'main-title'}>Community Hub</h2>
+
+						{/* Subtitle */}
+						<p className={'subtitle'}>Latest news and discussions</p>
 					</Stack>
 					<Stack className={'card-box'}>
 						{articles.map((article: BoardArticle) => {

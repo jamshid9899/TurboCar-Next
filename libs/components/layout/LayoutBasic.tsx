@@ -10,6 +10,7 @@ import Chat from '../Chat';
 import { useReactiveVar } from '@apollo/client';
 import { userVar } from '../../../apollo/store';
 import { useTranslation } from 'next-i18next';
+import Breadcrumb from '../common/Breadcrumb';
 import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
@@ -30,42 +31,68 @@ const withLayoutBasic = (Component: any) => {
 			switch (router.pathname) {
 				case '/property':
 					const mode = router.query.mode as string;
-					title = mode === 'rent' ? 'Rent Cars' : mode === 'buy' ? 'Buy Cars' : 'Cars';
-					breadcrumb = mode === 'rent' ? 'Rent' : mode === 'buy' ? 'Buy' : 'Cars';
+					if (mode === 'rent') {
+						title = 'Cars for Rent';
+						breadcrumb = 'Rent';
+					} else if (mode === 'buy') {
+						title = 'Cars for Sale';
+						breadcrumb = 'Buy';
+					} else {
+						title = 'Cars';
+						breadcrumb = 'Cars';
+					}
 					desc = mode === 'rent' ? 'Find cars for rent' : mode === 'buy' ? 'Find cars for sale' : 'Browse all cars';
+					break;
+				case '/property/detail':
+					title = 'Car Details';
+					breadcrumb = 'Cars / Details';
+					desc = 'View car details';
 					break;
 				case '/agent':
 					title = 'Dealers';
 					breadcrumb = 'Dealers';
+					desc = 'Find trusted car dealers';
 					break;
 				case '/agent/detail':
 					title = 'Dealer Detail';
-					breadcrumb = 'Dealers / Dealer Detail';
+					breadcrumb = 'Dealers / Detail';
+					desc = 'View dealer information';
 					break;
 				case '/mypage':
 					title = 'My Page';
 					breadcrumb = 'My Page';
+					desc = 'Manage your account';
 					break;
 				case '/community':
 					title = 'Community';
 					breadcrumb = 'Community';
+					desc = 'Join the car community';
 					break;
 				case '/community/detail':
 					title = 'Community Article';
 					breadcrumb = 'Community / Article';
+					desc = 'Read community article';
 					break;
 				case '/cs':
 					title = 'Customer Support';
 					breadcrumb = 'Customer Support';
+					desc = 'Get help and support';
 					break;
 				case '/account/join':
 					title = 'Login / Sign Up';
 					breadcrumb = 'Login / Sign Up';
+					desc = 'Sign in or create account';
 					setAuthHeader(true);
 					break;
 				case '/member':
 					title = 'Member Profile';
 					breadcrumb = 'Member Profile';
+					desc = 'View member profile';
+					break;
+				case '/about':
+					title = 'About Us';
+					breadcrumb = 'About Us';
+					desc = 'Learn about TurboCar';
 					break;
 				default:
 					break;
@@ -117,21 +144,8 @@ const withLayoutBasic = (Component: any) => {
 						</Stack>
 
 						<Stack id={'main'}>
-							{/* Simple Page Header - #main ichida */}
-							<Stack className={'simple-page-header'}>
-								<Stack className={'container'}>
-									<h1 className={'page-title'}>{memoizedValues.title}</h1>
-									<p className={'breadcrumb'}>
-										<a href="/">Home</a>
-										{memoizedValues.breadcrumb && (
-											<>
-												<span>/</span>
-												<span>{memoizedValues.breadcrumb}</span>
-											</>
-										)}
-									</p>
-								</Stack>
-							</Stack>
+							{/* Top Breadcrumb */}
+							<Breadcrumb title={memoizedValues.title} breadcrumb={memoizedValues.breadcrumb} position="top" />
 
 							<Component {...props} />
 						</Stack>

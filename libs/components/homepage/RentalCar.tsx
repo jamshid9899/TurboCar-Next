@@ -1,6 +1,11 @@
 import React, { useState } from 'react';
-import { Stack, Box } from '@mui/material';
+import { Stack, Box, Button } from '@mui/material';
+import { useRouter } from 'next/router';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Autoplay, Navigation, Pagination } from 'swiper';
+import WestIcon from '@mui/icons-material/West';
+import EastIcon from '@mui/icons-material/East';
 import RentalCarCard from './RentalCarCard';
 import { Property } from '../../types/property/property';
 import { PropertiesInquiry } from '../../types/property/property.input';
@@ -12,6 +17,14 @@ import { sweetMixinErrorAlert, sweetTopSmallSuccessAlert } from '../../sweetAler
 import { Message } from '../../enums/common.enum';
 import { userVar } from '../../../apollo/store';
 import { Direction } from '../../enums/common.enum';
+import ScrollAnimation from '../common/ScrollAnimation';
+import CategoryFilter from './CategoryFilter';
+
+// Import Swiper styles
+import 'swiper/css';
+import 'swiper/css/navigation';
+import 'swiper/css/pagination';
+import 'swiper/css/autoplay';
 
 interface RentalCarsProps {
 	initialInput: PropertiesInquiry;
@@ -71,16 +84,33 @@ const RentalCars = (props: RentalCarsProps) => {
 					<Stack className={'info-box'}>
 						<span>Cars for Rent</span>
 					</Stack>
+					<CategoryFilter />
 					<Stack className={'card-box'}>
-						{rentalCars.map((property: Property) => {
-							return (
-								<RentalCarCard 
-									key={property._id} 
-									property={property} 
-									likePropertyHandler={likePropertyHandler} 
-								/>
-							);
-						})}
+						<Swiper
+							className={'rental-car-swiper'}
+							modules={[Autoplay]}
+							slidesPerView={1.5}
+							centeredSlides={true}
+							spaceBetween={15}
+							loop={true}
+							autoplay={{
+								delay: 3500,
+								disableOnInteraction: false,
+								pauseOnMouseEnter: true,
+							}}
+							speed={800}
+						>
+							{rentalCars.map((property: Property) => {
+								return (
+									<SwiperSlide key={property._id} className={'rental-car-slide'}>
+										<RentalCarCard 
+											property={property} 
+											likePropertyHandler={likePropertyHandler} 
+										/>
+									</SwiperSlide>
+								);
+							})}
+						</Swiper>
 					</Stack>
 				</Stack>
 			</Stack>
@@ -103,17 +133,78 @@ const RentalCars = (props: RentalCarsProps) => {
 						{/* Subtitle */}
 						<p className={'subtitle'}>Discover Your Perfect Ride in Minutes</p>
 					</Stack>
+					<CategoryFilter />
 					<Stack className={'card-box'}>
-						{rentalCars.map((property: Property) => {
-							return (
-								<RentalCarCard 
-									key={property._id} 
-									property={property} 
-									likePropertyHandler={likePropertyHandler} 
-								/>
-							);
-						})}
+						{/* Left Arrow */}
+						<WestIcon className={'swiper-rental-prev carousel-arrow-left'} />
+						
+						<Swiper
+							className={'rental-car-swiper'}
+							modules={[Autoplay, Navigation, Pagination]}
+							slidesPerView={4}
+							spaceBetween={30}
+							loop={true}
+							autoplay={{
+								delay: 3500,
+								disableOnInteraction: false,
+								pauseOnMouseEnter: true,
+							}}
+							speed={800}
+							navigation={{
+								nextEl: '.swiper-rental-next',
+								prevEl: '.swiper-rental-prev',
+							}}
+							pagination={{
+								el: '.swiper-rental-pagination',
+								clickable: true,
+							}}
+							breakpoints={{
+								320: {
+									slidesPerView: 1,
+									spaceBetween: 15,
+								},
+								640: {
+									slidesPerView: 2,
+									spaceBetween: 20,
+								},
+								1024: {
+									slidesPerView: 3,
+									spaceBetween: 25,
+								},
+								1280: {
+									slidesPerView: 4,
+									spaceBetween: 30,
+								},
+							}}
+						>
+							{rentalCars.map((property: Property) => {
+								return (
+									<SwiperSlide key={property._id} className={'rental-car-slide'}>
+										<RentalCarCard 
+											property={property} 
+											likePropertyHandler={likePropertyHandler} 
+										/>
+									</SwiperSlide>
+								);
+							})}
+						</Swiper>
+						
+						{/* Right Arrow */}
+						<EastIcon className={'swiper-rental-next carousel-arrow-right'} />
+						
+						{/* Pagination - Bottom center */}
+						<div className={'swiper-rental-pagination'}></div>
 					</Stack>
+					
+					{/* See All Cars Button */}
+					<Box component="div" className="see-all-button-container">
+						<Button 
+							className="see-all-button"
+							onClick={() => router.push('/property')}
+						>
+							See All Cars
+						</Button>
+					</Box>
 				</Stack>
 			</Stack>
 		);

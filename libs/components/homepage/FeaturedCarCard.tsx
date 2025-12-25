@@ -11,7 +11,6 @@ import { userVar } from '../../../apollo/store';
 import DirectionsCarIcon from '@mui/icons-material/DirectionsCar';
 import LocalGasStationIcon from '@mui/icons-material/LocalGasStation';
 import EventSeatIcon from '@mui/icons-material/EventSeat';
-import StarIcon from '@mui/icons-material/Star';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import { sweetMixinErrorAlert } from '../../sweetAlert';
 
@@ -65,8 +64,6 @@ const FeaturedCarCard = (props: FeaturedCarCardProps) => {
 		}
 	};
 
-	// Calculate rating (mock data, you can use actual rating from property)
-	const rating = 4.5;
 	const imageCount = property?.propertyImages?.length || 1;
 	
 	// Check if car is NEW (from backend propertyCondition)
@@ -74,9 +71,6 @@ const FeaturedCarCard = (props: FeaturedCarCardProps) => {
 	
 	// Check if HOT DEAL (high rank - using propertyRank >= 70 as indicator)
 	const isHotDeal = property?.propertyRank && property.propertyRank >= 70;
-	
-	// Determine status badge text
-	const statusBadgeText = property.isForRent ? 'AVAILABLE FOR RENT' : property.isForSale ? 'FOR SALE' : 'FEATURED';
 	
 	// Determine price display
 	const priceDisplay = property.isForRent && property.propertyRentPrice
@@ -101,31 +95,6 @@ const FeaturedCarCard = (props: FeaturedCarCardProps) => {
 				<div className={'image-count-badge'}>
 					<span>1/{imageCount}</span>
 				</div>
-				
-				{/* Status Badge - Top Left */}
-				<Chip 
-					label={statusBadgeText}
-					size="small"
-					className="available-badge"
-				/>
-				
-				{/* NEW Badge - if created this week */}
-				{isNew && (
-					<Chip 
-						label="NEW"
-						size="small"
-						className="new-badge"
-					/>
-				)}
-				
-				{/* HOT DEAL Badge - if high rank */}
-				{isHotDeal && (
-					<Chip 
-						label="HOT DEAL"
-						size="small"
-						className="hot-deal-badge"
-					/>
-				)}
 
 				{/* Heart Icon - Top Right */}
 				<IconButton 
@@ -139,6 +108,7 @@ const FeaturedCarCard = (props: FeaturedCarCardProps) => {
 						<FavoriteBorderIcon />
 					)}
 				</IconButton>
+
 			</Box>
 
 			{/* White Info Section - 40% */}
@@ -152,21 +122,6 @@ const FeaturedCarCard = (props: FeaturedCarCardProps) => {
 				<strong className={'car-title'} onClick={() => pushDetailHandler(property._id)}>
 					{property?.propertyBrand} {property.propertyTitle}
 				</strong>
-
-				{/* Car Desc */}
-				<p className={'car-desc'}>
-					{property?.propertyYear} - {property?.propertyType}
-				</p>
-
-				{/* Rating Stars */}
-				<div className={'rating-stars'}>
-					<StarIcon className="star-icon" />
-					<StarIcon className="star-icon" />
-					<StarIcon className="star-icon" />
-					<StarIcon className="star-icon" />
-					<StarIcon className="star-icon star-half" />
-					<span className="rating-text">{rating}</span>
-				</div>
 
 				{/* Car Specs */}
 				<div className={'car-specs'}>

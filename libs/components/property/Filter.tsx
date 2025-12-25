@@ -255,39 +255,58 @@ const Filter = ({ searchFilter, setSearchFilter, initialInput }: FilterProps) =>
 	const applyFilter = useCallback(
 		(updates: any) => {
 			const currentSearch = (searchFilter && searchFilter.search) ? searchFilter.search : {};
+			
+			// Build search object, only include non-empty arrays and defined values
+			const search: any = {
+				...currentSearch,
+				...updates,
+			};
+			
+			// Only include arrays if they have values
+			if (locationList && locationList.length > 0) search.locationList = locationList;
+			if (brandList && brandList.length > 0) search.brandList = brandList;
+			if (typeList && typeList.length > 0) search.typeList = typeList;
+			if (conditionList && conditionList.length > 0) search.conditionList = conditionList;
+			if (fuelTypeList && fuelTypeList.length > 0) search.fuelTypeList = fuelTypeList;
+			if (transmissionList && transmissionList.length > 0) search.transmissionList = transmissionList;
+			if (colorList && colorList.length > 0) search.colorList = colorList;
+			if (featuresList && featuresList.length > 0) search.featuresList = featuresList;
+			
+			// Include ranges if they are not default values
+			if (priceRange[0] > 0 || priceRange[1] < 500000) {
+				search.pricesRange = {
+					start: priceRange[0],
+					end: priceRange[1],
+				};
+			}
+			if (mileageRange[0] > 0 || mileageRange[1] < 300000) {
+				search.mileageRange = {
+					start: mileageRange[0],
+					end: mileageRange[1],
+				};
+			}
+			if (yearRange[0] > 2000 || yearRange[1] < new Date().getFullYear()) {
+				search.yearRange = {
+					start: yearRange[0],
+					end: yearRange[1],
+				};
+			}
+			
+			// Include boolean values only if defined
+			if (isForSale !== undefined) search.isForSale = isForSale;
+			if (isForRent !== undefined) search.isForRent = isForRent;
+			
+			// Include text only if not empty
+			if (searchText && searchText.trim().length > 0) search.text = searchText;
+			
 			const newFilter: PropertiesInquiry = {
 				page: 1,
 				limit: searchFilter?.limit || initialInput?.limit || 9,
 				sort: searchFilter?.sort || initialInput?.sort || 'createdAt',
 				direction: searchFilter?.direction || initialInput?.direction,
-				search: {
-					...currentSearch,
-					locationList,
-					brandList,
-					typeList,
-					conditionList,
-					fuelTypeList,
-					transmissionList,
-					colorList,
-					featuresList,
-					pricesRange: {
-						start: priceRange[0],
-						end: priceRange[1],
-					},
-					mileageRange: {
-						start: mileageRange[0],
-						end: mileageRange[1],
-					},
-					yearRange: {
-						start: yearRange[0],
-						end: yearRange[1],
-					},
-					isForSale,
-					isForRent,
-					text: searchText,
-					...updates,
-				},
+				search,
 			};
+			
 			router.push(
 				`/property?input=${JSON.stringify(newFilter)}`,
 				`/property?input=${JSON.stringify(newFilter)}`,
@@ -494,98 +513,98 @@ const Filter = ({ searchFilter, setSearchFilter, initialInput }: FilterProps) =>
 				{/* ADVANCED FILTERS - Collapsible */}
 				<Collapse in={showAdvancedFilters}>
 					<Stack className="advanced-filters">
-						{/* CONDITION */}
-						<Stack className="filter-section-new">
-							<Typography className="section-title-new">Condition</Typography>
-							<div className="chip-group-new">
-								{Object.values(PropertyCondition).map((condition) => {
-									const isSelected = conditionList.includes(condition);
-									return (
-										<div
-											key={condition}
-											className={`filter-chip-new ${isSelected ? 'selected' : ''}`}
-											onClick={(e) => {
-												e.preventDefault();
-												e.stopPropagation();
-												toggleCondition(condition);
-											}}
-										>
-											{condition}
-										</div>
-									);
-								})}
-							</div>
-						</Stack>
+					{/* CONDITION */}
+					<Stack className="filter-section-new">
+						<Typography className="section-title-new">Condition</Typography>
+						<div className="filter-text-list">
+							{Object.values(PropertyCondition).map((condition) => {
+								const isSelected = conditionList.includes(condition);
+								return (
+									<div
+										key={condition}
+										className={`filter-text-item ${isSelected ? 'selected' : ''}`}
+										onClick={(e) => {
+											e.preventDefault();
+											e.stopPropagation();
+											toggleCondition(condition);
+										}}
+									>
+										{condition}
+									</div>
+								);
+							})}
+						</div>
+					</Stack>
 
-						{/* FUEL TYPE */}
-						<Stack className="filter-section-new">
-							<Typography className="section-title-new">Fuel Type</Typography>
-							<div className="chip-group-new">
-								{Object.values(PropertyFuelType).map((fuel) => {
-									const isSelected = fuelTypeList.includes(fuel);
-									return (
-										<div
-											key={fuel}
-											className={`filter-chip-new ${isSelected ? 'selected' : ''}`}
-											onClick={(e) => {
-												e.preventDefault();
-												e.stopPropagation();
-												toggleFuelType(fuel);
-											}}
-										>
-											{fuel}
-										</div>
-									);
-								})}
-							</div>
-						</Stack>
+					{/* FUEL TYPE */}
+					<Stack className="filter-section-new">
+						<Typography className="section-title-new">Fuel Type</Typography>
+						<div className="filter-text-list">
+							{Object.values(PropertyFuelType).map((fuel) => {
+								const isSelected = fuelTypeList.includes(fuel);
+								return (
+									<div
+										key={fuel}
+										className={`filter-text-item ${isSelected ? 'selected' : ''}`}
+										onClick={(e) => {
+											e.preventDefault();
+											e.stopPropagation();
+											toggleFuelType(fuel);
+										}}
+									>
+										{fuel}
+									</div>
+								);
+							})}
+						</div>
+					</Stack>
 
-						{/* TRANSMISSION */}
-						<Stack className="filter-section-new">
-							<Typography className="section-title-new">Transmission</Typography>
-							<div className="chip-group-new">
-								{Object.values(PropertyTransmission).map((transmission) => {
-									const isSelected = transmissionList.includes(transmission);
-									return (
-										<div
-											key={transmission}
-											className={`filter-chip-new ${isSelected ? 'selected' : ''}`}
-											onClick={(e) => {
-												e.preventDefault();
-												e.stopPropagation();
-												toggleTransmission(transmission);
-											}}
-										>
-											{transmission}
-										</div>
-									);
-								})}
-							</div>
-						</Stack>
+					{/* TRANSMISSION */}
+					<Stack className="filter-section-new">
+						<Typography className="section-title-new">Transmission</Typography>
+						<div className="filter-text-list">
+							{Object.values(PropertyTransmission).map((transmission) => {
+								const isSelected = transmissionList.includes(transmission);
+								return (
+									<div
+										key={transmission}
+										className={`filter-text-item ${isSelected ? 'selected' : ''}`}
+										onClick={(e) => {
+											e.preventDefault();
+											e.stopPropagation();
+											toggleTransmission(transmission);
+										}}
+									>
+										{transmission}
+									</div>
+								);
+							})}
+						</div>
+					</Stack>
 
-						{/* COLOR - With Icons */}
-						<Stack className="filter-section-new">
-							<Typography className="section-title-new">Color</Typography>
-							<div className="color-group">
-								{Object.values(PropertyColor).map((color) => {
-									const isSelected = colorList.includes(color);
-									return (
-										<div
-											key={color}
-											className={`color-chip ${isSelected ? 'selected' : ''}`}
-											onClick={(e) => {
-												e.preventDefault();
-												e.stopPropagation();
-												toggleColor(color);
-											}}
-											title={color}
-										>
-											<span className="color-icon">{colorIcons[color] || '⚪'}</span>
-										</div>
-									);
-								})}
-							</div>
-						</Stack>
+					{/* COLOR - With Icons and Text */}
+					<Stack className="filter-section-new">
+						<Typography className="section-title-new">Color</Typography>
+						<div className="color-group">
+							{Object.values(PropertyColor).map((color) => {
+								const isSelected = colorList.includes(color);
+								return (
+									<div
+										key={color}
+										className={`color-chip-with-text ${isSelected ? 'selected' : ''}`}
+										onClick={(e) => {
+											e.preventDefault();
+											e.stopPropagation();
+											toggleColor(color);
+										}}
+									>
+										<span className="color-icon">{colorIcons[color] || '⚪'}</span>
+										<span className="color-text">{color}</span>
+									</div>
+								);
+							})}
+						</div>
+					</Stack>
 
 						{/* FEATURES - Checklist */}
 						<Stack className="filter-section-new">

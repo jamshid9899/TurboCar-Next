@@ -389,22 +389,22 @@ const CommunityDetail: NextPage = ({ initialInput, ...props }: T) => {
 							>
 								<Tab
 									value={'FREE'}
-									label={'General Discussion'}
+									label={'Free'}
 									className={`tab-button ${articleCategory === 'FREE' ? 'active' : ''}`}
 								/>
 								<Tab
 									value={'RECOMMEND'}
-									label={'Car Recommendations'}
+									label={'Recommendations'}
 									className={`tab-button ${articleCategory === 'RECOMMEND' ? 'active' : ''}`}
 								/>
 								<Tab
 									value={'NEWS'}
-									label={'Auto News'}
+									label={'News'}
 									className={`tab-button ${articleCategory === 'NEWS' ? 'active' : ''}`}
 								/>
 								<Tab
 									value={'HUMOR'}
-									label={'Car Memes'}
+									label={'Memes'}
 									className={`tab-button ${articleCategory === 'HUMOR' ? 'active' : ''}`}
 								/>
 							</Tabs>
@@ -413,10 +413,10 @@ const CommunityDetail: NextPage = ({ initialInput, ...props }: T) => {
 							<Stack className="title-box">
 								<Stack className="left">
 									<Typography className="title">
-										{articleCategory === 'FREE' && 'GENERAL DISCUSSION'}
-										{articleCategory === 'RECOMMEND' && 'CAR RECOMMENDATIONS'}
-										{articleCategory === 'NEWS' && 'AUTO NEWS'}
-										{articleCategory === 'HUMOR' && 'CAR MEMES'}
+										{articleCategory === 'FREE' && 'FREE'}
+										{articleCategory === 'RECOMMEND' && 'RECOMMENDATIONS'}
+										{articleCategory === 'NEWS' && 'NEWS'}
+										{articleCategory === 'HUMOR' && 'MEMES'}
 									</Typography>
 									<Typography className="sub-title">
 										{articleCategory === 'FREE' && 'Discuss anything car-related with the community'}

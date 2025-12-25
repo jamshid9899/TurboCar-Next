@@ -1,8 +1,17 @@
 import React, { useState } from 'react';
-import { Stack, Box } from '@mui/material';
+import { Stack, Box, Button } from '@mui/material';
+import { useRouter } from 'next/router';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { Autoplay } from 'swiper';
+import { Autoplay, Navigation, Pagination } from 'swiper';
+import WestIcon from '@mui/icons-material/West';
+import EastIcon from '@mui/icons-material/East';
+
+// Import Swiper styles
+import 'swiper/css';
+import 'swiper/css/navigation';
+import 'swiper/css/pagination';
+import 'swiper/css/autoplay';
 import { Property } from '../../types/property/property';
 import { PropertiesInquiry } from '../../types/property/property.input';
 import FeaturedCarCard from './FeaturedCarCard';
@@ -12,6 +21,8 @@ import { T } from '../../types/common';
 import { LIKE_TARGET_PROPERTY } from '../../../apollo/user/mutation';
 import { sweetMixinErrorAlert, sweetTopSmallSuccessAlert } from '../../sweetAlert';
 import { Direction, Message } from '../../enums/common.enum';
+import ScrollAnimation from '../common/ScrollAnimation';
+import CategoryFilter from './CategoryFilter';
 
 interface FeaturedCarsProps {
 	initialInput: PropertiesInquiry;
@@ -61,8 +72,6 @@ const FeaturedCars = (props: FeaturedCarsProps) => {
 		}
 	};
 
-	if (!featuredCars) return null;
-
 	if (device === 'mobile') {
 		return (
 			<Stack className={'featured-cars'}>
@@ -70,6 +79,7 @@ const FeaturedCars = (props: FeaturedCarsProps) => {
 					<Stack className={'info-box'}>
 						<span>Featured Cars</span>
 					</Stack>
+					<CategoryFilter />
 					<Stack className={'card-box'}>
 						{featuredCars.length === 0 ? (
 							<Box component={'div'} className={'empty-list'}>
@@ -78,10 +88,17 @@ const FeaturedCars = (props: FeaturedCarsProps) => {
 						) : (
 							<Swiper
 								className={'featured-swiper'}
-								slidesPerView={'auto'}
+								modules={[Autoplay]}
+								slidesPerView={1.5}
 								centeredSlides={true}
 								spaceBetween={15}
-								modules={[Autoplay]}
+								loop={true}
+								autoplay={{
+									delay: 3500,
+									disableOnInteraction: false,
+									pauseOnMouseEnter: true,
+								}}
+								speed={800}
 							>
 								{featuredCars.map((property: Property) => {
 									return (
@@ -101,28 +118,99 @@ const FeaturedCars = (props: FeaturedCarsProps) => {
 			<Stack className={'featured-cars'}>
 				<Stack className={'container'}>
 					<Stack className={'info-box'}>
-						<Box component={'div'} className={'left'}>
-							<span>Featured Cars</span>
-							<p>Explore our top-rated vehicles</p>
-						</Box>
+						{/* Premium Overline with Decorative Lines */}
+						<div className={'overline-section'}>
+							<div className={'decorative-line'}></div>
+							<span className={'overline-text'}>FEATURED SELECTION</span>
+							<div className={'decorative-line'}></div>
+						</div>
+
+						{/* Main Title with Gradient */}
+						<h2 className={'main-title'}>Featured Cars</h2>
+
+						{/* Subtitle */}
+						<p className={'subtitle'}>Explore our top-rated vehicles</p>
 					</Stack>
+					<CategoryFilter />
 					<Stack className={'card-box'}>
 						{featuredCars.length === 0 ? (
 							<Box component={'div'} className={'empty-list'}>
 								Featured Cars Empty
 							</Box>
 						) : (
-							featuredCars.map((property: Property) => {
-								return (
-									<FeaturedCarCard 
-										key={property._id} 
-										property={property} 
-										likePropertyHandler={likePropertyHandler} 
-									/>
-								);
-							})
+							<>
+								{/* Left Arrow */}
+								<WestIcon className={'swiper-featured-prev carousel-arrow-left'} />
+								
+								<Swiper
+									className={'featured-car-swiper'}
+									modules={[Autoplay, Navigation, Pagination]}
+									slidesPerView={4}
+									spaceBetween={30}
+									loop={true}
+									autoplay={{
+										delay: 3500,
+										disableOnInteraction: false,
+										pauseOnMouseEnter: true,
+									}}
+									speed={800}
+									navigation={{
+										nextEl: '.swiper-featured-next',
+										prevEl: '.swiper-featured-prev',
+									}}
+									pagination={{
+										el: '.swiper-featured-pagination',
+										clickable: true,
+									}}
+									breakpoints={{
+										320: {
+											slidesPerView: 1,
+											spaceBetween: 15,
+										},
+										640: {
+											slidesPerView: 2,
+											spaceBetween: 20,
+										},
+										1024: {
+											slidesPerView: 3,
+											spaceBetween: 25,
+										},
+										1280: {
+											slidesPerView: 4,
+											spaceBetween: 30,
+										},
+									}}
+								>
+									{featuredCars.map((property: Property) => {
+										return (
+											<SwiperSlide key={property._id} className={'featured-car-slide'}>
+												<FeaturedCarCard 
+													property={property} 
+													likePropertyHandler={likePropertyHandler} 
+												/>
+											</SwiperSlide>
+										);
+									})}
+								</Swiper>
+								
+								{/* Right Arrow */}
+								<EastIcon className={'swiper-featured-next carousel-arrow-right'} />
+								
+								{/* Pagination - Bottom center */}
+								<div className={'swiper-featured-pagination'}></div>
+							</>
 						)}
 					</Stack>
+					
+					{/* See All Cars Button */}
+					<Box component="div" className="see-all-button-container">
+						<Button 
+							className="see-all-button"
+							onClick={() => router.push('/property')}
+						>
+							See All Cars
+						</Button>
+					</Box>
 				</Stack>
 			</Stack>
 		);

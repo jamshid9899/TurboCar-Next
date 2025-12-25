@@ -116,7 +116,7 @@ const Join: NextPage = () => {
 							<Box className={'logo'}>
 								<img src="/img/logo/turbocar_1.svg" alt="TurboCar" />
 								<span>TurboCar</span>
-								<span className={'speed-badge'}>⚡ Tezlik</span>
+								<span className={'speed-badge'}>⚡ Speed</span>
 							</Box>
 							<Box className={'info'}>
 								{loginView ? (

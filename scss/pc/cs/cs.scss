@@ -5,6 +5,13 @@
     width: 100%;
     height: auto;
     background: #f8f9fa;
+    transition: background-color 0.3s ease;
+
+    // Dark mode
+    .dark &,
+    [data-theme='dark'] & {
+      background: #0a0a0a;
+    }
     .container {
       display: flex;
       flex-direction: column;
@@ -18,6 +25,14 @@
         border-radius: 16px;
         background: #ffffff;
         box-shadow: 0px 2px 12px rgba(24, 26, 32, 0.08);
+        transition: background-color 0.3s ease, box-shadow 0.3s ease;
+
+        // Dark mode
+        .dark &,
+        [data-theme='dark'] & {
+          background: #1a1a1a;
+          box-shadow: 0px 2px 12px rgba(0, 0, 0, 0.4);
+        }
         
         .info {
           display: flex;
@@ -28,6 +43,13 @@
           
           span {
             color: #181a20;
+            transition: color 0.3s ease;
+
+            // Dark mode
+            .dark &,
+            [data-theme='dark'] & {
+              color: #ffffff;
+            }
             font-family: $font;
             font-size: 42px;
             font-style: normal;
@@ -50,6 +72,13 @@
             font-weight: 400;
             line-height: 1.6;
             margin-top: 8px;
+            transition: color 0.3s ease;
+
+            // Dark mode
+            .dark &,
+            [data-theme='dark'] & {
+              color: #e0e0e0;
+            }
           }
         }
         
@@ -108,10 +137,25 @@
         background: #ffffff;
         box-shadow: 0px 2px 12px rgba(24, 26, 32, 0.08);
         margin-bottom: 0;
+        transition: background-color 0.3s ease, box-shadow 0.3s ease;
+
+        // Dark mode
+        .dark &,
+        [data-theme='dark'] & {
+          background: #1a1a1a;
+          box-shadow: 0px 2px 12px rgba(0, 0, 0, 0.4);
+        }
         
         .title {
           margin-bottom: 30px;
           color: #181a20;
+          transition: color 0.3s ease;
+
+          // Dark mode
+          .dark &,
+          [data-theme='dark'] & {
+            color: #ffffff;
+          }
           font-family: $font;
           font-size: 28px;
           font-style: normal;
@@ -144,6 +188,14 @@
             border-radius: 12px;
             overflow: hidden;
             background: #ffffff;
+            transition: background-color 0.3s ease, border-color 0.3s ease;
+
+            // Dark mode
+            .dark &,
+            [data-theme='dark'] & {
+              background: #2a2a2a;
+              border-color: #3a3a3a;
+            }
             
             .bottom {
               display: flex;
@@ -212,6 +264,13 @@
                   font-weight: 500;
                   line-height: 1.5;
                   text-align: left;
+                  transition: color 0.3s ease;
+
+                  // Dark mode
+                  .dark &,
+                  [data-theme='dark'] & {
+                    color: #ffffff;
+                  }
                 }
                 
                 .notice-date {
@@ -223,6 +282,13 @@
                   font-weight: 400;
                   line-height: normal;
                   text-align: right;
+                  transition: color 0.3s ease;
+
+                  // Dark mode
+                  .dark &,
+                  [data-theme='dark'] & {
+                    color: #a0a0a0;
+                  }
                 }
               }
             }
@@ -300,9 +366,20 @@
             .MuiAccordionSummary-root {
               padding: 20px 24px;
               background: #ffffff;
+              transition: background-color 0.3s ease;
               
               &:hover {
                 background: #f8f9fa;
+              }
+
+              // Dark mode
+              .dark &,
+              [data-theme='dark'] & {
+                background: #2a2a2a;
+
+                &:hover {
+                  background: #3a3a3a;
+                }
               }
             }
             
@@ -310,6 +387,14 @@
               padding: 24px 24px 24px 80px;
               background: #f8f9fa;
               border-top: 1px solid #e0e0e0;
+              transition: background-color 0.3s ease, border-color 0.3s ease;
+
+              // Dark mode
+              .dark &,
+              [data-theme='dark'] & {
+                background: #1a1a1a;
+                border-color: #3a3a3a;
+              }
             }
             
             .badge {
@@ -354,6 +439,13 @@
                 font-size: 14px;
                 font-weight: 400;
                 line-height: 1.6;
+                transition: color 0.3s ease;
+
+                // Dark mode
+                .dark &,
+                [data-theme='dark'] & {
+                  color: #e0e0e0;
+                }
               }
             }
           }

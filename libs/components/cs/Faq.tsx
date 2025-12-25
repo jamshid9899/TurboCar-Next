@@ -52,52 +52,52 @@ const Faq = () => {
 		property: [
 			{
 				id: '00f5a45ed8897f8090116a01',
-				subject: 'Are the properties displayed on the site reliable?',
-				content: 'of course we only have verified properties',
+				subject: 'Are the cars displayed on the site reliable?',
+				content: 'Of course! We only have verified cars from trusted dealers and private sellers.',
 			},
 			{
 				id: '00f5a45ed8897f8090116a22',
-				subject: 'What types of properties do you offer?',
-				content: 'We offer single-family homes, condos, townhouses, apartments, and penthouses',
+				subject: 'What types of cars do you offer?',
+				content: 'We offer sedans, SUVs, coupes, hatchbacks, convertibles, vans, trucks, electric vehicles, and more.',
 			},
 			{
 				id: '00f5a45ed8897f8090116a21',
-				subject: 'How can I search for properties on your website?',
-				content: 'Simply use our search bar to enter location, price range, bedrooms/bathrooms, and property type.',
+				subject: 'How can I search for cars on your website?',
+				content: 'Simply use our search bar to enter location, price range, car brand, car type, and other filters.',
 			},
 			{
 				id: '00f5a45ed8897f8090116a23',
-				subject: 'Do you provide assistance for first-time homebuyers?',
-				content: 'Yes, we guide you through the process and help find suitable financing.',
+				subject: 'Do you provide assistance for first-time car buyers?',
+				content: 'Yes, we guide you through the process and help find suitable financing options.',
 			},
 			{
 				id: '00f5a45ed8897f8090116a24',
-				subject: 'What should I consider when buying a property?',
-				content: 'Location, condition, size, amenities, and future development plans.',
+				subject: 'What should I consider when buying a car?',
+				content: 'Consider factors such as brand, model, year, mileage, condition, fuel type, and price.',
 			},
 			{
 				id: '00f5a45ed8897f8090116a25',
-				subject: 'How long does the home-buying process typically take?',
-				content: 'Usually 3 to 6 days, depending on various factors.',
+				subject: 'How long does the car-buying process typically take?',
+				content: 'Usually 1 to 3 days, depending on payment method and documentation.',
 			},
 			{
 				id: '00f5a45ed8897f8090116a29',
-				subject: 'What happens if I encounter issues with the property after purchase?',
-				content: 'We offer post-purchase support to address any concerns promptly.',
+				subject: 'What happens if I encounter issues with the car after purchase?',
+				content: 'We offer post-purchase support and can connect you with the seller or dealer to address any concerns.',
 			},
 			{
 				id: '00f5a45ed8897f8090116a28',
-				subject: 'Do you offer properties in specific neighborhoods?',
-				content: 'Yes, we have listings in various neighborhoods based on your preferences.',
+				subject: 'Do you offer cars in specific locations?',
+				content: 'Yes, we have listings in various cities across Spain including Madrid, Barcelona, Valencia, and more.',
 			},
 			{
 				id: '00f5a45ed8897f8090116a27',
-				subject: 'Can I sell my property through your website?',
-				content: 'Absolutely, we provide services for selling properties as well.',
+				subject: 'Can I sell my car through your website?',
+				content: 'Absolutely! You can list your car for free and reach thousands of potential buyers.',
 			},
 			{
 				id: '00f5a45ed8897f8090116b99',
-				subject: 'What if I need help understanding legal aspects of property purchase?',
+				subject: 'What if I need help understanding legal aspects of car purchase?',
 				content: 'Our team can provide basic guidance and recommend legal professionals if needed.',
 			},
 		],
@@ -105,173 +105,173 @@ const Faq = () => {
 			{
 				id: '00f5a45ed8897f8090116a02',
 				subject: 'How can I make the payment?',
-				content: 'you make the payment through an agent!',
+				content: 'You can make the payment directly to the seller or dealer. We recommend using secure payment methods and meeting in person for cash transactions.',
 			},
 			{
 				id: '00f5a45ed8897f8090116a91',
 				subject: 'Are there any additional fees for using your services?',
-				content: 'No, our services are free for buyers. Sellers pay a commission upon successful sale.',
+				content: 'No, our services are free for buyers. Sellers can list their cars for free.',
 			},
 			{
 				id: '00f5a45ed8897f8090116a92',
 				subject: 'Is there an option for installment payments?',
-				content: 'Yes, we offer installment payment plans for certain properties. Please inquire for more details.',
+				content: 'Yes, many dealers offer financing options. You can discuss payment plans directly with the seller or dealer.',
 			},
 			{
 				id: '00f5a45ed8897f8090116a93',
-				subject: 'Is my payment information secure on your website?',
+				subject: 'Is my payment information secure?',
 				content:
-					'Yes, we use industry-standard encryption technology to ensure the security of your payment information.',
+					'We recommend using secure payment methods. For cash transactions, always meet in person in a safe location.',
 			},
 			{
 				id: '00f5a45ed8897f8090116a94',
 				subject: 'Can I make payments online through your website?',
-				content: "Yes, you can securely make payments online through our website's payment portal.",
+				content: "Currently, payments are handled directly between buyer and seller. We're working on secure online payment options.",
 			},
 			{
 				id: '00f5a45ed8897f8090116a95',
 				subject: "What happens if there's an issue with my payment?",
-				content: 'If you encounter any issues with your payment, please contact our support team for assistance.',
+				content: 'If you encounter any issues with your payment, please contact our support team immediately for assistance.',
 			},
 			{
 				id: '00f5a45ed8897f8090116a96',
 				subject: 'Do you offer refunds for payments made?',
 				content:
-					'Refund policies vary depending on the circumstances. Please refer to our refund policy or contact us for more information.',
+					'Refund policies depend on the agreement between buyer and seller. Please refer to your purchase agreement or contact us for assistance.',
 			},
 			{
 				id: '00f5a45ed8897f8090116a97',
-				subject: 'Are there any discounts or incentives for early payments?',
+				subject: 'Are there any discounts or special offers?',
 				content:
-					'We occasionally offer discounts or incentives for early payments. Check our promotions or contact us for current offers.',
+					'We occasionally offer promotions and discounts. Check our notices section or contact dealers directly for current offers.',
 			},
 			{
 				id: '00f5a45ed8897f8090116a99',
 				subject: 'How long does it take for payments to be processed?',
 				content:
-					'Payment processing times vary depending on the payment method used. Typically, credit/debit card payments are processed instantly',
+					'Payment processing depends on the method used. Bank transfers typically take 1-3 business days, while cash transactions are immediate.',
 			},
 			{
 				id: '00f5a45ed8897f8090116a98',
 				subject: 'Are there penalties for late payments?',
 				content:
-					'Late payment penalties may apply depending on the terms of your agreement. Please refer to your contract or contact us for details.',
+					'Payment terms are agreed upon between buyer and seller. Please refer to your purchase agreement for specific terms.',
 			},
 		],
 		buyers: [
 			{
 				id: '00f5a45ed8897f8090116a03',
 				subject: 'What should buyers pay attention to?',
-				content: 'Buyers should check and decide whether the property they want to buy or rent is actually suitable!',
+				content: 'Buyers should check the car condition, mileage, service history, and verify all documents before purchasing or renting!',
 			},
 			{
 				id: '00f5a45ed8897f8090116a85',
-				subject: 'How can I determine if a property is within my budget?',
+				subject: 'How can I determine if a car is within my budget?',
 				content:
-					'Calculate your budget by considering your income, down payment, and potential mortgage payments. Our agents can assist you within your budget.',
+					'Calculate your budget by considering the car price, insurance, registration, and maintenance costs. Use our price filters to find cars within your budget.',
 			},
 			{
 				id: '00f5a45ed8897f8090116a84',
-				subject: 'What documents do I need to provide when purchasing a property?',
+				subject: 'What documents do I need when purchasing a car?',
 				content:
-					"You'll typically need identification, proof of income, bank statements, and any necessary loan documentation. Our team will guide you through.",
+					"You'll typically need identification, proof of address, and payment method. For financing, you may need proof of income and bank statements.",
 			},
 			{
 				id: '00f5a45ed8897f8090116a83',
-				subject: 'What factors should I consider when choosing a neighborhood?',
+				subject: 'What factors should I consider when choosing a car?',
 				content:
-					'Consider factors such as location, safety, schools, amenities, transportation, and future development plans.',
+					'Consider factors such as brand, model, year, mileage, condition, fuel type, transmission, color, and your specific needs.',
 			},
 			{
 				id: '00f5a45ed8897f8090116a82',
-				subject: 'Can I negotiate the price of a property?',
+				subject: 'Can I negotiate the price of a car?',
 				content:
-					'Yes, you can negotiate the price of a property. Our agents will assist you in making competitive offers and negotiating terms with the seller.',
+					'Yes, you can negotiate the price with the seller or dealer. Many sellers are open to reasonable offers.',
 			},
 			{
 				id: '00f5a45ed8897f8090116a81',
-				subject: 'What are some red flags to watch out for when viewing properties?',
+				subject: 'What are some red flags to watch out for when viewing cars?',
 				content:
-					'Watch out for signs of structural damage, water damage, mold, outdated systems, and undesirable neighborhood conditions.',
+					'Watch out for signs of accidents, rust, unusual sounds, mismatched paint, incomplete service history, and suspiciously low prices.',
 			},
 			{
 				id: '00f5a45ed8897f8090116a80',
-				subject: 'Do you provide assistance with property inspections?',
+				subject: 'Do you provide assistance with car inspections?',
 				content:
-					'Yes, we can recommend reputable inspectors and accompany you during property inspections to identify any potential issues.',
+					'Yes, we recommend getting a professional inspection before purchase. You can arrange inspections with trusted mechanics.',
 			},
 			{
 				id: '00f5a45ed8897f8090116a79',
-				subject: 'How long does it typically take to find the right property?',
+				subject: 'How long does it typically take to find the right car?',
 				content:
-					'The timeframe varies depending on your preferences and market conditions. Our agents will work diligently to find the right property as quickly as possible.',
+					'The timeframe varies depending on your preferences and availability. Use our filters to narrow down your search and find the perfect car faster.',
 			},
 			{
 				id: '00f5a45ed8897f8090116a78',
-				subject: 'What are the advantages of using a real estate agent when buying a property?',
+				subject: 'What are the advantages of buying from verified dealers?',
 				content:
-					'Real estate agents provide expertise, negotiation skills, and guidance throughout the buying process, ultimately saving you time and hassle.',
+					'Verified dealers provide warranty options, financing, professional service, and peace of mind with verified listings.',
 			},
 			{
 				id: '00f5a45ed8897f8090116a77',
-				subject: 'What happens if I change my mind about a property after making an offer?',
+				subject: 'What happens if I change my mind about a car after making an offer?',
 				content:
-					'Depending on the terms of the offer and the stage of the transaction, you may have options to withdraw your offer.',
+					'Depending on the agreement with the seller, you may be able to withdraw your offer. Always clarify terms before committing.',
 			},
 		],
 
 		agents: [
 			{
 				id: '00f5a45ed8897f8090116a04',
-				subject: 'What do I need to do if I want to become an agent?',
+				subject: 'What do I need to do if I want to become a dealer?',
 				content:
-					'If you really decide to become an agent, you should read our terms and conditions and contact the admin!',
+					'If you want to become a verified dealer, you should read our terms and conditions and contact the admin!',
 			},
 			{
 				id: '00f5a45ed8897f8090116a62',
-				subject: 'What qualifications do I need to become a real estate agent?',
-				content: 'Complete pre-licensing course, pass licensing exam, meet state requirements.',
+				subject: 'What qualifications do I need to become a car dealer?',
+				content: 'You need a valid business license, proper documentation, and meet our verification requirements.',
 			},
 			{
 				id: '00f5a45ed8897f8090116a63',
-				subject: 'How do I find clients as a new real estate agent?',
-				content: 'Build network, use online/offline marketing, join reputable brokerage.',
+				subject: 'How do I find customers as a new dealer?',
+				content: 'List your cars on TurboCar, use our marketing tools, build your reputation with verified listings.',
 			},
 			{
 				id: '00f5a45ed8897f8090116a64',
-				subject: 'What are some effective marketing strategies for selling properties?',
-				content: 'Use social media, online platforms, networking events, and direct mail.',
+				subject: 'What are some effective marketing strategies for selling cars?',
+				content: 'Use high-quality photos, detailed descriptions, competitive pricing, and respond quickly to inquiries.',
 			},
 			{
 				id: '00f5a45ed8897f8090116a65',
-				subject: 'How do I handle negotiations with buyers and sellers?',
-				content: 'Develop strong negotiation skills, understand market trends, represent client interests.',
+				subject: 'How do I handle negotiations with buyers?',
+				content: 'Be transparent about car condition, provide accurate information, and maintain professional communication.',
 			},
 			{
 				id: '00f5a45ed8897f8090116a66',
-				subject: 'What should I do to stay updated with market trends and changes?',
-				content: 'Attend industry events, follow real estate news, participate in training.',
+				subject: 'What should I do to stay updated with market trends?',
+				content: 'Monitor car prices, follow automotive news, understand buyer preferences, and adjust your inventory accordingly.',
 			},
 			{
 				id: '00f5a45ed8897f8090116a67',
-				subject: 'How do I handle difficult clients or situations?',
+				subject: 'How do I handle difficult customers or situations?',
 				content:
-					'Approach with professionalism, empathy, and patience. Listen actively, address issues collaboratively.',
+					'Approach with professionalism, empathy, and patience. Listen actively, address concerns, and provide solutions.',
 			},
 			{
 				id: '00f5a45ed8897f8090116a68',
-				subject: 'What tools and technologies should I utilize as a real estate agent?',
-				content: 'Use CRM software, virtual tours, digital marketing tools, and mobile apps.',
+				subject: 'What tools and features are available for dealers?',
+				content: 'Use our listing management, analytics dashboard, customer inquiries system, and verification badges.',
 			},
 			{
 				id: '00f5a45ed8897f8090116a69',
-				subject: 'How do I ensure compliance with real estate laws and regulations?',
-				content: 'Stay updated with laws, attend education courses, consult legal professionals.',
+				subject: 'How do I ensure compliance with automotive laws and regulations?',
+				content: 'Stay updated with regulations, maintain proper documentation, ensure all cars meet legal requirements.',
 			},
 			{
 				id: '00f5a45ed8897f8090116a70',
-				subject: 'What strategies can I use to grow my real estate business?',
-				content: 'Build relationships, provide exceptional service, seek referrals, and continuously improve skills.',
+				subject: 'What strategies can I use to grow my dealership business?',
+				content: 'Build trust with verified listings, provide excellent customer service, offer competitive prices, and maintain quality inventory.',
 			},
 		],
 		membership: [
@@ -445,7 +445,7 @@ const Faq = () => {
 							changeCategoryHandler('property');
 						}}
 					>
-						Property
+						Cars
 					</div>
 					<div
 						className={category === 'payment' ? 'active' : ''}
@@ -461,7 +461,7 @@ const Faq = () => {
 							changeCategoryHandler('buyers');
 						}}
 					>
-						Foy Buyers
+						For Buyers
 					</div>
 					<div
 						className={category === 'agents' ? 'active' : ''}
@@ -469,7 +469,7 @@ const Faq = () => {
 							changeCategoryHandler('agents');
 						}}
 					>
-						For Agents
+						For Dealers
 					</div>
 					<div
 						className={category === 'membership' ? 'active' : ''}

@@ -11,7 +11,6 @@ import LocalGasStationIcon from '@mui/icons-material/LocalGasStation';
 import EventSeatIcon from '@mui/icons-material/EventSeat';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
-import StarIcon from '@mui/icons-material/Star';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import { sweetTopSmallSuccessAlert, sweetMixinErrorAlert } from '../../sweetAlert';
 
@@ -65,8 +64,6 @@ const RentalCarCard = (props: RentalCarCardProps) => {
 		}
 	};
 
-	// Calculate rating (mock data, you can use actual rating from property)
-	const rating = 4.5;
 	const imageCount = property?.propertyImages?.length || 1;
 
 	return (
@@ -84,13 +81,6 @@ const RentalCarCard = (props: RentalCarCardProps) => {
 				<div className={'image-count-badge'}>
 					<span>1/{imageCount}</span>
 				</div>
-				
-				{/* Available for Rent Badge - Top Left */}
-				<Chip 
-					label="AVAILABLE FOR RENT" 
-					size="small"
-					className="available-badge"
-				/>
 
 				{/* Heart Icon - Top Right */}
 				<IconButton 
@@ -104,6 +94,7 @@ const RentalCarCard = (props: RentalCarCardProps) => {
 						<FavoriteBorderIcon />
 					)}
 				</IconButton>
+
 			</Box>
 
 			{/* White Info Section - 40% */}
@@ -122,21 +113,6 @@ const RentalCarCard = (props: RentalCarCardProps) => {
 					{property?.propertyBrand} {property.propertyTitle}
 				</strong>
 
-				{/* Car Desc */}
-				<p className={'car-desc'}>
-					{property?.propertyYear} - {property?.propertyType}
-				</p>
-
-				{/* Rating Stars */}
-				<div className={'rating-stars'}>
-					<StarIcon className="star-icon" />
-					<StarIcon className="star-icon" />
-					<StarIcon className="star-icon" />
-					<StarIcon className="star-icon" />
-					<StarIcon className="star-icon star-half" />
-					<span className="rating-text">{rating}</span>
-				</div>
-
 				{/* Car Specs */}
 				<div className={'car-specs'}>
 					<div>
@@ -153,27 +129,27 @@ const RentalCarCard = (props: RentalCarCardProps) => {
 					</div>
 				</div>
 
-				{/* View and Like Counts */}
-				<div className={'view-like-stats'}>
-					<div className={'stat-item'}>
-						<VisibilityIcon fontSize="small" />
-						<span>{property?.propertyViews || 0}</span>
-					</div>
-					<div className={'stat-item'}>
-						<FavoriteBorderIcon fontSize="small" />
-						<span>{property?.propertyLikes || 0}</span>
+				{/* Bottom Action Bar */}
+				<div className={'bottom-action-bar'}>
+					{/* Left: Rent/Sale Badge */}
+					<Chip
+						label={property.isForRent && property.isForSale ? 'Rent / Sale' : property.isForRent ? 'Rent' : property.isForSale ? 'Sale' : 'Popular'}
+						size="small"
+						className="rent-sale-badge"
+					/>
+					
+					{/* Right: Views and Likes */}
+					<div className="view-like-stats">
+						<div className="stat-item">
+							<VisibilityIcon fontSize="small" />
+							<span>{property?.propertyViews || 0}</span>
+						</div>
+						<div className="stat-item">
+							<FavoriteBorderIcon fontSize="small" />
+							<span>{property?.propertyLikes || 0}</span>
+						</div>
 					</div>
 				</div>
-
-				{/* Rent Button */}
-				<Button 
-					variant="contained" 
-					size="small"
-					className="rent-now-btn"
-					onClick={handleRentNow}
-				>
-					RENT NOW
-				</Button>
 			</Box>
 		</Stack>
 	);
