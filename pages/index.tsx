@@ -95,7 +95,7 @@ const Home: NextPage = () => {
 						initialInput={{
 							page: 1,
 							limit: 8,
-							sort: 'propertyLikes',
+							sort: 'propertyLikes', // Featured: sort by likes
 							direction: Direction.DESC,
 							search: {},
 						}}
@@ -106,7 +106,7 @@ const Home: NextPage = () => {
 						initialInput={{
 							page: 1,
 							limit: 7,
-							sort: 'propertyViews',
+							sort: 'propertyViews', // Popular: sort by views
 							direction: Direction.DESC,
 							search: {
 								isForSale: true,
@@ -177,7 +177,7 @@ const Home: NextPage = () => {
 						initialInput={{
 							page: 1,
 							limit: 8,
-							sort: 'propertyLikes',
+							sort: 'propertyLikes', // Featured: sort by likes
 							direction: Direction.DESC,
 							search: {},
 						}}
@@ -188,7 +188,7 @@ const Home: NextPage = () => {
 						initialInput={{
 							page: 1,
 							limit: 7,
-							sort: 'propertyViews',
+							sort: 'propertyViews', // Popular: sort by views
 							direction: Direction.DESC,
 							search: {
 								isForSale: true,

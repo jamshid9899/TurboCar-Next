@@ -46,7 +46,8 @@ const FeaturedCars = (props: FeaturedCarsProps) => {
 		variables: { input: initialInput },
 		notifyOnNetworkStatusChange: true,
 		onCompleted: (data: T) => {
-			setFeaturedCars(data?.getProperties?.list);
+			// Backend already sorts by propertyLikes, just use the data as is
+			setFeaturedCars(data?.getProperties?.list || []);
 		},
 	});
 
@@ -129,7 +130,7 @@ const FeaturedCars = (props: FeaturedCarsProps) => {
 						<h2 className={'main-title'}>Featured Cars</h2>
 
 						{/* Subtitle */}
-						<p className={'subtitle'}>Explore our top-rated vehicles</p>
+						<p className={'subtitle'}>Most liked vehicles</p>
 					</Stack>
 					<CategoryFilter />
 					<Stack className={'card-box'}>
@@ -221,7 +222,7 @@ FeaturedCars.defaultProps = {
 	initialInput: {
 		page: 1,
 		limit: 8,
-		sort: 'propertyLikes',
+		sort: 'propertyLikes', // Featured: sort by likes
 		direction: Direction.DESC,
 		search: {},
 	},

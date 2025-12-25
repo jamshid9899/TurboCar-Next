@@ -219,7 +219,7 @@ PopularCars.defaultProps = {
 	initialInput: {
 		page: 1,
 		limit: 7,
-		sort: 'propertyViews', 
+		sort: 'propertyViews', // Popular: sort by views
 		direction: Direction.DESC,
 		search: {
 			isForSale: true,

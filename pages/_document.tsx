@@ -5,7 +5,7 @@ export default function Document() {
 		<Html lang="en">
 			<Head>
 				<meta name="robots" content="index,follow" />
-				<link rel="icon" type="image/png" href="/img/logo/favicon.svg" />
+				<link rel="icon" type="image/png" href="/img/logo/turbocar_1.svg" />
 
 				{/* SEO */}
 				<meta name="keyword" content={'turbocar, turbocar.uz, car marketplace, buy rent cars spain'} />

@@ -142,7 +142,7 @@ const SignupModal: React.FC<SignupModalProps> = ({ open, onClose, action }) => {
 					<Stack className={'signup-form'}>
 						{/* Logo */}
 						<Box className={'logo'}>
-							<img src="/img/logo/turbocar_1.svg" alt="TurboCar" />
+							<img src="/img/logo/favicon.svg" alt="TurboCar" />
 							<span>TurboCar</span>
 							<span className={'speed-badge'}>⚡ Speed</span>
 						</Box>
