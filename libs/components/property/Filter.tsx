@@ -375,6 +375,11 @@ const Filter = ({ searchFilter, setSearchFilter, initialInput }: FilterProps) =>
 				<Typography className="filter-title-new" variant="h5">
 					Filters
 				</Typography>
+				
+				{/* RESET BUTTON */}
+				<Button className="reset-btn-new" onClick={resetFilters}>
+					Reset Filters
+				</Button>
 
 				{/* QUICK FILTERS - Always Visible */}
 				<Stack className="quick-filters">
@@ -674,11 +679,6 @@ const Filter = ({ searchFilter, setSearchFilter, initialInput }: FilterProps) =>
 						</Stack>
 					</Stack>
 				</Collapse>
-
-				{/* RESET BUTTON */}
-				<Button className="reset-btn-new" onClick={resetFilters} fullWidth>
-					Reset Filters
-				</Button>
 			</Stack>
 		);
 	}
