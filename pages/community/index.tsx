@@ -152,9 +152,12 @@ const Community: NextPage = ({ initialInput, ...props }: T) => {
 						<Stack className="main-box">
 							<Stack className="left-config">
 								<Stack className={'image-info'}>
-									<img src={'/img/logo/turbocar_1.svg'} alt="TurboCar" />
+									<Stack className={'logo-container'}>
+										<img src={'/img/logo/turbocar_1.svg'} alt="TurboCar" />
+									</Stack>
 									<Stack className={'community-name'}>
-										<Typography className={'name'}>TurboCar Community</Typography>
+										<Typography className={'name'}>TurboCar</Typography>
+										<Typography className={'sub-name'}>Community</Typography>
 									</Stack>
 								</Stack>
 

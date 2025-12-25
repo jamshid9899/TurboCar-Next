@@ -10,83 +10,140 @@
 				flex-direction: row;
 				gap: 31px;
 				.left-config {
-					width: 266px;
+					width: 280px;
 					height: fit-content;
-					gap: 30px;
-					padding: 30px 15px 57px 21px;
-					margin-top: 100px;
+					gap: 20px;
+					padding: 20px;
+					margin-top: 40px;
 					border-radius: 12px;
-					border: 1px solid rgba(196, 196, 196, 0.79);
-					background: #fff;
-					box-shadow: 0px 1px 4px 0px rgba(24, 26, 32, 0.07);
+					border: 1px solid #d0d0d0;
+					background: #ffffff;
+					box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.08);
+					transition: all 0.2s ease;
+					position: sticky;
+					top: 100px;
+					
 					.image-info {
 						width: 100%;
-						flex-direction: column;
+						flex-direction: row;
 						align-items: center;
-						gap: 15px;
-						img {
-							width: 80px;
-							height: 80px;
+						gap: 14px;
+						padding-bottom: 18px;
+						border-bottom: 1px solid #e0e0e0;
+						margin-bottom: 4px;
+						
+						.logo-container {
+							width: 56px;
+							height: 56px;
+							min-width: 56px;
 							border-radius: 50%;
-							object-fit: contain;
-							background: linear-gradient(135deg, #FF6B00, #FF8E53); // TurboCar orange gradient
-							padding: 12px; // Add padding for logo visibility
-							box-shadow: 0px 4px 12px rgba(255, 107, 0, 0.2); // Orange shadow
+							background: linear-gradient(135deg, #FF6B00 0%, #FF8E53 100%);
+							display: flex;
+							align-items: center;
+							justify-content: center;
+							padding: 10px;
+							flex-shrink: 0;
+							
+							img {
+								width: 100%;
+								height: 100%;
+								object-fit: contain;
+								filter: brightness(0) invert(1);
+							}
 						}
+						
 						.community-name {
+							flex: 1;
+							display: flex;
+							flex-direction: column;
+							gap: 0;
+							min-width: 0;
+							
 							.name {
-								color: #FF6B00; // TurboCar orange color
+								color: #181a20;
 								font-family: $font;
-								font-size: 16px; // Slightly larger
+								font-size: 18px;
 								font-style: normal;
-								font-weight: 700; // Bolder
-								line-height: normal;
-								text-align: center;
-								letter-spacing: 0.5px; // Better spacing
+								font-weight: 700;
+								line-height: 1.3;
+								letter-spacing: 0.1px;
+								margin: 0;
+								white-space: nowrap;
+							}
+							
+							.sub-name {
+								color: #181a20;
+								font-family: $font;
+								font-size: 15px;
+								font-style: normal;
+								font-weight: 500;
+								line-height: 1.3;
+								letter-spacing: 0.05px;
+								margin: 0;
+								white-space: nowrap;
 							}
 						}
 					}
 					.tab-button {
-						width: 216.612px;
-						height: 36px;
-						padding: 0;
-						justify-content: center;
+						width: 100%;
+						height: 42px;
+						padding: 0 14px;
+						justify-content: flex-start;
 						align-items: center;
 						border-radius: 6px;
 						border: 1px solid #181a20;
-						margin-bottom: 10px;
+						margin-bottom: 8px;
+						background: #ffffff;
 						color: #181a20;
 						font-family: $font;
 						font-size: 14px;
 						font-style: normal;
 						font-weight: 500;
-						line-height: 150%;
-						letter-spacing: -0.266px;
-						transition: all 0.2s ease;
+						line-height: 1.4;
+						letter-spacing: 0px;
+						transition: all 0.15s ease;
+						text-transform: none;
+						
+						.MuiTab-iconWrapper {
+							margin-right: 8px;
+							margin-left: 0;
+							color: #181a20;
+						}
 						
 						&:hover {
-							background: rgba(255, 107, 0, 0.1);
-							border-color: #FF6B00;
-							color: #FF6B00;
+							background: #f5f5f5;
+							border-color: #181a20;
+							color: #181a20;
+							
+							.MuiTab-iconWrapper {
+								color: #181a20;
+							}
 						}
 					}
 					.tab-button.active {
-						width: 216.612px;
-						height: 36px;
-						padding: 0;
-						justify-content: center;
+						width: 100%;
+						height: 42px;
+						padding: 0 14px;
+						justify-content: flex-start;
 						align-items: center;
-						background: linear-gradient(135deg, #FF6B00, #FF8E53);
+						background: #181a20;
 						color: #ffffff;
-						border: none;
+						border: 1px solid #181a20;
 						border-radius: 6px;
-						margin-bottom: 10px;
+						margin-bottom: 8px;
 						font-family: $font;
 						font-size: 14px;
 						font-style: normal;
 						font-weight: 500;
-						line-height: 150%;
-						letter-spacing: -0.266px;
+						line-height: 1.4;
+						letter-spacing: 0px;
+						text-transform: none;
+						
+						.MuiTab-iconWrapper {
+							margin-right: 8px;
+							margin-left: 0;
+							color: #ffffff;
+						}
 					}
 				}
 				.community-detail-config {

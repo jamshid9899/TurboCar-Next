@@ -204,37 +204,86 @@ const AgentList: NextPage = ({ initialInput, ...props }: any) => {
 								InputProps={{
 									startAdornment: (
 										<InputAdornment position="start">
-											<SearchIcon sx={{ color: '#999' }} />
+											<SearchIcon sx={{ color: '#717171', fontSize: '22px' }} />
 										</InputAdornment>
 									),
 								}}
 								sx={{
 									'& .MuiOutlinedInput-root': {
-										borderRadius: '50px',
-										height: '50px',
-										width: '400px',
+										borderRadius: '12px',
+										height: '56px',
+										width: '100%',
+										maxWidth: '500px',
+										background: '#ffffff',
+										boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.08)',
 										'& fieldset': {
-											borderColor: '#e0e0e0',
+											borderColor: '#e3e3e3',
 											borderWidth: '2px',
 										},
 										'&:hover fieldset': {
-											borderColor: '#1890FF',
+											borderColor: '#FF6B00',
 										},
 										'&.Mui-focused fieldset': {
-											borderColor: '#1890FF',
+											borderColor: '#FF6B00',
 											borderWidth: '2px',
+										},
+									},
+									'& .MuiInputBase-input': {
+										fontFamily: 'Poppins, sans-serif',
+										fontSize: '15px',
+										fontWeight: 500,
+										color: '#181a20',
+										'&::placeholder': {
+											color: '#999',
+											opacity: 1,
 										},
 									},
 								}}
 							/>
 						</Box>
 						<Box component={'div'} className={'right'}>
-							<span>Sort by</span>
-							<div>
-								<Button onClick={sortingClickHandler} endIcon={<KeyboardArrowDownRoundedIcon />}>
+							<span className={'sort-label'}>Sort by</span>
+							<div className={'sort-dropdown-wrapper'}>
+								<Button 
+									onClick={sortingClickHandler} 
+									endIcon={<KeyboardArrowDownRoundedIcon sx={{ fontSize: '20px' }} />}
+									className={'sort-button'}
+								>
 									{filterSortName}
 								</Button>
-								<Menu anchorEl={anchorEl} open={sortingOpen} onClose={sortingCloseHandler} sx={{ paddingTop: '5px' }}>
+								<Menu 
+									anchorEl={anchorEl} 
+									open={sortingOpen} 
+									onClose={sortingCloseHandler}
+									anchorOrigin={{
+										vertical: 'bottom',
+										horizontal: 'right',
+									}}
+									transformOrigin={{
+										vertical: 'top',
+										horizontal: 'right',
+									}}
+									sx={{
+										'& .MuiPaper-root': {
+											borderRadius: '12px',
+											boxShadow: '0px 8px 24px rgba(0, 0, 0, 0.15)',
+											border: '1px solid #e3e3e3',
+											marginTop: '8px',
+											minWidth: '180px',
+										},
+										'& .MuiMenuItem-root': {
+											fontFamily: 'Poppins, sans-serif',
+											fontSize: '15px',
+											fontWeight: 500,
+											color: '#181a20',
+											padding: '12px 20px',
+											'&:hover': {
+												background: '#f8f9fa',
+												color: '#FF6B00',
+											},
+										},
+									}}
+								>
 									<MenuItem onClick={sortingHandler} id={'recent'} disableRipple>
 										Recent
 									</MenuItem>

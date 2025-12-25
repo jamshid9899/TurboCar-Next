@@ -129,129 +129,127 @@ const MyProfile: NextPage = ({ initialValues, ...props }: any) => {
 						<Typography className="sub-title">Manage your profile information</Typography>
 					</Stack>
 				</Stack>
-				<Stack className="top-box">
-					{/* Two Column Layout */}
-					<Stack className="profile-content-wrapper">
-						{/* Left Column - Profile Picture & Static Info */}
-						<Stack className="profile-left-column">
-							<Stack className="photo-box">
-								<Stack className="image-box">
-									<img
-										src={
-											updateData?.memberImage
-												? `${REACT_APP_API_URL}/${updateData?.memberImage}`
-												: `/img/profile/defaultUser.svg`
-										}
-										alt=""
-									/>
+				{/* Two Separate Cards Layout */}
+				<Stack className="profile-cards-wrapper">
+					{/* Card 1: Left - Profile Picture & Static Info */}
+					<Stack className="profile-card-left">
+						<Stack className="photo-box">
+							<Stack className="image-box">
+								<img
+									src={
+										updateData?.memberImage
+											? `${REACT_APP_API_URL}/${updateData?.memberImage}`
+											: `/img/profile/defaultUser.svg`
+									}
+									alt=""
+								/>
+							</Stack>
+							<Stack className="upload-big-box">
+								<input
+									type="file"
+									hidden
+									id="hidden-input"
+									onChange={uploadImage}
+									accept="image/jpg, image/jpeg, image/png"
+								/>
+								<label htmlFor="hidden-input" className="labeler">
+									<Typography>Upload Profile Image</Typography>
+								</label>
+								<Typography className="upload-text">A photo must be in JPG, JPEG or PNG format!</Typography>
+							</Stack>
+							{/* Static User Info */}
+							<Stack className="static-user-info">
+								<Stack className="info-item">
+									<PersonIcon sx={{ fontSize: '18px', color: '#717171' }} />
+									<Typography className="info-label">Username</Typography>
+									<Typography className="info-value">{updateData.memberNick || 'Not set'}</Typography>
 								</Stack>
-								<Stack className="upload-big-box">
-									<input
-										type="file"
-										hidden
-										id="hidden-input"
-										onChange={uploadImage}
-										accept="image/jpg, image/jpeg, image/png"
-									/>
-									<label htmlFor="hidden-input" className="labeler">
-										<Typography>Upload Profile Image</Typography>
-									</label>
-									<Typography className="upload-text">A photo must be in JPG, JPEG or PNG format!</Typography>
+								<Stack className="info-item">
+									<PhoneIcon sx={{ fontSize: '18px', color: '#717171' }} />
+									<Typography className="info-label">Phone</Typography>
+									<Typography className="info-value">{updateData.memberPhone || 'Not set'}</Typography>
 								</Stack>
-								{/* Static User Info */}
-								<Stack className="static-user-info">
-									<Stack className="info-item">
-										<PersonIcon sx={{ fontSize: '18px', color: '#717171' }} />
-										<Typography className="info-label">Username</Typography>
-										<Typography className="info-value">{updateData.memberNick || 'Not set'}</Typography>
-									</Stack>
-									<Stack className="info-item">
-										<PhoneIcon sx={{ fontSize: '18px', color: '#717171' }} />
-										<Typography className="info-label">Phone</Typography>
-										<Typography className="info-value">{updateData.memberPhone || 'Not set'}</Typography>
-									</Stack>
-									<Stack className="info-item">
-										<LocationOnIcon sx={{ fontSize: '18px', color: '#717171' }} />
-										<Typography className="info-label">Location</Typography>
-										<Typography className="info-value">{updateData.memberAddress || 'Not set'}</Typography>
-									</Stack>
+								<Stack className="info-item">
+									<LocationOnIcon sx={{ fontSize: '18px', color: '#717171' }} />
+									<Typography className="info-label">Location</Typography>
+									<Typography className="info-value">{updateData.memberAddress || 'Not set'}</Typography>
 								</Stack>
 							</Stack>
 						</Stack>
+					</Stack>
 
-						{/* Right Column - Editable Fields */}
-						<Stack className="profile-right-column">
-							<Typography className="section-title">Personal Information</Typography>
-							<Stack className="small-input-box">
-								<Stack className="input-box">
-									<Typography className="title">Username</Typography>
-									<input
-										type="text"
-										placeholder="Your username"
-										value={updateData.memberNick}
-										onChange={({ target: { value } }) => setUpdateData({ ...updateData, memberNick: value })}
-									/>
-								</Stack>
-								<Stack className="input-box">
-									<Typography className="title">Full Name</Typography>
-									<input
-										type="text"
-										placeholder="Your full name"
-										value={updateData.memberFullName || ''}
-										onChange={({ target: { value } }) => setUpdateData({ ...updateData, memberFullName: value })}
-									/>
-								</Stack>
+					{/* Card 2: Right - Editable Fields */}
+					<Stack className="profile-card-right">
+						<Typography className="section-title">Personal Information</Typography>
+						<Stack className="small-input-box">
+							<Stack className="input-box">
+								<Typography className="title">Username</Typography>
+								<input
+									type="text"
+									placeholder="Your username"
+									value={updateData.memberNick}
+									onChange={({ target: { value } }) => setUpdateData({ ...updateData, memberNick: value })}
+								/>
 							</Stack>
-							<Stack className="small-input-box">
-								<Stack className="input-box">
-									<Typography className="title">Phone</Typography>
-									<input
-										type="text"
-										placeholder="Your Phone"
-										value={updateData.memberPhone}
-										onChange={({ target: { value } }) => setUpdateData({ ...updateData, memberPhone: value })}
-									/>
-								</Stack>
-								<Stack className="input-box">
-									<Typography className="title">Address</Typography>
-									<input
-										type="text"
-										placeholder="Your address"
-										value={updateData.memberAddress}
-										onChange={({ target: { value } }) => setUpdateData({ ...updateData, memberAddress: value })}
-									/>
-								</Stack>
+							<Stack className="input-box">
+								<Typography className="title">Full Name</Typography>
+								<input
+									type="text"
+									placeholder="Your full name"
+									value={updateData.memberFullName || ''}
+									onChange={({ target: { value } }) => setUpdateData({ ...updateData, memberFullName: value })}
+								/>
 							</Stack>
-							<Stack className="about-me-box">
-								<Typography className="section-title">About Me</Typography>
-								<Stack className="bio-box">
-									<Typography className="title">Bio</Typography>
-									<textarea
-										className="about-textarea"
-										placeholder="Tell us about yourself"
-										value={updateData.memberDesc || ''}
-										onChange={({ target: { value } }) => setUpdateData({ ...updateData, memberDesc: value })}
-									/>
-								</Stack>
+						</Stack>
+						<Stack className="small-input-box">
+							<Stack className="input-box">
+								<Typography className="title">Phone</Typography>
+								<input
+									type="text"
+									placeholder="Your Phone"
+									value={updateData.memberPhone}
+									onChange={({ target: { value } }) => setUpdateData({ ...updateData, memberPhone: value })}
+								/>
 							</Stack>
-							<Stack className="update-button-box">
-								<Button className="update-button" onClick={updatePropertyHandler} disabled={doDisabledCheck()}>
-									<Typography>Update Profile</Typography>
-									<svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 13 13" fill="none">
-										<g clipPath="url(#clip0_7065_6985)">
-											<path
-												d="M12.6389 0H4.69446C4.49486 0 4.33334 0.161518 4.33334 0.361122C4.33334 0.560727 4.49486 0.722245 4.69446 0.722245H11.7672L0.105803 12.3836C-0.0352676 12.5247 -0.0352676 12.7532 0.105803 12.8942C0.176321 12.9647 0.268743 13 0.361131 13C0.453519 13 0.545907 12.9647 0.616459 12.8942L12.2778 1.23287V8.30558C12.2778 8.50518 12.4393 8.6667 12.6389 8.6667C12.8385 8.6667 13 8.50518 13 8.30558V0.361122C13 0.161518 12.8385 0 12.6389 0Z"
-												fill="white"
-											/>
-										</g>
-										<defs>
-											<clipPath id="clip0_7065_6985">
-												<rect width="13" height="13" fill="white" />
-											</clipPath>
-										</defs>
-									</svg>
-								</Button>
+							<Stack className="input-box">
+								<Typography className="title">Address</Typography>
+								<input
+									type="text"
+									placeholder="Your address"
+									value={updateData.memberAddress}
+									onChange={({ target: { value } }) => setUpdateData({ ...updateData, memberAddress: value })}
+								/>
 							</Stack>
+						</Stack>
+						<Stack className="about-me-box">
+							<Typography className="section-title">About Me</Typography>
+							<Stack className="bio-box">
+								<Typography className="title">Bio</Typography>
+								<textarea
+									className="about-textarea"
+									placeholder="Tell us about yourself"
+									value={updateData.memberDesc || ''}
+									onChange={({ target: { value } }) => setUpdateData({ ...updateData, memberDesc: value })}
+								/>
+							</Stack>
+						</Stack>
+						<Stack className="update-button-box">
+							<Button className="update-button" onClick={updatePropertyHandler} disabled={doDisabledCheck()}>
+								<Typography>Update Profile</Typography>
+								<svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 13 13" fill="none">
+									<g clipPath="url(#clip0_7065_6985)">
+										<path
+											d="M12.6389 0H4.69446C4.49486 0 4.33334 0.161518 4.33334 0.361122C4.33334 0.560727 4.49486 0.722245 4.69446 0.722245H11.7672L0.105803 12.3836C-0.0352676 12.5247 -0.0352676 12.7532 0.105803 12.8942C0.176321 12.9647 0.268743 13 0.361131 13C0.453519 13 0.545907 12.9647 0.616459 12.8942L12.2778 1.23287V8.30558C12.2778 8.50518 12.4393 8.6667 12.6389 8.6667C12.8385 8.6667 13 8.50518 13 8.30558V0.361122C13 0.161518 12.8385 0 12.6389 0Z"
+											fill="white"
+										/>
+									</g>
+									<defs>
+										<clipPath id="clip0_7065_6985">
+											<rect width="13" height="13" fill="white" />
+										</clipPath>
+									</defs>
+								</svg>
+							</Button>
 						</Stack>
 					</Stack>
 				</Stack>
