@@ -668,30 +668,11 @@ export const SEND_CHAT_MESSAGE = gql`
 			receiverId
 			createdAt
 			updatedAt
-		}
-	}
-`;
-
-export const GET_CHAT_MESSAGES = gql`
-	query GetChatMessages($input: ChatMessagesInquiry!) {
-		getChatMessages(input: $input) {
-			list {
+			senderData {
 				_id
-				messageContent
-				messageStatus
-				senderId
-				receiverId
-				createdAt
-				updatedAt
-				senderData {
-					_id
-					memberNick
-					memberFullName
-					memberImage
-				}
-			}
-			metaCounter {
-				total
+				memberNick
+				memberFullName
+				memberImage
 			}
 		}
 	}

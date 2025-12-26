@@ -25,6 +25,14 @@ const Top = () => {
 	const user = useReactiveVar(userVar);
 	const { t, i18n } = useTranslation('common');
 	const router = useRouter();
+	
+	// Debug: Check if AboutUs translation is available
+	useEffect(() => {
+		if (i18n && i18n.language) {
+			const aboutUsTranslation = t('AboutUs');
+			console.log('AboutUs translation:', aboutUsTranslation, 'Locale:', i18n.language);
+		}
+	}, [i18n.language, t]);
 	const [themeMode, setThemeMode] = useState<'light' | 'dark'>(() => getTheme());
 	const [anchorEl2, setAnchorEl2] = useState<null | HTMLElement>(null);
 	const [lang, setLang] = useState<string | null>('en');
@@ -53,8 +61,14 @@ const Top = () => {
 	useEffect(() => {
 		if (router.locale) {
 			setLang(router.locale);
+			// Force reload translations when locale changes
+			if (i18n) {
+				i18n.reloadResources(router.locale, 'common').then(() => {
+					i18n.changeLanguage(router.locale);
+				});
+			}
 		}
-	}, [router.locale]);
+	}, [router.locale, i18n]);
 
 	useEffect(() => {
 		switch (router.pathname) {
@@ -86,6 +100,8 @@ const Top = () => {
 			setLang(newLocale);
 			localStorage.setItem('locale', newLocale);
 			setAnchorEl2(null);
+			// Reload translations before changing language
+			await i18n.reloadResources(newLocale, 'common');
 			await i18n.changeLanguage(newLocale);
 			await router.push(router.asPath, router.asPath, { locale: newLocale });
 		},
@@ -173,7 +189,7 @@ const Top = () => {
 					<div>{t('Community')}</div>
 				</Link>
 				<Link href={'/about'}>
-					<div>{t('About Us')}</div>
+					<div>{t('AboutUs')}</div>
 				</Link>
 				<Link href={'/cs'}>
 					<div>{t('CS')}</div>
@@ -215,7 +231,7 @@ const Top = () => {
 								<div className={router.pathname === '/community' ? 'active' : ''} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#181a20', fontFamily: 'inherit', fontSize: '15px', fontWeight: 600, padding: '10px 16px', borderRadius: '8px', cursor: 'pointer', whiteSpace: 'nowrap', minHeight: '40px', visibility: 'visible', opacity: 1, position: 'static', margin: 0, transform: 'none', zIndex: 102, textIndent: 0, textTransform: 'none', letterSpacing: 'normal', WebkitTextFillColor: '#181a20' }}>{t('Community')}</div>
 							</Link>
 							<Link href={'/about'} draggable={false} onDragStart={(e) => e.preventDefault()} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: 'auto', minHeight: '40px', maxHeight: '80px', margin: 0, padding: 0, transform: 'none', userSelect: 'none', WebkitUserDrag: 'none', visibility: 'visible', opacity: 1, overflow: 'visible', position: 'static', zIndex: 101 }}>
-								<div className={router.pathname === '/about' ? 'active' : ''} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#181a20', fontFamily: 'inherit', fontSize: '15px', fontWeight: 600, padding: '10px 16px', borderRadius: '8px', cursor: 'pointer', whiteSpace: 'nowrap', minHeight: '40px', visibility: 'visible', opacity: 1, position: 'static', margin: 0, transform: 'none', zIndex: 102, textIndent: 0, textTransform: 'none', letterSpacing: 'normal', WebkitTextFillColor: '#181a20' }}>{t('About Us')}</div>
+								<div className={router.pathname === '/about' ? 'active' : ''} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#181a20', fontFamily: 'inherit', fontSize: '15px', fontWeight: 600, padding: '10px 16px', borderRadius: '8px', cursor: 'pointer', whiteSpace: 'nowrap', minHeight: '40px', visibility: 'visible', opacity: 1, position: 'static', margin: 0, transform: 'none', zIndex: 102, textIndent: 0, textTransform: 'none', letterSpacing: 'normal', WebkitTextFillColor: '#181a20' }}>{t('AboutUs')}</div>
 							</Link>
 							<Link href={'/cs'} draggable={false} onDragStart={(e) => e.preventDefault()} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: 'auto', minHeight: '40px', maxHeight: '80px', margin: 0, padding: 0, transform: 'none', userSelect: 'none', WebkitUserDrag: 'none', visibility: 'visible', opacity: 1, overflow: 'visible', position: 'static', zIndex: 101 }}>
 								<div className={router.pathname === '/cs' ? 'active' : ''} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#181a20', fontFamily: 'inherit', fontSize: '15px', fontWeight: 600, padding: '10px 16px', borderRadius: '8px', cursor: 'pointer', whiteSpace: 'nowrap', minHeight: '40px', visibility: 'visible', opacity: 1, position: 'static', margin: 0, transform: 'none', zIndex: 102, textIndent: 0, textTransform: 'none', letterSpacing: 'normal', WebkitTextFillColor: '#181a20' }}>{t('CS')}</div>

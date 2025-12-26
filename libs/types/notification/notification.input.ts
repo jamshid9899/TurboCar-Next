@@ -3,7 +3,7 @@ import { Direction } from '../../enums/common.enum';
 
 /** 
  * NOTIFICATIONS INQUIRY
- * Notification'larni filter qilish uchun
+ * For filtering notifications
  */
 export interface NotificationsInquiry {
 	page: number;
@@ -19,7 +19,7 @@ export interface NotificationsInquiry {
 
 /** 
  * NOTIFICATION UPDATE
- * Notification status'ni yangilash uchun
+ * For updating notification status
  */
 export interface NotificationUpdate {
 	_id: string;

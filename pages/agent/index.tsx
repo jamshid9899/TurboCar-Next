@@ -15,10 +15,16 @@ import { Member } from '../../libs/types/member/member';
 import { AgentsInquiry } from '../../libs/types/member/member.input';
 import { useMutation, useQuery } from '@apollo/client';
 import { GET_AGENTS } from '../../apollo/user/query';
-import { LIKE_TARGET_MEMBER } from '../../apollo/user/mutation';
+import { LIKE_TARGET_MEMBER, SUBSCRIBE, UNSUBSCRIBE } from '../../apollo/user/mutation';
 import { T } from '../../libs/types/common';
 import { Direction, Message } from '../../libs/enums/common.enum';
 import { sweetMixinErrorAlert, sweetTopSmallSuccessAlert } from '../../libs/sweetAlert';
+import { sweetErrorHandling } from '../../libs/sweetAlert';
+import { useReactiveVar } from '@apollo/client';
+import { userVar } from '../../apollo/store';
+import { GridSkeleton, AgentCardSkeleton } from '../../libs/components/common/SkeletonLoader';
+import EmptyState from '../../libs/components/common/EmptyState';
+import { useDebounce } from '../../libs/hooks/useDebounce';
 
 export const getStaticProps = async ({ locale }: any) => ({
 	props: {
@@ -60,9 +66,13 @@ const AgentList: NextPage = ({ initialInput, ...props }: any) => {
 	const [total, setTotal] = useState<number>(0);
 	const [currentPage, setCurrentPage] = useState<number>(1);
 	const [searchText, setSearchText] = useState<string>('');
+	const debouncedSearchText = useDebounce(searchText, 500);
+	const user = useReactiveVar(userVar);
 
 	/** APOLLO REQUESTS **/
 	const [likeTargetMember] = useMutation(LIKE_TARGET_MEMBER);
+	const [subscribe] = useMutation(SUBSCRIBE);
+	const [unsubscribe] = useMutation(UNSUBSCRIBE);
 
 	const { 
 		loading: getAgentsLoading,
@@ -100,6 +110,69 @@ const AgentList: NextPage = ({ initialInput, ...props }: any) => {
 		}
 	};
 
+	const subscribeHandler = async (id: string) => {
+		try {
+			if (!id) {
+				await sweetErrorHandling(new Error('Invalid member ID'));
+				return;
+			}
+			if (!user?._id) {
+				await sweetMixinErrorAlert('Please login first');
+				throw new Error(Message.NOT_AUTHENTICATED);
+			}
+
+			await subscribe({
+				variables: {
+					input: id,
+				},
+			});
+			await sweetTopSmallSuccessAlert('Followed!', 800);
+			// Refetch with current search filter
+			await getAgentsRefetch({ 
+				variables: { input: searchFilter } 
+			});
+		} catch (err: any) {
+			console.error('Error in subscribeHandler:', err);
+			const errorMessage = err?.graphQLErrors?.[0]?.message || err?.networkError?.message || err?.message || 'Follow failed!';
+			// If it's a "Create failed" error, it might mean the user is already subscribed, so try to unsubscribe
+			if (errorMessage.includes('Create failed') || errorMessage.includes('already')) {
+				await unsubscribeHandler(id); // Attempt to unsubscribe
+			} else if (err.message !== Message.NOT_AUTHENTICATED) {
+				await sweetErrorHandling(new Error(errorMessage));
+			}
+		}
+	};
+
+	const unsubscribeHandler = async (id: string) => {
+		try {
+			if (!id) {
+				await sweetErrorHandling(new Error('Invalid member ID'));
+				return;
+			}
+			if (!user?._id) {
+				await sweetMixinErrorAlert('Please login first');
+				throw new Error(Message.NOT_AUTHENTICATED);
+			}
+
+			await unsubscribe({
+				variables: {
+					input: id,
+				},
+			});
+			await sweetTopSmallSuccessAlert('Unfollowed!', 800);
+			// Refetch with current search filter
+			await getAgentsRefetch({ 
+				variables: { input: searchFilter } 
+			});
+		} catch (err: any) {
+			console.error('Error in unsubscribeHandler:', err);
+			const errorMessage = err?.graphQLErrors?.[0]?.message || err?.networkError?.message || err?.message || 'Unfollow failed!';
+			if (err.message !== Message.NOT_AUTHENTICATED) {
+				await sweetErrorHandling(new Error(errorMessage));
+			}
+		}
+	};
+
 	/** LIFECYCLES **/
 	useEffect(() => {
 		if (!router.isReady) return;
@@ -127,6 +200,26 @@ const AgentList: NextPage = ({ initialInput, ...props }: any) => {
 			setCurrentPage(searchFilter.page || 1);
 		}
 	}, [searchFilter]);
+
+	// Debounced search effect
+	useEffect(() => {
+		if (debouncedSearchText !== undefined) {
+			const newFilter = {
+				...searchFilter,
+				page: 1,
+				search: {
+					...searchFilter.search,
+					text: debouncedSearchText || undefined,
+				},
+			};
+			// Remove text from search if empty
+			if (!debouncedSearchText) {
+				delete newFilter.search.text;
+			}
+			setSearchFilter(newFilter);
+			router.push(`/agent?input=${JSON.stringify(newFilter)}`, undefined, { scroll: false });
+		}
+	}, [debouncedSearchText]);
 
 	/** HANDLERS **/
 	const sortingClickHandler = (e: MouseEvent<HTMLElement>) => {
@@ -301,14 +394,27 @@ const AgentList: NextPage = ({ initialInput, ...props }: any) => {
 						</Box>
 					</Stack>
 					<Stack className={'card-wrap'}>
-						{agents?.length === 0 ? (
-							<div className={'no-data'}>
-								<img src="/img/icons/icoAlert.svg" alt="" />
-								<p>No Agents found!</p>
-							</div>
+						{getAgentsLoading ? (
+							<GridSkeleton count={9} SkeletonComponent={AgentCardSkeleton} columns={3} />
+						) : agents?.length === 0 ? (
+							<EmptyState
+								type="agent"
+								actionLabel="Browse All Dealers"
+								onActionClick={() => {
+									router.push('/agent');
+								}}
+							/>
 						) : (
 							agents.map((agent: Member) => {
-								return <AgentCard agent={agent} likeMemberHandler={likeMemberHandler} key={agent._id} />;
+								return (
+									<AgentCard
+										agent={agent}
+										likeMemberHandler={likeMemberHandler}
+										subscribeHandler={subscribeHandler}
+										unsubscribeHandler={unsubscribeHandler}
+										key={agent._id}
+									/>
+								);
 							})
 						)}
 					</Stack>

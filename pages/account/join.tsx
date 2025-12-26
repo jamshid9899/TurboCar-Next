@@ -2,7 +2,7 @@ import React, { useCallback, useState, useEffect } from 'react';
 import { NextPage } from 'next';
 import useDeviceDetect from '../../libs/hooks/useDeviceDetect';
 import withLayoutBasic from '../../libs/components/layout/LayoutBasic';
-import { Box, Button, Checkbox, FormControlLabel, FormGroup, Stack } from '@mui/material';
+import { Box, Button, Checkbox, FormControlLabel, FormGroup, Stack, Radio, RadioGroup } from '@mui/material';
 import { useRouter } from 'next/router';
 import { logIn, signUp } from '../../libs/auth';
 import { sweetMixinErrorAlert, sweetTopSmallSuccessAlert } from '../../libs/sweetAlert';
@@ -33,13 +33,8 @@ const Join: NextPage = () => {
 	};
 
 	const checkUserTypeHandler = (e: any) => {
-		const checked = e.target.checked;
-		if (checked) {
-			const value = e.target.name;
-			handleInput('type', value);
-		} else {
-			handleInput('type', 'USER');
-		}
+		const value = e.target.value;
+		handleInput('type', value);
 	};
 
 	const handleInput = useCallback((name: any, value: any) => {
@@ -112,12 +107,6 @@ const Join: NextPage = () => {
 				<Stack className={'container'}>
 					<Stack className={'main'}>
 						<Stack className={'left'}>
-							{/* @ts-ignore */}
-							<Box className={'logo'}>
-								<img src="/img/logo/turbocar_1.svg" alt="TurboCar" />
-								<span>TurboCar</span>
-								<span className={'speed-badge'}>⚡ Speed</span>
-							</Box>
 							<Box className={'info'}>
 								{loginView ? (
 									<>
@@ -188,32 +177,23 @@ const Join: NextPage = () => {
 									<div className={'type-option'}>
 										<span className={'text'}>I want to be registered as:</span>
 										<div>
-											<FormGroup>
+											<RadioGroup
+												value={input?.type || 'USER'}
+												onChange={checkUserTypeHandler}
+												row
+												sx={{ gap: '20px' }}
+											>
 												<FormControlLabel
-													control={
-														<Checkbox
-															size="small"
-															name={'USER'}
-															onChange={checkUserTypeHandler}
-															checked={input?.type == 'USER'}
-														/>
-													}
+													value="USER"
+													control={<Radio size="small" />}
 													label="User"
 												/>
-											</FormGroup>
-											<FormGroup>
 												<FormControlLabel
-													control={
-														<Checkbox
-															size="small"
-															name={'AGENT'}
-															onChange={checkUserTypeHandler}
-															checked={input?.type == 'AGENT'}
-														/>
-													}
+													value="AGENT"
+													control={<Radio size="small" />}
 													label="Agent"
 												/>
-											</FormGroup>
+											</RadioGroup>
 										</div>
 									</div>
 								)}

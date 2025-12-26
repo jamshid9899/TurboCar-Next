@@ -228,4 +228,4 @@ const CommunityCard = (props: CommunityCardProps) => {
 	}
 };
 
-export default CommunityCard;
+export default React.memo(CommunityCard);

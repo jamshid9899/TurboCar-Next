@@ -1,6 +1,6 @@
 import React, { ChangeEvent, MouseEvent, useEffect, useState } from 'react';
 import { NextPage } from 'next';
-import { Box, Button, Menu, MenuItem, Pagination, Stack, Typography } from '@mui/material';
+import { Box, Button, Menu, MenuItem, Pagination, Stack, Typography, TextField, InputAdornment, IconButton } from '@mui/material';
 import PropertyCard from '../../libs/components/property/PropertyCard';
 import useDeviceDetect from '../../libs/hooks/useDeviceDetect';
 import withLayoutBasic from '../../libs/components/layout/LayoutBasic';
@@ -10,12 +10,18 @@ import { PropertiesInquiry } from '../../libs/types/property/property.input';
 import { Property } from '../../libs/types/property/property';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import KeyboardArrowDownRoundedIcon from '@mui/icons-material/KeyboardArrowDownRounded';
+import SearchIcon from '@mui/icons-material/Search';
+import ClearIcon from '@mui/icons-material/Clear';
+import RefreshIcon from '@mui/icons-material/Refresh';
 import { Direction, Message } from '../../libs/enums/common.enum';
 import { useMutation, useQuery } from '@apollo/client';
 import { GET_PROPERTIES } from '../../apollo/user/query';
 import { T } from '../../libs/types/common';
 import { LIKE_TARGET_PROPERTY } from '../../apollo/user/mutation';
 import { sweetMixinErrorAlert, sweetTopSmallSuccessAlert } from '../../libs/sweetAlert';
+import { GridSkeleton, PropertyCardSkeleton } from '../../libs/components/common/SkeletonLoader';
+import EmptyState from '../../libs/components/common/EmptyState';
+import { useDebounce } from '../../libs/hooks/useDebounce';
 
 export const getStaticProps = async ({ locale }: any) => ({
 	props: {
@@ -68,6 +74,8 @@ const PropertyList: NextPage = ({ initialInput, ...props }: any) => {
 	const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 	const [sortingOpen, setSortingOpen] = useState(false);
 	const [filterSortName, setFilterSortName] = useState('New');
+	const [searchText, setSearchText] = useState<string>(searchFilter?.search?.text || '');
+	const debouncedSearchText = useDebounce(searchText, 500);
 
 	// Handle mode from router.query (rent/buy)
 	useEffect(() => {
@@ -210,6 +218,7 @@ const PropertyList: NextPage = ({ initialInput, ...props }: any) => {
 	const resetFilters = () => {
 		const defaultFilter = getDefaultFilter(router);
 		setSearchFilter(defaultFilter);
+		setSearchText('');
 		// Preserve mode in URL when resetting
 		if (router.query.mode) {
 			router.push(`/property?mode=${router.query.mode}`, undefined, { scroll: false });
@@ -218,8 +227,49 @@ const PropertyList: NextPage = ({ initialInput, ...props }: any) => {
 		}
 	};
 
+	const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		const value = e.target.value;
+		setSearchText(value);
+	};
+
+	const handleSearchClear = () => {
+		setSearchText('');
+		setSearchFilter(prev => ({
+			...prev,
+			page: 1,
+			search: {
+				...prev.search,
+				text: undefined,
+			},
+		}));
+	};
+
+	const handleSearchRefresh = () => {
+		setSearchFilter(prev => ({
+			...prev,
+			page: 1,
+		}));
+		getPropertiesRefetch({ input: searchFilter });
+	};
+
+	// Handle debounced search text
+	useEffect(() => {
+		if (debouncedSearchText !== undefined) {
+			setSearchFilter(prev => ({
+				...prev,
+				page: 1,
+				search: {
+					...prev.search,
+					text: debouncedSearchText || undefined,
+				},
+			}));
+		}
+	}, [debouncedSearchText]);
+
 	if (device === 'mobile') {
-		return <h1>PROPERTIES MOBILE</h1>;
+		// Import and use mobile version
+		const PropertyListMobile = require('./mobile').default;
+		return <PropertyListMobile initialInput={initialInput} />;
 	} else {
 		// Get selected locations for result info
 		const selectedLocations = searchFilter?.search?.locationList || [];
@@ -245,6 +295,52 @@ const PropertyList: NextPage = ({ initialInput, ...props }: any) => {
 							<Filter searchFilter={searchFilter} setSearchFilter={setSearchFilter} initialInput={initialInput} />
 						</Stack>
 						<Stack className="main-config" mb={'76px'}>
+							{/* Search Input */}
+							<Box component="div" className="search-header">
+								<Typography className="search-title">Find Your Car</Typography>
+								<Stack direction="row" spacing={1} alignItems="center" className="search-box-wrapper">
+									<TextField
+										fullWidth
+										placeholder="Search..."
+										value={searchText}
+										onChange={handleSearchChange}
+										className="search-input"
+										InputProps={{
+											startAdornment: (
+												<InputAdornment position="start">
+													<SearchIcon sx={{ color: '#717171' }} />
+												</InputAdornment>
+											),
+											endAdornment: searchText && (
+												<InputAdornment position="end">
+													<IconButton
+														size="small"
+														onClick={handleSearchClear}
+														sx={{ padding: '4px' }}
+													>
+														<ClearIcon sx={{ fontSize: '18px', color: '#717171' }} />
+													</IconButton>
+												</InputAdornment>
+											),
+										}}
+									/>
+									<IconButton
+										onClick={handleSearchRefresh}
+										sx={{
+											width: '40px',
+											height: '40px',
+											borderRadius: '50%',
+											backgroundColor: '#f0f0f0',
+											'&:hover': {
+												backgroundColor: '#e0e0e0',
+											},
+										}}
+									>
+										<RefreshIcon sx={{ fontSize: '20px', color: '#181a20' }} />
+									</IconButton>
+								</Stack>
+							</Box>
+							
 							{/* Sort + Result Info Header */}
 							{/* @ts-ignore */}
 							<Box component="div" className="sort-header">
@@ -290,11 +386,16 @@ const PropertyList: NextPage = ({ initialInput, ...props }: any) => {
 							</Box>
 							
 							<Stack className={'list-config'}>
-								{properties?.length === 0 ? (
-									<div className={'no-data'}>
-										<img src="/img/icons/icoAlert.svg" alt="" />
-										<p>No Properties found!</p>
-									</div>
+								{getPropertiesLoading ? (
+									<GridSkeleton count={9} SkeletonComponent={PropertyCardSkeleton} columns={3} />
+								) : properties?.length === 0 ? (
+									<EmptyState
+										type="property"
+										actionLabel="Browse All Cars"
+										onActionClick={() => {
+											router.push('/property');
+										}}
+									/>
 								) : (
 									properties.map((property: Property) => {
 										return <PropertyCard property={property} likePropertyHandler={likePropertyHandler} key={property?._id} />;

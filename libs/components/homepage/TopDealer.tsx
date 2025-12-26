@@ -40,6 +40,14 @@ const TopDealers = () => {
 				return;
 			}
 
+			// Check if already following
+			const dealer = topDealers.find((d) => d._id === id);
+			if (dealer?.meFollowed && dealer?.meFollowed[0]?.myFollowing) {
+				// Already following, so unsubscribe instead
+				await unsubscribeHandler(id);
+				return;
+			}
+
 			await subscribe({
 				variables: {
 					input: id,
@@ -60,7 +68,20 @@ const TopDealers = () => {
 		} catch (err: any) {
 			console.error('Error in subscribeHandler:', err);
 			const errorMessage = err?.graphQLErrors?.[0]?.message || err?.networkError?.message || err?.message || 'Subscribe failed!';
-			await sweetErrorHandling(new Error(errorMessage));
+			
+			// If error is "Create failed" or similar, try to unsubscribe instead
+			if (errorMessage.toLowerCase().includes('create failed') || 
+			    errorMessage.toLowerCase().includes('already') ||
+			    errorMessage.toLowerCase().includes('duplicate')) {
+				// Try to unsubscribe instead
+				try {
+					await unsubscribeHandler(id);
+				} catch (unsubErr: any) {
+					await sweetErrorHandling(new Error('Already following this dealer'));
+				}
+			} else {
+				await sweetErrorHandling(new Error(errorMessage));
+			}
 		}
 	};
 

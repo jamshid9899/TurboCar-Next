@@ -4,7 +4,7 @@ import { TotalCounter } from '../property/property';
 
 /** 
  * NOTIFICATION (Single)
- * Bitta notification object
+ * Single notification object
  */
 export interface Notification {
 	_id: string;

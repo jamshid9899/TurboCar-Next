@@ -14,7 +14,7 @@ import { Direction } from '../../enums/common.enum';
 
 /** 
  * PROPERTY INPUT
- * Yangi property yaratish uchun
+ * For creating a new property
  */
 export interface PropertyInput {
 	propertyCondition: PropertyCondition;
@@ -41,7 +41,7 @@ export interface PropertyInput {
 
 /** 
  * PROPERTY UPDATE
- * Property yangilash uchun
+ * For updating property
  */
 export interface PropertyUpdate {
 	_id: string;
@@ -105,7 +105,7 @@ export interface PropertiesInquiry {
 
 /** 
  * AGENT PROPERTIES INQUIRY
- * Agent o'zining property'larini ko'rish uchun
+ * For agent to view their own properties
  */
 interface APISearch {
 	memberId?: string;

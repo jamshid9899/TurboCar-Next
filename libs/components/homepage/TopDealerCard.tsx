@@ -31,13 +31,23 @@ const TopDealerCard = (props: TopDealerCardProps) => {
 		});
 	};
 
-	const handleFollowClick = (e: React.MouseEvent) => {
+	const handleFollowClick = async (e: React.MouseEvent) => {
 		e.preventDefault();
 		e.stopPropagation();
-		if (dealer?.meFollowed && dealer?.meFollowed[0]?.myFollowing) {
-			if (unsubscribeHandler) unsubscribeHandler(dealer._id);
+		
+		// Check if already following
+		const isFollowing = dealer?.meFollowed && dealer?.meFollowed[0]?.myFollowing;
+		
+		if (isFollowing) {
+			// Already following, so unsubscribe
+			if (unsubscribeHandler) {
+				await unsubscribeHandler(dealer._id);
+			}
 		} else {
-			if (subscribeHandler) subscribeHandler(dealer._id);
+			// Not following, so subscribe
+			if (subscribeHandler) {
+				await subscribeHandler(dealer._id);
+			}
 		}
 	};
 

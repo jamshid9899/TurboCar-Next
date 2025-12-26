@@ -4,7 +4,7 @@ import { RentalStatus, RentalType } from '../../enums/renta.enum';
 
 /** 
  * RENTAL BOOKING (Single)
- * Bitta rental object
+ * Single rental object
  */
 export interface RentalBooking {
 	_id: string;
@@ -27,7 +27,7 @@ export interface RentalBooking {
 
 /** 
  * RENTALS (Paginated List)
- * Admin uchun pagination bilan
+ * Paginated list for admin
  */
 export interface Rentals {
 	list: RentalBooking[];

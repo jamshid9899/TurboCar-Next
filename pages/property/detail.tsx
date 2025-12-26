@@ -3,6 +3,7 @@ import { Box, Button, Checkbox, Stack, Typography, IconButton } from '@mui/mater
 import useDeviceDetect from '../../libs/hooks/useDeviceDetect';
 import withLayoutFull from '../../libs/components/layout/LayoutFull';
 import { NextPage } from 'next';
+import Image from 'next/image';
 import Review from '../../libs/components/property/Review';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import SwiperCore, { Autoplay, Navigation, Pagination } from 'swiper';
@@ -395,23 +396,55 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 							<Stack className={'images'}>
 								<Stack className={'main-image'}>
 									{slideImage ? (
-										<img
+										<Image
 											src={`${REACT_APP_API_URL}/${slideImage}`}
 											alt={'main-image'}
+											width={1200}
+											height={600}
+											quality={95}
+											priority
+											style={{
+												width: '100%',
+												height: '100%',
+												objectFit: 'cover',
+												borderRadius: '12px',
+											}}
 											onError={(e) => {
 												(e.target as HTMLImageElement).src = '/img/banner/default-car.jpg';
 											}}
 										/>
 									) : property?.propertyImages && property.propertyImages.length > 0 ? (
-										<img
+										<Image
 											src={`${REACT_APP_API_URL}/${property.propertyImages[0]}`}
 											alt={'main-image'}
+											width={1200}
+											height={600}
+											quality={95}
+											priority
+											style={{
+												width: '100%',
+												height: '100%',
+												objectFit: 'cover',
+												borderRadius: '12px',
+											}}
 											onError={(e) => {
 												(e.target as HTMLImageElement).src = '/img/banner/default-car.jpg';
 											}}
 										/>
 									) : (
-										<img src={'/img/banner/default-car.jpg'} alt={'main-image'} />
+										<Image
+											src={'/img/banner/default-car.jpg'}
+											alt={'main-image'}
+											width={1200}
+											height={600}
+											quality={95}
+											style={{
+												width: '100%',
+												height: '100%',
+												objectFit: 'cover',
+												borderRadius: '12px',
+											}}
+										/>
 									)}
 								</Stack>
 								{property?.propertyImages && property.propertyImages.length > 0 && (
@@ -425,9 +458,18 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 													onClick={() => changeImageHandler(subImg)}
 													key={subImg}
 												>
-													<img
+													<Image
 														src={imagePath}
 														alt={'sub-image'}
+														width={120}
+														height={120}
+														quality={90}
+														style={{
+															width: '100%',
+															height: '100%',
+															objectFit: 'cover',
+															borderRadius: '10px',
+														}}
 														onError={(e) => {
 															(e.target as HTMLImageElement).src = '/img/banner/default-car.jpg';
 														}}

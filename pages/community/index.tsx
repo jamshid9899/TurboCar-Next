@@ -22,6 +22,8 @@ import { Direction } from '../../libs/enums/common.enum';
 import { likeBoardArticleHandler } from '../../libs/utils';
 import { useReactiveVar } from '@apollo/client';
 import { userVar } from '../../apollo/store';
+import { ListSkeleton, CommunityCardSkeleton } from '../../libs/components/common/SkeletonLoader';
+import EmptyState from '../../libs/components/common/EmptyState';
 
 export const getStaticProps = async ({ locale }: any) => ({
 	props: {
@@ -238,92 +240,100 @@ const Community: NextPage = ({ initialInput, ...props }: T) => {
 									<TabPanel value={BoardArticleCategory.FREE}>
 										<Stack className="list-box">
 											{getBoardArticlesLoading ? (
-												<Stack className={'no-data'}>
-													<p>Loading articles...</p>
-												</Stack>
+												<ListSkeleton count={6} SkeletonComponent={CommunityCardSkeleton} />
 											) : getBoardArticlesError ? (
-												<Stack className={'no-data'}>
-													<img src="/img/icons/icoAlert.svg" alt="" />
-													<p>Error loading articles: {getBoardArticlesError.message}</p>
-												</Stack>
+												<EmptyState
+													type="community"
+													title="Error Loading Articles"
+													description={getBoardArticlesError.message || 'Something went wrong while loading articles.'}
+												/>
 											) : boardArticles?.length > 0 ? (
 												boardArticles.map((boardArticle: BoardArticle) => {
 													return <CommunityCard boardArticle={boardArticle} key={boardArticle?._id} likeArticleHandler={likeArticleHandler} />;
 												})
 											) : (
-												<Stack className={'no-data'}>
-													<img src="/img/icons/icoAlert.svg" alt="" />
-													<p>No articles found!</p>
-												</Stack>
+												<EmptyState
+													type="community"
+													actionLabel="Write First Article"
+													onActionClick={() => {
+														// Navigate to write article page or open modal
+													}}
+												/>
 											)}
 										</Stack>
 									</TabPanel>
 									<TabPanel value={BoardArticleCategory.RECOMMEND}>
 										<Stack className="list-box">
 											{getBoardArticlesLoading ? (
-												<Stack className={'no-data'}>
-													<p>Loading articles...</p>
-												</Stack>
+												<ListSkeleton count={6} SkeletonComponent={CommunityCardSkeleton} />
 											) : getBoardArticlesError ? (
-												<Stack className={'no-data'}>
-													<img src="/img/icons/icoAlert.svg" alt="" />
-													<p>Error loading articles: {getBoardArticlesError.message}</p>
-												</Stack>
+												<EmptyState
+													type="community"
+													title="Error Loading Articles"
+													description={getBoardArticlesError.message || 'Something went wrong while loading articles.'}
+												/>
 											) : boardArticles?.length > 0 ? (
 												boardArticles.map((boardArticle: BoardArticle) => {
 													return <CommunityCard boardArticle={boardArticle} key={boardArticle?._id} likeArticleHandler={likeArticleHandler} />;
 												})
 											) : (
-												<Stack className={'no-data'}>
-													<img src="/img/icons/icoAlert.svg" alt="" />
-													<p>No articles found!</p>
-												</Stack>
+												<EmptyState
+													type="community"
+													actionLabel="Write First Article"
+													onActionClick={() => {
+														// Navigate to write article page or open modal
+													}}
+												/>
 											)}
 										</Stack>
 									</TabPanel>
 									<TabPanel value={BoardArticleCategory.NEWS}>
 										<Stack className="list-box">
 											{getBoardArticlesLoading ? (
-												<Stack className={'no-data'}>
-													<p>Loading articles...</p>
-												</Stack>
+												<ListSkeleton count={6} SkeletonComponent={CommunityCardSkeleton} />
 											) : getBoardArticlesError ? (
-												<Stack className={'no-data'}>
-													<img src="/img/icons/icoAlert.svg" alt="" />
-													<p>Error loading articles: {getBoardArticlesError.message}</p>
-												</Stack>
+												<EmptyState
+													type="community"
+													title="Error Loading Articles"
+													description={getBoardArticlesError.message || 'Something went wrong while loading articles.'}
+												/>
 											) : boardArticles?.length > 0 ? (
 												boardArticles.map((boardArticle: BoardArticle) => {
 													return <CommunityCard boardArticle={boardArticle} key={boardArticle?._id} likeArticleHandler={likeArticleHandler} />;
 												})
 											) : (
-												<Stack className={'no-data'}>
-													<img src="/img/icons/icoAlert.svg" alt="" />
-													<p>No articles found!</p>
-												</Stack>
+												<EmptyState
+													type="community"
+													actionLabel="Write First Article"
+													onActionClick={() => {
+														// Navigate to write article page or open modal
+													}}
+												/>
 											)}
 										</Stack>
 									</TabPanel>
 									<TabPanel value={BoardArticleCategory.HUMOR}>
 										<Stack className="list-box">
 											{getBoardArticlesLoading ? (
-												<Stack className={'no-data'}>
-													<p>Loading articles...</p>
-												</Stack>
+												<ListSkeleton count={6} SkeletonComponent={CommunityCardSkeleton} />
 											) : getBoardArticlesError ? (
-												<Stack className={'no-data'}>
-													<img src="/img/icons/icoAlert.svg" alt="" />
-													<p>Error loading articles: {getBoardArticlesError.message}</p>
-												</Stack>
+												<EmptyState
+													type="community"
+													title="Error Loading Articles"
+													description={getBoardArticlesError.message || 'Something went wrong while loading articles.'}
+												/>
 											) : boardArticles?.length > 0 ? (
 												boardArticles.map((boardArticle: BoardArticle) => {
 													return <CommunityCard boardArticle={boardArticle} key={boardArticle?._id} likeArticleHandler={likeArticleHandler} />;
 												})
 											) : (
-												<Stack className={'no-data'}>
-													<img src="/img/icons/icoAlert.svg" alt="" />
-													<p>No articles found!</p>
-												</Stack>
+												<EmptyState
+													type="community"
+													actionLabel="Write First Article"
+													onActionClick={() => {
+														// Navigate to write article page or open modal
+													}}
+												/>
 											)}
 										</Stack>
 									</TabPanel>

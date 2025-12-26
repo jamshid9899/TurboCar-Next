@@ -27,6 +27,59 @@
 					width: 75%;
 					flex: 1;
 					
+					// Search Header
+					.search-header {
+						margin-bottom: 24px;
+						
+						.search-title {
+							font-family: $font;
+							font-size: 24px;
+							font-weight: 700;
+							color: #181a20;
+							margin-bottom: 16px;
+						}
+						
+						.search-box-wrapper {
+							display: flex;
+							align-items: center;
+							gap: 12px;
+							
+							.search-input {
+								flex: 1;
+								
+								.MuiOutlinedInput-root {
+									border-radius: 12px;
+									background: #ffffff;
+									border: 1px solid #e0e0e0;
+									box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.05);
+									transition: all 0.3s ease;
+									
+									&:hover {
+										border-color: #FF6B00;
+										box-shadow: 0px 4px 12px rgba(255, 107, 0, 0.1);
+									}
+									
+									&.Mui-focused {
+										border-color: #FF6B00;
+										box-shadow: 0px 4px 12px rgba(255, 107, 0, 0.15);
+									}
+									
+									.MuiOutlinedInput-input {
+										padding: 12px 16px;
+										font-family: $font;
+										font-size: 15px;
+										color: #181a20;
+										
+										&::placeholder {
+											color: #9e9e9e;
+											opacity: 1;
+										}
+									}
+								}
+							}
+						}
+					}
+					
 					.list-config {
 						display: grid;
 						grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -54,8 +107,8 @@
 							.property-img {
 								position: relative;
 								width: 100%;
-								height: 240px; // Increased for better car visibility
-								min-height: 240px;
+								height: 320px; // Increased for better car image visibility
+								min-height: 320px;
 								background-size: cover;
 								background-position: center;
 								background-repeat: no-repeat;
@@ -113,7 +166,7 @@
 							}
 							
 							.property-info {
-								padding: 20px;
+								padding: 18px 20px; // Slightly reduced padding to balance with larger image
 								background: #ffffff;
 								
 								.property-title {

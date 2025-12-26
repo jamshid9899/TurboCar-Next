@@ -32,6 +32,7 @@ const MyMenu = () => {
 	} else {
 		return (
 			<Stack width={'100%'} padding={'30px 24px'}>
+				{/* Profile Card - Image, Name, Phone and Type */}
 				<Stack className={'profile'}>
 					<Box component={'div'} className={'profile-img'}>
 						<img
@@ -54,6 +55,8 @@ const MyMenu = () => {
 						)}
 					</Stack>
 				</Stack>
+				
+				{/* Navigation Sections */}
 				<Stack className={'sections'}>
 					<Stack className={'section'} style={{ height: user.memberType === 'AGENT' ? '228px' : '153px' }}>
 						<Typography className="title" variant={'h5'}>

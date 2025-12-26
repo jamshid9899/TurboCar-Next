@@ -9,6 +9,10 @@ import { userVar } from '../../../apollo/store';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
+import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
+import SpeedIcon from '@mui/icons-material/Speed';
+import LocalGasStationIcon from '@mui/icons-material/LocalGasStation';
+import SettingsIcon from '@mui/icons-material/Settings';
 import { formatterStr } from '../../utils';
 import { PropertyCondition, PropertyFuelType, PropertyType, PropertyBrand, PropertyStatus } from '../../enums/property.enum';
 import DirectionsCarIcon from '@mui/icons-material/DirectionsCar';
@@ -32,7 +36,6 @@ const PropertyBigCard = (props: PropertyBigCardProps) => {
 		propertyImages,
 		isForSale,
 		isForRent,
-		propertyRank,
 		propertyTitle,
 		propertyLocation,
 		propertyYear,
@@ -146,6 +149,11 @@ const PropertyBigCard = (props: PropertyBigCardProps) => {
 		backgroundImage: `url(${imageUrl})`,
 	}), [imageUrl]);
 
+	// Calculate image count for display
+	const imageCount = useMemo(() => {
+		return propertyImages?.length || 1;
+	}, [propertyImages]);
+
 	if (device === 'mobile') {
 		return <div>BIG CARD MOBILE</div>;
 	} else {
@@ -159,8 +167,11 @@ const PropertyBigCard = (props: PropertyBigCardProps) => {
 				>
 					{/* @ts-ignore - TypeScript limitation with complex union types */}
 					<Box className="card-status">
+						{/* FOR SALE / FOR RENT - Always show first */}
 						{isForSale && <span className="sale">🚗 FOR SALE</span>}
 						{isForRent && <span className="rent">🚗 FOR RENT</span>}
+						
+						{/* NEW ARRIVAL - Show second if applicable */}
 						{isNewArrival && propertyCondition === PropertyCondition.NEW && (
 							<Chip
 								label="NEW ARRIVAL"
@@ -177,6 +188,8 @@ const PropertyBigCard = (props: PropertyBigCardProps) => {
 								}}
 							/>
 						)}
+						
+						{/* ELECTRIC - Show third if applicable */}
 						{isElectric && (
 							<Chip
 								icon={<ElectricCarIcon sx={{ fontSize: '14px !important', color: '#ffffff !important' }} />}
@@ -194,6 +207,8 @@ const PropertyBigCard = (props: PropertyBigCardProps) => {
 								}}
 							/>
 						)}
+						
+						{/* PREMIUM - Show fourth if applicable */}
 						{isPremium && (
 							<Chip
 								icon={<StarIcon sx={{ fontSize: '14px !important', color: '#FFD700 !important' }} />}
@@ -211,6 +226,8 @@ const PropertyBigCard = (props: PropertyBigCardProps) => {
 								}}
 							/>
 						)}
+						
+						{/* SOLD - Show last if applicable */}
 						{propertyStatus === PropertyStatus.SOLD && (
 							<Chip
 								label="SOLD"
@@ -228,11 +245,35 @@ const PropertyBigCard = (props: PropertyBigCardProps) => {
 							/>
 						)}
 					</Box>
-					{/* @ts-ignore - TypeScript limitation with complex union types */}
-					<Box className="card-rank">
-						<img src="/img/icons/star.svg" alt="" />
-						<span>{propertyRank || 0}</span>
-					</Box>
+					{/* Image Count Badge - Top Right */}
+					{imageCount > 0 && (
+						<Box 
+							className="image-count-badge"
+							sx={{
+								position: 'absolute',
+								top: '16px',
+								right: '16px',
+								padding: '6px 12px',
+								borderRadius: '8px',
+								background: 'rgba(255, 255, 255, 0.95)',
+								backdropFilter: 'blur(10px)',
+								boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.15)',
+								zIndex: 10,
+								display: 'flex',
+								alignItems: 'center',
+								justifyContent: 'center',
+							}}
+						>
+							<span style={{
+								color: '#181a20',
+								fontFamily: 'Poppins, sans-serif',
+								fontSize: '14px',
+								fontWeight: 700,
+							}}>
+								1/{imageCount}
+							</span>
+						</Box>
+					)}
 				</div>
 
 				<Stack className="card-info">
@@ -251,19 +292,19 @@ const PropertyBigCard = (props: PropertyBigCardProps) => {
 
 					<Stack className="info-specs">
 						<Stack className="spec">
-							<img src="/img/icons/calendar.svg" alt="year" />
+							<CalendarTodayIcon sx={{ fontSize: '18px', color: '#717171' }} />
 							<span>{propertyYear || 'N/A'}</span>
 						</Stack>
 						<Stack className="spec">
-							<img src="/img/icons/speedometer.svg" alt="mileage" />
+							<SpeedIcon sx={{ fontSize: '18px', color: '#717171' }} />
 							<span>{formatterStr(propertyMileage || 0)} km</span>
 						</Stack>
 						<Stack className="spec">
-							<img src="/img/icons/fuel.svg" alt="fuel" />
+							<LocalGasStationIcon sx={{ fontSize: '18px', color: '#717171' }} />
 							<span>{getFuelTypeText()}</span>
 						</Stack>
 						<Stack className="spec">
-							<img src="/img/icons/gear.svg" alt="transmission" />
+							<SettingsIcon sx={{ fontSize: '18px', color: '#717171' }} />
 							<span>{getTransmissionText()}</span>
 						</Stack>
 					</Stack>

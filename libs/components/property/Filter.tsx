@@ -377,7 +377,11 @@ const Filter = ({ searchFilter, setSearchFilter, initialInput }: FilterProps) =>
 				</Typography>
 				
 				{/* RESET BUTTON */}
-				<Button className="reset-btn-new" onClick={resetFilters}>
+				<Button 
+					className="reset-btn-new" 
+					onClick={resetFilters}
+					aria-label="Reset all filters to default"
+				>
 					Reset Filters
 				</Button>
 
@@ -385,19 +389,30 @@ const Filter = ({ searchFilter, setSearchFilter, initialInput }: FilterProps) =>
 				<Stack className="quick-filters">
 					{/* TYPE - ToggleButtonGroup */}
 					<Stack className="filter-section-new">
-						<Typography className="section-title-new">Type</Typography>
+						<Typography className="section-title-new" component="h3">Type</Typography>
 						<ToggleButtonGroup
 							value={typeValue}
 							exclusive
 							onChange={handleSaleRentChange}
-							aria-label="sale or rent"
+							aria-label="Select sale or rent"
+							role="group"
 							fullWidth
 							className="type-toggle-group"
 						>
-							<ToggleButton value="sale" aria-label="for sale" className="type-toggle-btn">
+							<ToggleButton 
+								value="sale" 
+								aria-label="Filter by sale" 
+								aria-pressed={typeValue === 'sale'}
+								className="type-toggle-btn"
+							>
 								Sale
 							</ToggleButton>
-							<ToggleButton value="rent" aria-label="for rent" className="type-toggle-btn">
+							<ToggleButton 
+								value="rent" 
+								aria-label="Filter by rent" 
+								aria-pressed={typeValue === 'rent'}
+								className="type-toggle-btn"
+							>
 								Rent
 							</ToggleButton>
 						</ToggleButtonGroup>
@@ -511,13 +526,16 @@ const Filter = ({ searchFilter, setSearchFilter, initialInput }: FilterProps) =>
 					className="more-filters-btn"
 					onClick={() => setShowAdvancedFilters(!showAdvancedFilters)}
 					endIcon={showAdvancedFilters ? <ExpandLessIcon /> : <ExpandMoreIcon />}
+					aria-label={showAdvancedFilters ? 'Hide advanced filters' : 'Show advanced filters'}
+					aria-expanded={showAdvancedFilters}
+					aria-controls="advanced-filters-section"
 				>
 					{showAdvancedFilters ? 'Hide' : '+ More Filters'}
 				</Button>
 
 				{/* ADVANCED FILTERS - Collapsible */}
 				<Collapse in={showAdvancedFilters}>
-					<Stack className="advanced-filters">
+					<Stack className="advanced-filters" id="advanced-filters-section" role="region" aria-label="Advanced filters">
 					{/* CONDITION */}
 					<Stack className="filter-section-new">
 						<Typography className="section-title-new">Condition</Typography>

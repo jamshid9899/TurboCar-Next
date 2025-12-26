@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
-import { Stack, Box, Typography, Chip } from '@mui/material';
+import { Stack, Box, Typography, Chip, Button } from '@mui/material';
 import Link from 'next/link';
 import { REACT_APP_API_URL } from '../../config';
 import IconButton from '@mui/material/IconButton';
@@ -11,19 +11,26 @@ import StarIcon from '@mui/icons-material/Star';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import VerifiedIcon from '@mui/icons-material/Verified';
 import DirectionsCarIcon from '@mui/icons-material/DirectionsCar';
+import PersonAddIcon from '@mui/icons-material/PersonAdd';
+import PersonRemoveIcon from '@mui/icons-material/PersonRemove';
 import { useReactiveVar } from '@apollo/client';
 import { userVar } from '../../../apollo/store';
 
 interface AgentCardProps {
 	agent: any;
 	likeMemberHandler?: (user: any, id: string) => void;
+	subscribeHandler?: (id: string) => void;
+	unsubscribeHandler?: (id: string) => void;
 }
 
 const AgentCard = (props: AgentCardProps) => {
-	const { agent, likeMemberHandler } = props;
+	const { agent, likeMemberHandler, subscribeHandler, unsubscribeHandler } = props;
 	const device = useDeviceDetect();
 	const user = useReactiveVar(userVar);
 	const [imageError, setImageError] = useState(false);
+	
+	const isFollowing = agent?.meFollowed && agent?.meFollowed[0]?.myFollowing;
+	const isOwnProfile = user?._id === agent?._id;
 	
 	const getImagePath = () => {
 		if (imageError || !agent?.memberImage || agent.memberImage.trim() === '') {
@@ -50,14 +57,15 @@ const AgentCard = (props: AgentCardProps) => {
 	} else {
 		return (
 			<Stack className="agent-general-card">
-				<Link
-					href={{
-						pathname: '/agent/detail',
-						query: { agentId: agent?._id },
-					}}
-					style={{ textDecoration: 'none', color: 'inherit' }}
-				>
-					<Stack className="agent-card-content" direction="column">
+				<Stack className="agent-card-content" direction="column">
+					<Link
+						href={{
+							pathname: '/agent/detail',
+							query: { agentId: agent?._id },
+						}}
+						style={{ textDecoration: 'none', color: 'inherit' }}
+						aria-label={`View profile of ${agent?.memberFullName ?? agent?.memberNick || 'agent'}`}
+					>
 						{/* Image Section - Top (Hexagonal) */}
 						<Box
 							component={'div'}
@@ -85,17 +93,9 @@ const AgentCard = (props: AgentCardProps) => {
 						{/* Info Section - Bottom */}
 						<Stack className={'agent-desc'}>
 							<Box component={'div'} className={'agent-info'}>
-								<Link
-									href={{
-										pathname: '/agent/detail',
-										query: { agentId: agent?._id },
-									}}
-									style={{ textDecoration: 'none', color: 'inherit' }}
-								>
-									<Typography className="agent-name">
-										{agent?.memberFullName ?? agent?.memberNick}
-									</Typography>
-								</Link>
+								<Typography className="agent-name">
+									{agent?.memberFullName ?? agent?.memberNick}
+								</Typography>
 								
 								<Stack direction="row" alignItems="center" spacing={1} className="agent-role-row">
 									<Typography className="agent-role">Dealer</Typography>
@@ -135,11 +135,77 @@ const AgentCard = (props: AgentCardProps) => {
 								</Stack>
 							</Box>
 						</Stack>
-					</Stack>
-				</Link>
+					</Link>
+					{/* Follow/Unfollow Button - Outside Link */}
+					{!isOwnProfile && (subscribeHandler || unsubscribeHandler) && (
+						<Box
+							sx={{
+								marginTop: '12px',
+								width: '100%',
+								padding: '0 16px',
+								paddingBottom: '16px',
+							}}
+						>
+							{isFollowing ? (
+								<Button
+									variant="outlined"
+									fullWidth
+									startIcon={<PersonRemoveIcon />}
+									onClick={() => {
+										if (unsubscribeHandler) {
+											unsubscribeHandler(agent?._id);
+										}
+									}}
+									sx={{
+										borderColor: '#FF6B00',
+										color: '#FF6B00',
+										fontFamily: 'Poppins, sans-serif',
+										fontSize: '14px',
+										fontWeight: 600,
+										textTransform: 'none',
+										padding: '8px 16px',
+										borderRadius: '8px',
+										'&:hover': {
+											borderColor: '#FF6B00',
+											background: '#FFF5F0',
+										},
+									}}
+								>
+									Following
+								</Button>
+							) : (
+								<Button
+									variant="contained"
+									fullWidth
+									startIcon={<PersonAddIcon />}
+									onClick={() => {
+										if (subscribeHandler) {
+											subscribeHandler(agent?._id);
+										}
+									}}
+									sx={{
+										background: '#FF6B00',
+										color: '#ffffff',
+										fontFamily: 'Poppins, sans-serif',
+										fontSize: '14px',
+										fontWeight: 600,
+										textTransform: 'none',
+										padding: '8px 16px',
+										borderRadius: '8px',
+										'&:hover': {
+											background: '#E55A00',
+										},
+									}}
+								>
+									Follow
+								</Button>
+							)}
+						</Box>
+					)}
+				</Stack>
 			</Stack>
 		);
 	}
 };
 
-export default AgentCard;
+export default React.memo(AgentCard);

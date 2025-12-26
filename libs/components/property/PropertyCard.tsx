@@ -1,5 +1,6 @@
 import React, { useMemo } from 'react';
 import { Stack, Box, Typography, IconButton, Chip } from '@mui/material';
+import Image from 'next/image';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
 import { REACT_APP_API_URL } from '../../config';
 import { Property } from '../../types/property/property';
@@ -103,7 +104,158 @@ const PropertyCard = (props: PropertyCardProps) => {
 	};
 
 	if (device === 'mobile') {
-		return <div>PROPERTY CARD MOBILE</div>;
+		// Mobile version - simplified card layout
+		const imageUrl = property?.propertyImages && property.propertyImages.length > 0 && property.propertyImages[0]
+			? `${REACT_APP_API_URL}/${property.propertyImages[0]}` 
+			: '/img/banner/default-car.jpg';
+
+		return (
+			<Stack 
+				className="property-card-mobile"
+				sx={{
+					width: '100%',
+					backgroundColor: '#ffffff',
+					borderRadius: '12px',
+					overflow: 'hidden',
+					boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.08)',
+				}}
+			>
+				<Box
+					onClick={() => pushPropertyDetail(property._id)}
+					onKeyDown={(e) => {
+						if (e.key === 'Enter' || e.key === ' ') {
+							e.preventDefault();
+							pushPropertyDetail(property._id);
+						}
+					}}
+					role="button"
+					tabIndex={0}
+					aria-label={`View details of ${property?.propertyTitle || 'car'}`}
+					sx={{
+						position: 'relative',
+						width: '100%',
+						height: '200px',
+						cursor: 'pointer',
+						'&:focus': {
+							outline: '2px solid #f17742',
+							outlineOffset: '2px',
+						},
+					}}
+				>
+					<Image
+						src={imageUrl}
+						alt={property?.propertyTitle || 'Car image'}
+						fill
+						sizes="100vw"
+						style={{
+							objectFit: 'cover',
+						}}
+						loading="lazy"
+					/>
+					{likePropertyHandler && (
+						<IconButton 
+							className="like-btn" 
+							onClick={(e: any) => {
+								e.preventDefault();
+								e.stopPropagation();
+								if (likePropertyHandler) {
+									likePropertyHandler(user, property._id);
+								}
+							}}
+							aria-label={property?.meLiked && property?.meLiked[0]?.myFavorite ? 'Remove from favorites' : 'Add to favorites'}
+							aria-pressed={property?.meLiked && property?.meLiked[0]?.myFavorite ? true : false}
+							sx={{
+								position: 'absolute',
+								top: '8px',
+								right: '8px',
+								zIndex: 100,
+								backgroundColor: 'rgba(255, 255, 255, 0.9)',
+								width: '32px',
+								height: '32px',
+								'&:focus': {
+									outline: '2px solid #f17742',
+									outlineOffset: '2px',
+								},
+							}}
+						>
+							{property?.meLiked && property?.meLiked[0]?.myFavorite ? (
+								<FavoriteIcon style={{ color: '#f17742', fontSize: '18px' }} />
+							) : (
+								<FavoriteBorderIcon style={{ color: '#181a20', fontSize: '18px' }} />
+							)}
+						</IconButton>
+					)}
+					<Stack
+						className="property-status"
+						sx={{
+							position: 'absolute',
+							top: '8px',
+							left: '8px',
+							flexDirection: 'row',
+							gap: '4px',
+						}}
+					>
+						{property?.isForSale && <Chip label="FOR SALE" size="small" sx={{ backgroundColor: '#EB6753', color: '#ffffff', fontSize: '10px', height: '20px' }} />}
+						{property?.isForRent && <Chip label="FOR RENT" size="small" sx={{ backgroundColor: '#F17742', color: '#ffffff', fontSize: '10px', height: '20px' }} />}
+					</Stack>
+				</Box>
+
+				<Stack sx={{ padding: '12px' }} spacing={1}>
+					<Typography 
+						variant="h6" 
+						sx={{ 
+							fontSize: '16px', 
+							fontWeight: 700,
+							cursor: 'pointer',
+						}}
+						onClick={() => pushPropertyDetail(property._id)}
+					>
+						{property?.propertyTitle}
+					</Typography>
+					<Typography variant="body2" sx={{ color: '#717171', fontSize: '14px' }}>
+						{property?.propertyLocation}
+					</Typography>
+					<Stack direction="row" spacing={1} sx={{ flexWrap: 'wrap', gap: '8px' }}>
+						<Typography variant="caption" sx={{ color: '#717171' }}>
+							{property?.propertyYear || 'N/A'}
+						</Typography>
+						<Typography variant="caption" sx={{ color: '#717171' }}>
+							•
+						</Typography>
+						<Typography variant="caption" sx={{ color: '#717171' }}>
+							{formatterStr(property?.propertyMileage || 0)} km
+						</Typography>
+						<Typography variant="caption" sx={{ color: '#717171' }}>
+							•
+						</Typography>
+						<Typography variant="caption" sx={{ color: '#717171' }}>
+							{getFuelTypeText()}
+						</Typography>
+						<Typography variant="caption" sx={{ color: '#717171' }}>
+							•
+						</Typography>
+						<Typography variant="caption" sx={{ color: '#717171' }}>
+							{getTransmissionText()}
+						</Typography>
+					</Stack>
+					<Stack direction="row" justifyContent="space-between" alignItems="center">
+						<Typography variant="h6" sx={{ fontSize: '18px', fontWeight: 700 }}>
+							€{formatterStr(property?.propertyPrice)}
+						</Typography>
+						<Stack direction="row" spacing={1} alignItems="center">
+							<RemoveRedEyeIcon sx={{ fontSize: '16px', color: '#717171' }} />
+							<Typography variant="caption" sx={{ color: '#717171' }}>
+								{property?.propertyViews || 0}
+							</Typography>
+							<FavoriteIcon sx={{ fontSize: '16px', color: '#f17742' }} />
+							<Typography variant="caption" sx={{ color: '#717171' }}>
+								{property?.propertyLikes || 0}
+							</Typography>
+						</Stack>
+					</Stack>
+				</Stack>
+			</Stack>
+		);
 	} else {
 		const imageUrl = property?.propertyImages && property.propertyImages.length > 0 && property.propertyImages[0]
 			? `${REACT_APP_API_URL}/${property.propertyImages[0]}` 
@@ -113,7 +265,7 @@ const PropertyCard = (props: PropertyCardProps) => {
 		
 		return (
 			<Stack className="property-card">
-				<div
+				<Box
 					className="property-img"
 					onClick={(e) => {
 						// Don't navigate if clicking on like button
@@ -123,11 +275,41 @@ const PropertyCard = (props: PropertyCardProps) => {
 						}
 						pushPropertyDetail(property._id);
 					}}
-					style={{
-						backgroundImage: `url(${imageUrl})`,
+					onKeyDown={(e) => {
+						if (e.key === 'Enter' || e.key === ' ') {
+							e.preventDefault();
+							pushPropertyDetail(property._id);
+						}
+					}}
+					role="button"
+					tabIndex={0}
+					aria-label={`View details of ${property?.propertyTitle || 'car'}`}
+					sx={{
+						position: 'relative',
+						width: '100%',
+						height: '320px', // Increased for better car image visibility
+						minHeight: '320px',
 						cursor: 'pointer',
+						overflow: 'hidden',
+						borderRadius: '12px 12px 0 0',
+						'&:focus': {
+							outline: '2px solid #f17742',
+							outlineOffset: '2px',
+						},
 					}}
 				>
+					<Image
+						src={imageUrl}
+						alt={property?.propertyTitle || 'Car image'}
+						fill
+						sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+						style={{
+							objectFit: 'cover',
+						}}
+						loading="lazy"
+						placeholder="blur"
+						blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R//2Q=="
+					/>
 					{likePropertyHandler && (
 						<IconButton 
 							className="like-btn" 
@@ -138,6 +320,8 @@ const PropertyCard = (props: PropertyCardProps) => {
 									likePropertyHandler(user, property._id);
 								}
 							}}
+							aria-label={property?.meLiked && property?.meLiked[0]?.myFavorite ? 'Remove from favorites' : 'Add to favorites'}
+							aria-pressed={property?.meLiked && property?.meLiked[0]?.myFavorite ? true : false}
 							sx={{
 								position: 'absolute',
 								top: '12px',
@@ -151,6 +335,10 @@ const PropertyCard = (props: PropertyCardProps) => {
 								cursor: 'pointer',
 								'&:hover': {
 									backgroundColor: 'rgba(255, 255, 255, 1)',
+								},
+								'&:focus': {
+									outline: '2px solid #f17742',
+									outlineOffset: '2px',
 								},
 							}}
 						>
@@ -218,12 +406,32 @@ const PropertyCard = (props: PropertyCardProps) => {
 							/>
 						)}
 					</div>
-				</div>
+				</Box>
 
 				<Stack className="property-info">
-					<Stack className="property-title" onClick={() => pushPropertyDetail(property._id)}>
-						<Typography className="title">{property?.propertyTitle}</Typography>
-						<Typography className="location">{property?.propertyLocation}</Typography>
+					<Stack 
+						className="property-title" 
+						onClick={() => pushPropertyDetail(property._id)}
+						onKeyDown={(e) => {
+							if (e.key === 'Enter' || e.key === ' ') {
+								e.preventDefault();
+								pushPropertyDetail(property._id);
+							}
+						}}
+						role="button"
+						tabIndex={0}
+						aria-label={`View details of ${property?.propertyTitle || 'car'}`}
+						sx={{
+							cursor: 'pointer',
+							'&:focus': {
+								outline: '2px solid #f17742',
+								outlineOffset: '2px',
+								borderRadius: '4px',
+							},
+						}}
+					>
+						<Typography className="title" component="h3">{property?.propertyTitle}</Typography>
+						<Typography className="location" component="p">{property?.propertyLocation}</Typography>
 					</Stack>
 
 					<Stack className="property-specs">
@@ -280,4 +488,4 @@ const PropertyCard = (props: PropertyCardProps) => {
 	}
 };
 
-export default PropertyCard;
+export default React.memo(PropertyCard);

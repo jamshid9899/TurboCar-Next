@@ -14,7 +14,7 @@ import { Member } from '../member/member';
 
 /** 
  * ME LIKED
- * User'ning like qilgan property'lari
+ * Properties liked by the user
  */
 export interface MeLiked {
 	memberId: string;
@@ -24,7 +24,7 @@ export interface MeLiked {
 
 /** 
  * TOTAL COUNTER
- * Pagination uchun
+ * For pagination
  */
 export interface TotalCounter {
 	total: number;
@@ -32,7 +32,7 @@ export interface TotalCounter {
 
 /** 
  * PROPERTY (Single)
- * Bitta property object
+ * Single property object
  */
 export interface Property {
 	_id: string;

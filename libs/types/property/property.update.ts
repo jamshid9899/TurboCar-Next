@@ -13,8 +13,8 @@ import {
 
 /** 
  * PROPERTY UPDATE
- * Property yangilash uchun
- * Backend bilan 100% mos
+ * For updating property
+ * 100% compatible with backend
  */
 export interface PropertyUpdate {
 	_id: string;

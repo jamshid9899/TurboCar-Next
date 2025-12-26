@@ -3,7 +3,7 @@ import { RentalStatus, RentalType } from '../../enums/renta.enum';
 
 /** 
  * RENTAL BOOKING INPUT
- * Yangi rental yaratish uchun
+ * For creating a new rental
  */
 export interface RentalBookingInput {
 	propertyId: string;
@@ -15,7 +15,7 @@ export interface RentalBookingInput {
 
 /** 
  * RENTAL BOOKING UPDATE
- * Rental statusni yangilash uchun
+ * For updating rental status
  */
 export interface RentalBookingUpdate {
 	_id: string;
@@ -39,7 +39,7 @@ interface RentalSearch {
 
 /** 
  * RENTALS INQUIRY
- * Admin uchun pagination va filter
+ * Pagination and filter for admin
  */
 export interface RentalsInquiry {
 	search: RentalSearch;
@@ -47,7 +47,7 @@ export interface RentalsInquiry {
 
 /** 
  * MY RENTALS INQUIRY (optional)
- * User o'zining rental'larini filter qilish uchun
+ * For filtering user's own rentals
  */
 interface MyRentalsSearch {
 	rentalStatus?: RentalStatus;

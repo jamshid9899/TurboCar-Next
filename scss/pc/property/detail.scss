@@ -158,47 +158,65 @@
 				.images {
 					width: 100%;
 					height: auto;
-					gap: 10px;
+					gap: 16px;
+					position: relative;
+					z-index: 1;
 					.main-image {
 						width: 100%;
 						height: 600px;
-						img {
-							width: 100%;
-							height: 100%;
+						position: relative;
+						border-radius: 16px;
+						overflow: hidden;
+						box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.1);
+						background: #f5f5f5;
+						
+						img, 
+						span {
+							width: 100% !important;
+							height: 100% !important;
 							object-fit: cover;
-							border-radius: 12px;
+							border-radius: 16px;
 						}
 					}
 					.sub-images {
 						width: 100%;
 						height: auto;
 						flex-direction: row;
-						gap: 10px;
+						gap: 12px;
 						flex-wrap: wrap;
+						margin-top: 4px;
+						position: relative;
+						z-index: 1;
+						
 						.sub-img-box {
 							width: 120px;
 							height: 120px;
 							cursor: pointer;
 							border-radius: 12px;
 							overflow: hidden;
-							border: 2px solid transparent;
-							transition: all 0.2s ease;
+							border: 3px solid transparent;
+							transition: all 0.3s ease;
+							position: relative;
+							background: #f5f5f5;
+							box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.08);
 							
 							&:hover {
-								border-color: #f17742;
-								transform: scale(1.05);
+								border-color: #FF6B00;
+								transform: translateY(-2px);
+								box-shadow: 0px 4px 12px rgba(255, 107, 0, 0.25);
 							}
 							
 							&.active {
-								border-color: #f17742;
-								box-shadow: 0 0 0 2px rgba(241, 119, 66, 0.2);
+								border-color: #FF6B00;
+								box-shadow: 0px 0px 0px 3px rgba(255, 107, 0, 0.2), 0px 4px 12px rgba(255, 107, 0, 0.3);
 							}
 							
-							img {
-								width: 100%;
-								height: 100%;
+							img,
+							span {
+								width: 100% !important;
+								height: 100% !important;
 								object-fit: cover;
-								border-radius: 10px;
+								border-radius: 9px;
 							}
 						}
 					}
@@ -208,7 +226,8 @@
 				width: 100%;
 				height: auto;
 				flex-direction: row;
-				gap: 22px;
+				gap: 30px;
+				align-items: flex-start; // Yuqoridan boshlash uchun
 				.left-config {
 					width: 960px;
 					height: auto;
@@ -261,9 +280,13 @@
 						width: 100%;
 						height: auto;
 						gap: 50px;
-						padding: 29px 38px 50px 38px;
-						border-radius: 12px;
-						border: 1px solid #c4c4c4;
+						padding: 32px 40px 52px 40px;
+						border-radius: 16px;
+						border: 1px solid #e0e0e0;
+						background: #ffffff;
+						box-shadow: 0px 2px 12px rgba(0, 0, 0, 0.04);
+						position: relative;
+						z-index: 1;
 						.top {
 							width: 100%;
 							height: auto;
@@ -338,9 +361,13 @@
 						width: 100%;
 						height: auto;
 						gap: 30px;
-						padding: 30px 38px;
-						border-radius: 12px;
-						border: 1px solid #c4c4c4;
+						padding: 32px 40px;
+						border-radius: 16px;
+						border: 1px solid #e0e0e0;
+						background: #ffffff;
+						box-shadow: 0px 2px 12px rgba(0, 0, 0, 0.04);
+						position: relative;
+						z-index: 1;
 						.title {
 							color: #181a20;
 							font-family: $font;
@@ -393,9 +420,13 @@
 						width: 100%;
 						height: auto;
 						gap: 30px;
-						padding: 30px 38px;
-						border-radius: 12px;
-						border: 1px solid #c4c4c4;
+						padding: 32px 40px;
+						border-radius: 16px;
+						border: 1px solid #e0e0e0;
+						background: #ffffff;
+						box-shadow: 0px 2px 12px rgba(0, 0, 0, 0.04);
+						position: relative;
+						z-index: 1;
 						.title {
 							color: #181a20;
 							font-family: $font;
@@ -610,14 +641,23 @@
 					}
 				}
 				.right-config {
+					position: relative;
+					z-index: 1;
 					width: 318px;
 					height: fit-content;
-					padding: 30px 25px;
-					gap: 20px;
-					border-radius: 12px;
-					border: 1px solid rgba(196, 196, 196, 0.79);
+					padding: 32px 28px;
+					gap: 24px;
+					border-radius: 16px;
+					border: 1px solid #e0e0e0;
 					background: #fff;
-					box-shadow: 0px 1px 4px 0px rgba(24, 26, 32, 0.07);
+					box-shadow: 0px 4px 16px rgba(0, 0, 0, 0.08);
+					transition: all 0.3s ease;
+					margin-top: 120px; // Pastroqqa tushirish uchun - orqa qismdagi tugmalar ko'rinishi uchun
+					align-self: flex-start; // Yuqoridan boshlash uchun
+					
+					&:hover {
+						box-shadow: 0px 6px 20px rgba(0, 0, 0, 0.12);
+					}
 					.info-box {
 						position: relative;
 						width: 100%;
@@ -687,13 +727,16 @@
 						input {
 							width: 100%;
 							height: 55px;
-							padding: 15px;
-							border-radius: 8px;
-							border: 1px solid #ddd;
+							padding: 15px 18px;
+							border-radius: 12px;
+							border: 1px solid #e0e0e0;
 							background: #fff;
 							outline: none;
+							transition: all 0.2s ease;
+							font-family: $font;
+							font-size: 14px;
 							&::placeholder {
-								color: #717171;
+								color: #999;
 								font-family: $font;
 								font-size: 14px;
 								font-style: normal;
@@ -701,22 +744,25 @@
 								line-height: 26px;
 							}
 							&:focus {
-								border: 1px solid black;
+								border: 1px solid #FF6B00;
+								box-shadow: 0px 0px 0px 3px rgba(255, 107, 0, 0.1);
 							}
 						}
 						textarea {
 							width: 100%;
 							height: 120px;
-							padding: 20px;
-							border-radius: 8px;
-							border: 1px solid #ddd;
+							padding: 18px;
+							border-radius: 12px;
+							border: 1px solid #e0e0e0;
 							font-family: $font;
 							font-size: 14px;
 							font-style: normal;
 							font-weight: 400;
 							line-height: 26px;
+							resize: vertical;
+							transition: all 0.2s ease;
 							&::placeholder {
-								color: #717171;
+								color: #999;
 								font-family: $font;
 								font-size: 14px;
 								font-style: normal;
@@ -724,7 +770,8 @@
 								line-height: 26px;
 							}
 							&:focus {
-								border: 1px solid black;
+								border: 1px solid #FF6B00;
+								box-shadow: 0px 0px 0px 3px rgba(255, 107, 0, 0.1);
 							}
 						}
 						.send-message {
@@ -735,7 +782,21 @@
 							align-items: center;
 							gap: 10px;
 							border-radius: 12px;
-							background: #eb6753;
+							background: #FF6B00;
+							cursor: pointer;
+							transition: all 0.3s ease;
+							border: none;
+							
+							&:hover {
+								background: #E55A00;
+								transform: translateY(-2px);
+								box-shadow: 0px 4px 12px rgba(255, 107, 0, 0.3);
+							}
+							
+							&:active {
+								transform: translateY(0);
+							}
+							
 							.title {
 								color: #fff;
 								font-family: $font;
