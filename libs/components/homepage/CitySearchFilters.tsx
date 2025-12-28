@@ -129,7 +129,7 @@ const CitySearchFilters: React.FC<CitySearchFiltersProps> = ({
 							ref={locationDropdownRef}
 							component="div"
 							className={`hero-location-dropdown ${locationOpen ? 'on' : ''}`}
-							onClick={(e) => e.stopPropagation()}
+							onClick={(e: React.MouseEvent) => e.stopPropagation()}
 							sx={{
 								position: 'absolute',
 								top: 'calc(100% + 8px)',
@@ -192,11 +192,11 @@ const CitySearchFilters: React.FC<CitySearchFiltersProps> = ({
 					
 					{/* Type Dropdown - Inside type box */}
 					{typeOpen && (
-						<Box
-							ref={typeDropdownRef}
-							component="div"
-							className={`hero-location-dropdown hero-type-dropdown ${typeOpen ? 'on' : ''}`}
-							onClick={(e) => e.stopPropagation()}
+					<Box
+						ref={typeDropdownRef}
+						component="div"
+						className={`hero-location-dropdown hero-type-dropdown ${typeOpen ? 'on' : ''}`}
+						onClick={(e: React.MouseEvent) => e.stopPropagation()}
 							sx={{
 								position: 'absolute',
 								top: 'calc(100% + 8px)',

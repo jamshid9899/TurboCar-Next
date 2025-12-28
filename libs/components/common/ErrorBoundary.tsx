@@ -226,3 +226,4 @@ const ErrorFallback: React.FC<ErrorFallbackProps> = ({ error, onReset }) => {
 
 export default ErrorBoundary;
 
+

@@ -33,6 +33,7 @@ interface PopularCarsProps {
 const PopularCars = (props: PopularCarsProps) => {
 	const { initialInput } = props;
 	const device = useDeviceDetect();
+	const router = useRouter();
 	const user = useReactiveVar(userVar);
 	const [popularCars, setPopularCars] = useState<Property[]>([]);
 

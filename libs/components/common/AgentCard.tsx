@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
-import { Stack, Box, Typography, Chip, Button } from '@mui/material';
+import { Stack, Typography, Chip, Button } from '@mui/material';
 import Link from 'next/link';
 import { REACT_APP_API_URL } from '../../config';
 import IconButton from '@mui/material/IconButton';
@@ -64,38 +64,37 @@ const AgentCard = (props: AgentCardProps) => {
 							query: { agentId: agent?._id },
 						}}
 						style={{ textDecoration: 'none', color: 'inherit' }}
-						aria-label={`View profile of ${agent?.memberFullName ?? agent?.memberNick || 'agent'}`}
+						aria-label={`View profile of ${(agent?.memberFullName ?? agent?.memberNick) || 'agent'}`}
 					>
-						{/* Image Section - Top (Hexagonal) */}
-						<Box
-							component={'div'}
-							className={'agent-img'}
-							sx={{
-								position: 'relative',
-								overflow: 'visible',
-							}}
-						>
-							<div className="hexagon-wrapper">
-								<div className="hexagon">
-									<img
-										src={getImagePath()}
-										alt={agent?.memberFullName || agent?.memberNick || 'Agent'}
-										onError={() => setImageError(true)}
-									/>
-								</div>
+					{/* Image Section - Top (Hexagonal) */}
+					<div
+						className={'agent-img'}
+						style={{
+							position: 'relative',
+							overflow: 'visible',
+						}}
+					>
+						<div className="hexagon-wrapper">
+							<div className="hexagon">
+								<img
+									src={getImagePath()}
+									alt={agent?.memberFullName || agent?.memberNick || 'Agent'}
+									onError={() => setImageError(true)}
+								/>
 							</div>
-							{/* Cars Listed Badge */}
-							<Box className="cars-badge">
-								<span>{carsCount} {carsCount === 1 ? 'Car' : 'Cars'}</span>
-							</Box>
-						</Box>
+						</div>
+						{/* Cars Listed Badge */}
+						<div className="cars-badge">
+							<span>{carsCount} {carsCount === 1 ? 'Car' : 'Cars'}</span>
+						</div>
+					</div>
 
-						{/* Info Section - Bottom */}
-						<Stack className={'agent-desc'}>
-							<Box component={'div'} className={'agent-info'}>
-								<Typography className="agent-name">
-									{agent?.memberFullName ?? agent?.memberNick}
-								</Typography>
+					{/* Info Section - Bottom */}
+					<Stack className={'agent-desc'}>
+						<div className={'agent-info'}>
+							<Typography className="agent-name">
+								{agent?.memberFullName ?? agent?.memberNick}
+							</Typography>
 								
 								<Stack direction="row" alignItems="center" spacing={1} className="agent-role-row">
 									<Typography className="agent-role">Dealer</Typography>
@@ -133,13 +132,13 @@ const AgentCard = (props: AgentCardProps) => {
 										)}
 									</Stack>
 								</Stack>
-							</Box>
+							</div>
 						</Stack>
 					</Link>
 					{/* Follow/Unfollow Button - Outside Link */}
 					{!isOwnProfile && (subscribeHandler || unsubscribeHandler) && (
-						<Box
-							sx={{
+						<div
+							style={{
 								marginTop: '12px',
 								width: '100%',
 								padding: '0 16px',
@@ -200,7 +199,7 @@ const AgentCard = (props: AgentCardProps) => {
 									Follow
 								</Button>
 							)}
-						</Box>
+						</div>
 					)}
 				</Stack>
 			</Stack>

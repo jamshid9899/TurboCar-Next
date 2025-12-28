@@ -1,5 +1,5 @@
 import React from 'react';
-import { Stack, Box, Typography } from '@mui/material';
+import { Stack, Typography } from '@mui/material';
 import { useRouter } from 'next/router';
 import HomeIcon from '@mui/icons-material/Home';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
@@ -14,7 +14,7 @@ const Breadcrumb: React.FC<BreadcrumbProps> = ({ title, breadcrumb, position = '
 	const router = useRouter();
 
 	const getBreadcrumbItems = () => {
-		const items = [
+		const items: Array<{ label: string; path: string | undefined }> = [
 			{
 				label: 'Home',
 				path: '/',
@@ -41,46 +41,14 @@ const Breadcrumb: React.FC<BreadcrumbProps> = ({ title, breadcrumb, position = '
 			<Stack className={'container'}>
 				{position === 'top' && (
 					<>
-						<Typography variant="h1" className={'page-title'}>
-							{title}
-						</Typography>
-						<Box className={'breadcrumb-nav'}>
-							{breadcrumbItems.map((item, index) => (
-								<React.Fragment key={index}>
-									{item.path && index < breadcrumbItems.length - 1 ? (
-										<Box
-											component="a"
-											href={item.path}
-											className={'breadcrumb-link'}
-											onClick={(e: React.MouseEvent) => {
-												e.preventDefault();
-												router.push(item.path!);
-											}}
-										>
-											{index === 0 && <HomeIcon className={'home-icon'} />}
-											<span>{item.label}</span>
-										</Box>
-									) : (
-										<Box component="span" className={'breadcrumb-current'}>
-											{index === 0 && <HomeIcon className={'home-icon'} />}
-											<span>{item.label}</span>
-										</Box>
-									)}
-									{index < breadcrumbItems.length - 1 && (
-										<ChevronRightIcon className={'breadcrumb-separator'} />
-									)}
-								</React.Fragment>
-							))}
-						</Box>
-					</>
-				)}
-				{position === 'bottom' && (
-					<Box className={'breadcrumb-nav'}>
+					<Typography variant="h1" className={'page-title'}>
+						{title}
+					</Typography>
+					<div className={'breadcrumb-nav'}>
 						{breadcrumbItems.map((item, index) => (
 							<React.Fragment key={index}>
 								{item.path && index < breadcrumbItems.length - 1 ? (
-									<Box
-										component="a"
+									<a
 										href={item.path}
 										className={'breadcrumb-link'}
 										onClick={(e: React.MouseEvent) => {
@@ -90,19 +58,49 @@ const Breadcrumb: React.FC<BreadcrumbProps> = ({ title, breadcrumb, position = '
 									>
 										{index === 0 && <HomeIcon className={'home-icon'} />}
 										<span>{item.label}</span>
-									</Box>
+									</a>
 								) : (
-									<Box component="span" className={'breadcrumb-current'}>
+									<span className={'breadcrumb-current'}>
 										{index === 0 && <HomeIcon className={'home-icon'} />}
 										<span>{item.label}</span>
-									</Box>
+									</span>
 								)}
 								{index < breadcrumbItems.length - 1 && (
 									<ChevronRightIcon className={'breadcrumb-separator'} />
 								)}
 							</React.Fragment>
 						))}
-					</Box>
+					</div>
+					</>
+				)}
+				{position === 'bottom' && (
+					<div className={'breadcrumb-nav'}>
+						{breadcrumbItems.map((item, index) => (
+							<React.Fragment key={index}>
+								{item.path && index < breadcrumbItems.length - 1 ? (
+									<a
+										href={item.path}
+										className={'breadcrumb-link'}
+										onClick={(e: React.MouseEvent) => {
+											e.preventDefault();
+											router.push(item.path!);
+										}}
+									>
+										{index === 0 && <HomeIcon className={'home-icon'} />}
+										<span>{item.label}</span>
+									</a>
+								) : (
+									<span className={'breadcrumb-current'}>
+										{index === 0 && <HomeIcon className={'home-icon'} />}
+										<span>{item.label}</span>
+									</span>
+								)}
+								{index < breadcrumbItems.length - 1 && (
+									<ChevronRightIcon className={'breadcrumb-separator'} />
+								)}
+							</React.Fragment>
+						))}
+					</div>
 				)}
 			</Stack>
 		</Stack>
@@ -110,6 +108,7 @@ const Breadcrumb: React.FC<BreadcrumbProps> = ({ title, breadcrumb, position = '
 };
 
 export default Breadcrumb;
+
 
 
 

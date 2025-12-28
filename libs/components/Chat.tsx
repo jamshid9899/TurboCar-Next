@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Avatar, Box, Stack, IconButton, CircularProgress } from '@mui/material';
+import { Avatar, Stack, IconButton, CircularProgress } from '@mui/material';
 import Badge from '@mui/material/Badge';
 import CloseIcon from '@mui/icons-material/Close';
 import DirectionsCarIcon from '@mui/icons-material/DirectionsCar';
@@ -255,12 +255,12 @@ const Chat = () => {
 			{/* Chat Frame */}
 			<Stack className={`chat-frame ${open ? 'open' : ''}`} ref={chatContentRef}>
 				{/* Header with Orange Gradient */}
-				<Box className={'chat-top'} component={'div'}>
+				<div className={'chat-top'}>
 					<Stack direction="row" alignItems="center" spacing={1.5}>
 						<DirectionsCarIcon sx={{ color: '#fff', fontSize: '24px' }} />
-						<Box component="span" sx={{ fontFamily: 'Poppins', fontSize: '18px', fontWeight: 700, color: '#fff' }}>
+						<span style={{ fontFamily: 'Poppins', fontSize: '18px', fontWeight: 700, color: '#fff' }}>
 							TurboCar Support
-						</Box>
+						</span>
 					</Stack>
 					<IconButton
 						onClick={() => setOpen(false)}
@@ -274,30 +274,59 @@ const Chat = () => {
 					>
 						<CloseIcon sx={{ fontSize: '20px' }} />
 					</IconButton>
-				</Box>
+				</div>
 
 				{/* Chat Content */}
-				<Box className={'chat-content'} id="chat-content" ref={chatContentRef} component={'div'}>
+				<div className={'chat-content'} id="chat-content" ref={chatContentRef}>
 					<ScrollableFeed>
 						<Stack className={'chat-main'}>
-							{/* Connection Status Indicator */}
-							{!isConnected && open && (
-								<Box sx={{ textAlign: 'center', p: 1, fontSize: '12px', color: '#999' }}>
-									Connecting to support...
-								</Box>
-							)}
+						{/* Connection Status Indicator */}
+						{!isConnected && open && (
+							<div style={{ textAlign: 'center', padding: '8px', fontSize: '12px', color: '#999' }}>
+								Connecting to support...
+							</div>
+						)}
 
 
-							{/* Loading Indicator */}
-							{messagesLoading && !messagesError && (
-								<Box sx={{ display: 'flex', justifyContent: 'center', p: 2 }}>
-									<CircularProgress size={24} />
-								</Box>
-							)}
+						{/* Loading Indicator */}
+						{messagesLoading && !messagesError && (
+							<div style={{ display: 'flex', justifyContent: 'center', padding: '16px' }}>
+								<CircularProgress size={24} />
+							</div>
+						)}
 
-							{/* Welcome Message - Only show if no messages and not loading */}
-							{!messagesLoading && !messagesError && messagesList.length === 0 && (
-								<Box flexDirection={'row'} style={{ display: 'flex' }} sx={{ m: '16px 0px' }} component={'div'}>
+						{/* Welcome Message - Only show if no messages and not loading */}
+						{!messagesLoading && !messagesError && messagesList.length === 0 && (
+							<div style={{ display: 'flex', flexDirection: 'row', margin: '16px 0px' }}>
+								<Avatar
+									sx={{
+										width: 32,
+										height: 32,
+										bgcolor: '#FF6B00',
+										marginRight: '8px',
+									}}
+								>
+									<DirectionsCarIcon sx={{ fontSize: '18px', color: '#fff' }} />
+								</Avatar>
+								<div className={'msg-left'}>
+									Welcome to TurboCar! How can we help you find your perfect car?
+								</div>
+							</div>
+						)}
+
+						{/* Messages */}
+						{!messagesError && messagesList.map((msg: any) => (
+							<div
+								key={msg._id || `msg-${Date.now()}-${Math.random()}`}
+								style={{
+									display: 'flex',
+									flexDirection: 'row',
+									alignItems: msg.isMe ? 'flex-end' : 'flex-start',
+									justifyContent: msg.isMe ? 'flex-end' : 'flex-start',
+									margin: '10px 0px',
+								}}
+							>
+								{!msg.isMe && (
 									<Avatar
 										sx={{
 											width: 32,
@@ -305,50 +334,22 @@ const Chat = () => {
 											bgcolor: '#FF6B00',
 											marginRight: '8px',
 										}}
+										src={msg.senderData?.memberImage}
 									>
-										<DirectionsCarIcon sx={{ fontSize: '18px', color: '#fff' }} />
+										{!msg.senderData?.memberImage && (
+											<DirectionsCarIcon sx={{ fontSize: '18px', color: '#fff' }} />
+										)}
 									</Avatar>
-									<div className={'msg-left'}>
-										Welcome to TurboCar! How can we help you find your perfect car?
-									</div>
-								</Box>
-							)}
-
-							{/* Messages */}
-							{!messagesError && messagesList.map((msg: any) => (
-								<Box
-									key={msg._id || `msg-${Date.now()}-${Math.random()}`}
-									flexDirection={'row'}
-									style={{ display: 'flex' }}
-									alignItems={msg.isMe ? 'flex-end' : 'flex-start'}
-									justifyContent={msg.isMe ? 'flex-end' : 'flex-start'}
-									sx={{ m: '10px 0px' }}
-									component={'div'}
-								>
-									{!msg.isMe && (
-										<Avatar
-											sx={{
-												width: 32,
-												height: 32,
-												bgcolor: '#FF6B00',
-												marginRight: '8px',
-											}}
-											src={msg.senderData?.memberImage}
-										>
-											{!msg.senderData?.memberImage && (
-												<DirectionsCarIcon sx={{ fontSize: '18px', color: '#fff' }} />
-											)}
-										</Avatar>
-									)}
-									<div className={msg.isMe ? 'msg-right' : 'msg-left'}>{msg.text}</div>
-								</Box>
-							))}
+								)}
+								<div className={msg.isMe ? 'msg-right' : 'msg-left'}>{msg.text}</div>
+							</div>
+						))}
 						</Stack>
 					</ScrollableFeed>
-				</Box>
+				</div>
 
 				{/* Input Section */}
-				<Box className={'chat-bott'} component={'div'}>
+				<div className={'chat-bott'}>
 					<input
 						ref={textInput}
 						type={'text'}
@@ -371,7 +372,7 @@ const Chat = () => {
 							<DirectionsCarIcon sx={{ fontSize: '20px', color: '#fff' }} />
 						)}
 					</button>
-				</Box>
+				</div>
 			</Stack>
 		</Stack>
 	);

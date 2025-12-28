@@ -89,7 +89,15 @@ const Home: NextPage = () => {
 	if (device === 'mobile') {
 		return (
 			<Stack className={'home-page'}>
-				<HeroSection />
+				<HeroSection
+					mode={mode}
+					onModeChange={handleModeChange}
+					selectedLocation={selectedLocation}
+					onLocationSelect={handleLocationSelect}
+					selectedType={selectedType}
+					onTypeSelect={handleTypeSelect}
+					onSearch={handleSearch}
+				/>
 				<ScrollAnimation animationType="fade-up" duration={0.7}>
 					<FeaturedCars 
 						initialInput={{

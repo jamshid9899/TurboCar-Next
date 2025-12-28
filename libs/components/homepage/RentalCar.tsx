@@ -33,6 +33,7 @@ interface RentalCarsProps {
 const RentalCars = (props: RentalCarsProps) => {
 	const { initialInput } = props;
 	const device = useDeviceDetect();
+	const router = useRouter();
 	const user = useReactiveVar(userVar);
 	const [rentalCars, setRentalCars] = useState<Property[]>([]);
 

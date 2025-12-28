@@ -2,7 +2,7 @@ import React, { useCallback, useState, useEffect } from 'react';
 import { NextPage } from 'next';
 import useDeviceDetect from '../../libs/hooks/useDeviceDetect';
 import withLayoutBasic from '../../libs/components/layout/LayoutBasic';
-import { Box, Button, Checkbox, FormControlLabel, FormGroup, Stack, Radio, RadioGroup } from '@mui/material';
+import { Button, Checkbox, FormControlLabel, FormGroup, Stack, Radio, RadioGroup } from '@mui/material';
 import { useRouter } from 'next/router';
 import { logIn, signUp } from '../../libs/auth';
 import { sweetMixinErrorAlert, sweetTopSmallSuccessAlert } from '../../libs/sweetAlert';
@@ -106,31 +106,31 @@ const Join: NextPage = () => {
 			<Stack className={'join-page'}>
 				<Stack className={'container'}>
 					<Stack className={'main'}>
-						<Stack className={'left'}>
-							<Box className={'info'}>
-								{loginView ? (
-									<>
-										<span className={'welcome-title'}>Welcome back, Driver 👋</span>
-										<p>
-											{router.query.action === 'subscribe' 
-												? 'Login to subscribe to our newsletter and get the latest car deals'
-												: 'Get back on the road in seconds'
-											}
-										</p>
-									</>
-								) : (
-									<>
-										<span className={'signup-title'}>Start Your Engine</span>
-										<p>
-											{router.query.action === 'subscribe' 
-												? 'Sign up to subscribe to our newsletter and get the latest car deals'
-												: 'Join thousands of car lovers and drivers'
-											}
-										</p>
-									</>
-								)}
-							</Box>
-							<Box className={'input-wrap'}>
+					<Stack className={'left'}>
+						<div className={'info'}>
+							{loginView ? (
+								<>
+									<span className={'welcome-title'}>Welcome back, Driver 👋</span>
+									<p>
+										{router.query.action === 'subscribe' 
+											? 'Login to subscribe to our newsletter and get the latest car deals'
+											: 'Get back on the road in seconds'
+										}
+									</p>
+								</>
+							) : (
+								<>
+									<span className={'signup-title'}>Start Your Engine</span>
+									<p>
+										{router.query.action === 'subscribe' 
+											? 'Sign up to subscribe to our newsletter and get the latest car deals'
+											: 'Join thousands of car lovers and drivers'
+										}
+									</p>
+								</>
+							)}
+						</div>
+						<div className={'input-wrap'}>
 								<div className={'input-box'}>
 									<span>Nickname</span>
 									<input
@@ -171,8 +171,8 @@ const Join: NextPage = () => {
 										/>
 									</div>
 								)}
-							</Box>
-							<Box className={'register'}>
+							</div>
+							<div className={'register'}>
 								{!loginView && (
 									<div className={'type-option'}>
 										<span className={'text'}>I want to be registered as:</span>
@@ -226,8 +226,8 @@ const Join: NextPage = () => {
 										SIGNUP
 									</Button>
 								)}
-							</Box>
-							<Box className={'ask-info'}>
+							</div>
+							<div className={'ask-info'}>
 								{loginView ? (
 									<p>
 										Not registered yet?
@@ -245,7 +245,7 @@ const Join: NextPage = () => {
 										<b onClick={() => viewChangeHandler(true)}> LOGIN</b>
 									</p>
 								)}
-							</Box>
+							</div>
 						</Stack>
 						<Stack className={'right'}></Stack>
 					</Stack>

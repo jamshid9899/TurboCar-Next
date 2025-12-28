@@ -252,3 +252,4 @@ Hozirgi card dizaynlari hali ham Nestar (uy-joy marketplace) dizayniga o'xshash.
 
 
 
+
