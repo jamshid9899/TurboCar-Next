@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Button, Stack, Typography } from '@mui/material';
+import { Button, Stack, Typography } from '@mui/material';
 import { useRouter } from 'next/router';
 import SearchOffIcon from '@mui/icons-material/SearchOff';
 import Inventory2OutlinedIcon from '@mui/icons-material/Inventory2Outlined';
@@ -96,11 +96,11 @@ const EmptyState: React.FC<EmptyStateProps> = ({
 	};
 
 	return (
-		<Box
+		<div
 			className="empty-state"
-			sx={{
+			style={{
 				width: '100%',
-				padding: { xs: 4, md: 6 },
+				padding: '24px',
 				display: 'flex',
 				flexDirection: 'column',
 				alignItems: 'center',
@@ -110,8 +110,8 @@ const EmptyState: React.FC<EmptyStateProps> = ({
 		>
 			<Stack spacing={3} alignItems="center" sx={{ maxWidth: 500 }}>
 				{/* Icon */}
-				<Box
-					sx={{
+				<div
+					style={{
 						display: 'flex',
 						alignItems: 'center',
 						justifyContent: 'center',
@@ -122,7 +122,7 @@ const EmptyState: React.FC<EmptyStateProps> = ({
 					}}
 				>
 					{getDefaultIcon()}
-				</Box>
+				</div>
 
 				{/* Title */}
 				<Typography
@@ -150,7 +150,7 @@ const EmptyState: React.FC<EmptyStateProps> = ({
 
 				{/* Action Button */}
 				{(action || actionLabel) && (
-					<Box sx={{ mt: 2 }}>
+					<div style={{ marginTop: '16px' }}>
 						{action || (
 							<Button
 								variant="contained"
@@ -170,13 +170,15 @@ const EmptyState: React.FC<EmptyStateProps> = ({
 								{actionLabel || (type === 'filter' ? 'Reset Filters' : 'Browse All')}
 							</Button>
 						)}
-					</Box>
+					</div>
 				)}
 			</Stack>
-		</Box>
+		</div>
 	);
 };
 
 export default EmptyState;
+
+
 
 

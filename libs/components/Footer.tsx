@@ -8,7 +8,7 @@ import EmailIcon from '@mui/icons-material/Email';
 import PhoneIcon from '@mui/icons-material/Phone';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import useDeviceDetect from '../hooks/useDeviceDetect';
-import { Stack, Box, IconButton, Typography, Tabs, Tab } from '@mui/material';
+import { Stack, IconButton, Typography, Tabs, Tab } from '@mui/material';
 import { useRouter } from 'next/router';
 import moment from 'moment';
 import { useReactiveVar } from '@apollo/client';
@@ -127,13 +127,13 @@ const Footer = () => {
 		return (
 			<Stack className={'footer-container-mobile'}>
 				<Stack className={'main-mobile'}>
-					<Box className={'logo-section-mobile'}>
+					<div className={'logo-section-mobile'}>
 						<img src="/img/logo/turbocar_1.svg" alt="TurboCar" className={'logo'} />
 						<Typography sx={{ color: '#bebdbd', fontSize: '13px', mt: 1 }}>
 							Your trusted car marketplace in Spain
 						</Typography>
-					</Box>
-					<Box className={'links-section-mobile'}>
+					</div>
+					<div className={'links-section-mobile'}>
 						<div>
 							<strong>Quick Links</strong>
 							<span onClick={() => router.push('/property?mode=buy')}>Cars for Sale</span>
@@ -143,8 +143,8 @@ const Footer = () => {
 							<span onClick={() => router.push('/cs?tab=privacy')}>Privacy</span>
 							<span onClick={() => router.push('/cs')}>Support</span>
 						</div>
-					</Box>
-					<Box className={'social-section-mobile'}>
+					</div>
+					<div className={'social-section-mobile'}>
 						<div className={'media-box'}>
 							<IconButton
 								component="a"
@@ -183,7 +183,7 @@ const Footer = () => {
 								<TwitterIcon />
 							</IconButton>
 						</div>
-					</Box>
+					</div>
 				</Stack>
 				<Stack className={'second-mobile'}>
 					<span>© {moment().year()} TurboCar. All rights reserved.</span>
@@ -194,7 +194,7 @@ const Footer = () => {
 		return (
 			<Stack className={'footer-container'}>
 				{/* TOP SECTION - Category Tabs */}
-				<Box className={'footer-top-section'}>
+				<div className={'footer-top-section'}>
 					<Tabs
 						value={activeTab}
 						onChange={handleTabChange}
@@ -221,7 +221,7 @@ const Footer = () => {
 						<Tab label="Cities" />
 						<Tab label="Services" />
 					</Tabs>
-					<Box className={'footer-tab-content'}>
+					<div className={'footer-tab-content'}>
 						{activeTab === 0 && (
 							<div className={'footer-grid-links footer-grid-3col'}>
 								{vehicleTypes.map((type) => (
@@ -267,21 +267,21 @@ const Footer = () => {
 								<span onClick={() => router.push('/property?mode=rent')}>Rent Car</span>
 							</div>
 						)}
-					</Box>
-				</Box>
+					</div>
+				</div>
 
 				{/* MAIN FOOTER - 4 Column Layout */}
 				<Stack className={'main'}>
 					{/* Column 1: Logo, Contact & Social */}
 					<Stack className={'left'}>
-						<Box component={'div'} className={'footer-box'}>
+						<div className={'footer-box'}>
 							{/* Logo */}
 							<Stack direction="row" alignItems="center" spacing={1} className={'logo-box'}>
 								<img src="/img/logo/turbocar_1.svg" alt="TurboCar" className={'logo'} />
 							</Stack>
 							
 							{/* Contact Info */}
-							<Box sx={{ mt: 3, mb: 3 }}>
+							<div style={{ marginTop: '24px', marginBottom: '24px' }}>
 								<Typography sx={{ color: '#fff', fontSize: '14px', fontWeight: 600, mb: 1.5 }}>
 									24/7 Customer Support
 								</Typography>
@@ -298,10 +298,10 @@ const Footer = () => {
 								<Typography sx={{ color: '#bebdbd', fontSize: '12px', mt: 0.5 }}>
 									Support Available
 								</Typography>
-							</Box>
+							</div>
 							
 							{/* Social Media */}
-							<Box>
+							<div>
 								<Typography sx={{ color: '#fff', fontSize: '14px', fontWeight: 700, mb: 2 }}>
 									Follow Us On Social Media
 								</Typography>
@@ -343,13 +343,13 @@ const Footer = () => {
 										<TwitterIcon />
 									</IconButton>
 								</div>
-							</Box>
-						</Box>
+							</div>
+						</div>
 					</Stack>
 
 					{/* Column 2: Quick Links */}
 					<Stack className={'center-left'}>
-						<Box component={'div'} className={'footer-box'}>
+						<div className={'footer-box'}>
 							<strong>QUICK LINKS</strong>
 							<span onClick={() => router.push('/property?mode=buy')}>Cars for Sale</span>
 							<span onClick={() => router.push('/property?mode=rent')}>Cars for Rent</span>
@@ -365,12 +365,12 @@ const Footer = () => {
 							<span onClick={() => router.push('/cs?tab=terms')}>Terms of Use</span>
 							<span onClick={() => router.push('/cs?tab=privacy')}>Privacy Policy</span>
 							<span onClick={() => router.push('/cs?tab=faq')}>FAQs</span>
-						</Box>
+						</div>
 					</Stack>
 
 					{/* Column 3: Support */}
 					<Stack className={'center-right'}>
-						<Box component={'div'} className={'footer-box'}>
+						<div className={'footer-box'}>
 							<strong>SUPPORT</strong>
 							<Stack direction="row" alignItems="center" spacing={1} sx={{ mt: 1 }}>
 								<PhoneIcon sx={{ color: '#FF6B00', fontSize: '18px' }} />
@@ -388,19 +388,19 @@ const Footer = () => {
 								<span>Office Location</span>
 							</Stack>
 							<p>Madrid, Spain</p>
-						</Box>
+						</div>
 					</Stack>
 
 					{/* Column 4: Connect & Newsletter */}
 					<Stack className={'right'}>
 						{/* Newsletter */}
-						<Box component={'div'} className={'footer-box'}>
+						<div className={'footer-box'}>
 							<strong>KEEP YOURSELF UP TO DATE</strong>
-							<Box sx={{ mt: 2, mb: 4 }}>
-								<Box
-									component="button"
+							<div style={{ marginTop: '16px', marginBottom: '32px' }}>
+								<button
+									type="button"
 									onClick={handleSubscribe}
-									sx={{
+									style={{
 										width: '100%',
 										height: '48px',
 										display: 'flex',
@@ -417,15 +417,19 @@ const Footer = () => {
 										borderRadius: '8px',
 										cursor: 'pointer',
 										transition: 'all 0.3s ease',
-										'&:hover': {
-											background: '#2a2d35',
-											transform: 'translateY(-2px)',
-										},
+									}}
+									onMouseEnter={(e) => {
+										e.currentTarget.style.background = '#2a2d35';
+										e.currentTarget.style.transform = 'translateY(-2px)';
+									}}
+									onMouseLeave={(e) => {
+										e.currentTarget.style.background = '#212329';
+										e.currentTarget.style.transform = 'translateY(0)';
 									}}
 								>
 									SUBSCRIBE
-								</Box>
-							</Box>
+								</button>
+							</div>
 							
 							{/* Connect */}
 							<strong style={{ marginTop: '20px', display: 'block' }}>CONNECT</strong>
@@ -506,7 +510,7 @@ const Footer = () => {
 									<TwitterIcon sx={{ color: '#fff' }} />
 								</IconButton>
 							</div>
-						</Box>
+						</div>
 					</Stack>
 				</Stack>
 

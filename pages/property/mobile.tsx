@@ -1,6 +1,6 @@
 import React, { ChangeEvent, MouseEvent, useEffect, useState } from 'react';
 import { NextPage } from 'next';
-import { Box, Button, Menu, MenuItem, Pagination, Stack, Typography, Drawer, IconButton } from '@mui/material';
+import { Button, Menu, MenuItem, Pagination, Stack, Typography, Drawer, IconButton } from '@mui/material';
 import PropertyCard from '../../libs/components/property/PropertyCard';
 import useDeviceDetect from '../../libs/hooks/useDeviceDetect';
 import Filter from '../../libs/components/property/Filter';
@@ -216,7 +216,7 @@ const PropertyListMobile: NextPage = ({ initialInput, ...props }: any) => {
 		: `${total} ${total === 1 ? 'car' : 'cars'} found`;
 
 	return (
-		<Box sx={{ width: '100%', minHeight: '100vh', backgroundColor: '#f5f5f5' }}>
+		<div style={{ width: '100%', minHeight: '100vh', backgroundColor: '#f5f5f5' }}>
 			{/* Mobile Header */}
 			<Stack
 				direction="row"
@@ -299,7 +299,7 @@ const PropertyListMobile: NextPage = ({ initialInput, ...props }: any) => {
 					},
 				}}
 			>
-				<Box sx={{ padding: '16px' }}>
+				<div style={{ padding: '16px' }}>
 					<Stack direction="row" justifyContent="space-between" alignItems="center" sx={{ mb: 2 }}>
 						<Typography variant="h6" sx={{ fontWeight: 700 }}>
 							Filters
@@ -309,11 +309,11 @@ const PropertyListMobile: NextPage = ({ initialInput, ...props }: any) => {
 						</IconButton>
 					</Stack>
 					<Filter searchFilter={searchFilter} setSearchFilter={setSearchFilter} initialInput={initialInput} />
-				</Box>
+				</div>
 			</Drawer>
 
 			{/* Property List */}
-			<Box sx={{ padding: '16px' }}>
+			<div style={{ padding: '16px' }}>
 				{getPropertiesLoading ? (
 					<ListSkeleton count={6} SkeletonComponent={PropertyCardSkeleton} />
 				) : properties?.length === 0 ? (
@@ -331,7 +331,7 @@ const PropertyListMobile: NextPage = ({ initialInput, ...props }: any) => {
 						))}
 					</Stack>
 				)}
-			</Box>
+			</div>
 
 			{/* Pagination */}
 			{properties.length !== 0 && (
@@ -355,10 +355,15 @@ const PropertyListMobile: NextPage = ({ initialInput, ...props }: any) => {
 					</Typography>
 				</Stack>
 			)}
-		</Box>
+		</div>
 	);
 };
 
 export default PropertyListMobile;
+
+
+
+
+
 
 

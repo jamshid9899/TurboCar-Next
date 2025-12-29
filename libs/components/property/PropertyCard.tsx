@@ -1,6 +1,5 @@
 import React, { useMemo } from 'react';
 import { Stack, Box, Typography, IconButton, Chip } from '@mui/material';
-import Image from 'next/image';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
 import { REACT_APP_API_URL } from '../../config';
 import { Property } from '../../types/property/property';
@@ -109,6 +108,8 @@ const PropertyCard = (props: PropertyCardProps) => {
 			? `${REACT_APP_API_URL}/${property.propertyImages[0]}` 
 			: '/img/banner/default-car.jpg';
 
+		const BoxAny = Box as any;
+
 		return (
 			<Stack 
 				className="property-card-mobile"
@@ -120,9 +121,9 @@ const PropertyCard = (props: PropertyCardProps) => {
 					boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.08)',
 				}}
 			>
-				<Box
+				<BoxAny
 					onClick={() => pushPropertyDetail(property._id)}
-					onKeyDown={(e) => {
+					onKeyDown={(e: React.KeyboardEvent) => {
 						if (e.key === 'Enter' || e.key === ' ') {
 							e.preventDefault();
 							pushPropertyDetail(property._id);
@@ -131,27 +132,23 @@ const PropertyCard = (props: PropertyCardProps) => {
 					role="button"
 					tabIndex={0}
 					aria-label={`View details of ${property?.propertyTitle || 'car'}`}
-					sx={{
+					style={{
 						position: 'relative',
 						width: '100%',
 						height: '200px',
 						cursor: 'pointer',
+						backgroundImage: `url(${imageUrl})`,
+						backgroundSize: 'cover',
+						backgroundPosition: 'center',
+						backgroundRepeat: 'no-repeat',
+					}}
+					sx={{
 						'&:focus': {
 							outline: '2px solid #f17742',
 							outlineOffset: '2px',
 						},
 					}}
 				>
-					<Image
-						src={imageUrl}
-						alt={property?.propertyTitle || 'Car image'}
-						fill
-						sizes="100vw"
-						style={{
-							objectFit: 'cover',
-						}}
-						loading="lazy"
-					/>
 					{likePropertyHandler && (
 						<IconButton 
 							className="like-btn" 
@@ -198,7 +195,7 @@ const PropertyCard = (props: PropertyCardProps) => {
 						{property?.isForSale && <Chip label="FOR SALE" size="small" sx={{ backgroundColor: '#EB6753', color: '#ffffff', fontSize: '10px', height: '20px' }} />}
 						{property?.isForRent && <Chip label="FOR RENT" size="small" sx={{ backgroundColor: '#F17742', color: '#ffffff', fontSize: '10px', height: '20px' }} />}
 					</Stack>
-				</Box>
+				</BoxAny>
 
 				<Stack sx={{ padding: '12px' }} spacing={1}>
 					<Typography 
@@ -265,9 +262,9 @@ const PropertyCard = (props: PropertyCardProps) => {
 		
 		return (
 			<Stack className="property-card">
-				<Box
+				<BoxAny
 					className="property-img"
-					onClick={(e) => {
+					onClick={(e: React.MouseEvent) => {
 						// Don't navigate if clicking on like button
 						const target = e.target as HTMLElement;
 						if (target.closest('.like-btn') || target.closest('.MuiIconButton-root')) {
@@ -275,7 +272,7 @@ const PropertyCard = (props: PropertyCardProps) => {
 						}
 						pushPropertyDetail(property._id);
 					}}
-					onKeyDown={(e) => {
+					onKeyDown={(e: React.KeyboardEvent) => {
 						if (e.key === 'Enter' || e.key === ' ') {
 							e.preventDefault();
 							pushPropertyDetail(property._id);
@@ -284,42 +281,36 @@ const PropertyCard = (props: PropertyCardProps) => {
 					role="button"
 					tabIndex={0}
 					aria-label={`View details of ${property?.propertyTitle || 'car'}`}
-					sx={{
+					style={{
 						position: 'relative',
 						width: '100%',
-						height: '320px', // Increased for better car image visibility
+						height: '320px',
 						minHeight: '320px',
 						cursor: 'pointer',
 						overflow: 'hidden',
 						borderRadius: '12px 12px 0 0',
+						backgroundImage: `url(${imageUrl})`,
+						backgroundSize: 'cover',
+						backgroundPosition: 'center',
+						backgroundRepeat: 'no-repeat',
+					}}
+					sx={{
 						'&:focus': {
 							outline: '2px solid #f17742',
 							outlineOffset: '2px',
 						},
 					}}
 				>
-					<Image
-						src={imageUrl}
-						alt={property?.propertyTitle || 'Car image'}
-						fill
-						sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-						style={{
-							objectFit: 'cover',
-						}}
-						loading="lazy"
-						placeholder="blur"
-						blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R//2Q=="
-					/>
 					{likePropertyHandler && (
 						<IconButton 
 							className="like-btn" 
-							onClick={(e) => {
-								e.preventDefault();
-								e.stopPropagation();
-								if (likePropertyHandler) {
-									likePropertyHandler(user, property._id);
-								}
-							}}
+						onClick={(e: React.MouseEvent) => {
+							e.preventDefault();
+							e.stopPropagation();
+							if (likePropertyHandler) {
+								likePropertyHandler(user, property._id);
+							}
+						}}
 							aria-label={property?.meLiked && property?.meLiked[0]?.myFavorite ? 'Remove from favorites' : 'Add to favorites'}
 							aria-pressed={property?.meLiked && property?.meLiked[0]?.myFavorite ? true : false}
 							sx={{
@@ -406,13 +397,13 @@ const PropertyCard = (props: PropertyCardProps) => {
 							/>
 						)}
 					</div>
-				</Box>
+				</BoxAny>
 
 				<Stack className="property-info">
 					<Stack 
 						className="property-title" 
 						onClick={() => pushPropertyDetail(property._id)}
-						onKeyDown={(e) => {
+						onKeyDown={(e: React.KeyboardEvent) => {
 							if (e.key === 'Enter' || e.key === ' ') {
 								e.preventDefault();
 								pushPropertyDetail(property._id);

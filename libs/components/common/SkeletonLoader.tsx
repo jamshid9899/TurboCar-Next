@@ -1,14 +1,14 @@
 import React from 'react';
-import { Box, Skeleton, Stack } from '@mui/material';
+import { Skeleton, Stack } from '@mui/material';
 
 /**
  * Property Card Skeleton Loader
  */
 export const PropertyCardSkeleton = () => {
 	return (
-		<Box
+		<div
 			className="property-card-skeleton"
-			sx={{
+			style={{
 				width: '100%',
 				borderRadius: '12px',
 				overflow: 'hidden',
@@ -64,7 +64,7 @@ export const PropertyCardSkeleton = () => {
 					<Skeleton variant="circular" width={20} height={20} sx={{ bgcolor: '#f0f0f0' }} />
 				</Stack>
 			</Stack>
-		</Box>
+		</div>
 	);
 };
 
@@ -73,15 +73,15 @@ export const PropertyCardSkeleton = () => {
  */
 export const AgentCardSkeleton = () => {
 	return (
-		<Box
+		<div
 			className="agent-card-skeleton"
-			sx={{
+			style={{
 				width: '100%',
 				borderRadius: '12px',
 				overflow: 'hidden',
 				backgroundColor: '#ffffff',
 				boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.08)',
-				p: 2,
+				padding: '16px',
 			}}
 		>
 			<Stack alignItems="center" spacing={2}>
@@ -108,7 +108,7 @@ export const AgentCardSkeleton = () => {
 					<Skeleton variant="text" width={40} height={18} sx={{ bgcolor: '#f0f0f0' }} />
 				</Stack>
 			</Stack>
-		</Box>
+		</div>
 	);
 };
 
@@ -117,15 +117,15 @@ export const AgentCardSkeleton = () => {
  */
 export const CommunityCardSkeleton = () => {
 	return (
-		<Box
+		<div
 			className="community-card-skeleton"
-			sx={{
+			style={{
 				width: '100%',
 				borderRadius: '12px',
 				overflow: 'hidden',
 				backgroundColor: '#ffffff',
 				boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.08)',
-				p: 2,
+				padding: '16px',
 			}}
 		>
 			<Stack direction="row" spacing={2}>
@@ -166,7 +166,7 @@ export const CommunityCardSkeleton = () => {
 					</Stack>
 				</Stack>
 			</Stack>
-		</Box>
+		</div>
 	);
 };
 
@@ -175,14 +175,14 @@ export const CommunityCardSkeleton = () => {
  */
 export const FilterSkeleton = () => {
 	return (
-		<Box
+		<div
 			className="filter-skeleton"
-			sx={{
+			style={{
 				width: '100%',
 				borderRadius: '12px',
 				backgroundColor: '#ffffff',
 				boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.08)',
-				p: 3,
+				padding: '24px',
 			}}
 		>
 			<Stack spacing={3}>
@@ -215,7 +215,7 @@ export const FilterSkeleton = () => {
 					</Stack>
 				))}
 			</Stack>
-		</Box>
+		</div>
 	);
 };
 
@@ -245,22 +245,16 @@ export const GridSkeleton = ({
 	columns?: number;
 }) => {
 	return (
-		<Box
-			sx={{
+		<div
+			style={{
 				display: 'grid',
-				gridTemplateColumns: {
-					xs: '1fr',
-					sm: `repeat(2, 1fr)`,
-					md: `repeat(${columns}, 1fr)`,
-				},
-				gap: 2,
+				gridTemplateColumns: `repeat(${columns}, 1fr)`,
+				gap: '16px',
 			}}
 		>
 			{Array.from({ length: count }).map((_, index) => (
 				<SkeletonComponent key={index} />
 			))}
-		</Box>
+		</div>
 	);
 };
-
-

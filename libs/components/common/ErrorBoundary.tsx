@@ -1,5 +1,5 @@
 import React, { Component, ErrorInfo, ReactNode } from 'react';
-import { Box, Button, Stack, Typography } from '@mui/material';
+import { Button, Stack, Typography } from '@mui/material';
 import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
 import { useRouter } from 'next/router';
 
@@ -83,14 +83,14 @@ const ErrorFallback: React.FC<ErrorFallbackProps> = ({ error, onReset }) => {
 	};
 
 	return (
-		<Box
-			sx={{
+		<div
+			style={{
 				width: '100%',
 				minHeight: '60vh',
 				display: 'flex',
 				alignItems: 'center',
 				justifyContent: 'center',
-				padding: 4,
+				padding: '32px',
 			}}
 		>
 			<Stack
@@ -102,8 +102,8 @@ const ErrorFallback: React.FC<ErrorFallbackProps> = ({ error, onReset }) => {
 				}}
 			>
 				{/* Error Icon */}
-				<Box
-					sx={{
+				<div
+					style={{
 						display: 'flex',
 						alignItems: 'center',
 						justifyContent: 'center',
@@ -114,7 +114,7 @@ const ErrorFallback: React.FC<ErrorFallbackProps> = ({ error, onReset }) => {
 					}}
 				>
 					<ErrorOutlineIcon sx={{ fontSize: 60, color: '#d32f2f' }} />
-				</Box>
+				</div>
 
 				{/* Error Title */}
 				<Typography
@@ -142,10 +142,10 @@ const ErrorFallback: React.FC<ErrorFallbackProps> = ({ error, onReset }) => {
 
 				{/* Error Details (Development Only) */}
 				{process.env.NODE_ENV === 'development' && error && (
-					<Box
-						sx={{
+					<div
+						style={{
 							width: '100%',
-							padding: 2,
+							padding: '16px',
 							backgroundColor: '#f5f5f5',
 							borderRadius: '8px',
 							textAlign: 'left',
@@ -161,7 +161,7 @@ const ErrorFallback: React.FC<ErrorFallbackProps> = ({ error, onReset }) => {
 						>
 							{error.toString()}
 						</Typography>
-					</Box>
+					</div>
 				)}
 
 				{/* Action Buttons */}
@@ -220,10 +220,12 @@ const ErrorFallback: React.FC<ErrorFallbackProps> = ({ error, onReset }) => {
 					</Button>
 				</Stack>
 			</Stack>
-		</Box>
+		</div>
 	);
 };
 
 export default ErrorBoundary;
+
+
 
 

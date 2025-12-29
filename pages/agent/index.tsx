@@ -450,8 +450,8 @@ const AgentList: NextPage = ({ initialInput, ...props }: any) => {
 									<ChevronLeftIcon />
 								</IconButton>
 								
-								<Box
-									sx={{
+								<div
+									style={{
 										width: '40px',
 										height: '40px',
 										borderRadius: '50%',
@@ -465,7 +465,7 @@ const AgentList: NextPage = ({ initialInput, ...props }: any) => {
 									}}
 								>
 									{currentPage}
-								</Box>
+								</div>
 								
 								<IconButton
 									onClick={() => {

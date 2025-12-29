@@ -1,5 +1,5 @@
 import React, { useCallback, useState, useEffect } from 'react';
-import { Box, Button, Checkbox, FormControlLabel, FormGroup, Stack, Modal, Fade, Backdrop, IconButton } from '@mui/material';
+import { Button, Checkbox, FormControlLabel, FormGroup, Stack, Modal, Fade, Backdrop, IconButton } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import { useRouter } from 'next/router';
 import { signUp } from '../../auth';
@@ -112,11 +112,11 @@ const SignupModal: React.FC<SignupModalProps> = ({ open, onClose, action }) => {
 					transform: 'none', // No transform, stay in place
 				}}
 			>
-				<Box 
+				<div 
 					className={'signup-modal'}
 					onClick={(e: React.MouseEvent) => e.stopPropagation()} // Prevent closing when clicking inside modal
-					sx={{
-						transform: 'none !important', // Prevent any transform animations
+					style={{
+						transform: 'none', // Prevent any transform animations
 					}}
 				>
 					{/* Close Button */}
@@ -141,14 +141,14 @@ const SignupModal: React.FC<SignupModalProps> = ({ open, onClose, action }) => {
 					{/* Signup Form */}
 					<Stack className={'signup-form'}>
 						{/* Logo */}
-						<Box className={'logo'}>
+						<div className={'logo'}>
 							<img src="/img/logo/favicon.svg" alt="TurboCar" />
 							<span>TurboCar</span>
 							<span className={'speed-badge'}>⚡ Speed</span>
-						</Box>
+						</div>
 
 						{/* Title */}
-						<Box className={'info'}>
+						<div className={'info'}>
 							<span className={'signup-title'}>Start Your Engine</span>
 							<p>
 								{action === 'subscribe' 
@@ -156,10 +156,10 @@ const SignupModal: React.FC<SignupModalProps> = ({ open, onClose, action }) => {
 									: 'Join thousands of car lovers and drivers'
 								}
 							</p>
-						</Box>
+						</div>
 
 						{/* Input Fields */}
-						<Box className={'input-wrap'}>
+						<div className={'input-wrap'}>
 							<div className={'input-box'}>
 								<span>Nickname</span>
 								<input
@@ -199,10 +199,10 @@ const SignupModal: React.FC<SignupModalProps> = ({ open, onClose, action }) => {
 									}}
 								/>
 							</div>
-						</Box>
+						</div>
 
 						{/* User Type Selection */}
-						<Box className={'register'}>
+						<div className={'register'}>
 							<div className={'type-option'}>
 								<span className={'text'}>I want to be registered as:</span>
 								<div>
@@ -258,10 +258,10 @@ const SignupModal: React.FC<SignupModalProps> = ({ open, onClose, action }) => {
 							>
 								SIGNUP
 							</Button>
-						</Box>
+						</div>
 
 						{/* Login Link */}
-						<Box className={'ask-info'}>
+						<div className={'ask-info'}>
 							<p>
 								Have account?
 								<b 
@@ -272,9 +272,9 @@ const SignupModal: React.FC<SignupModalProps> = ({ open, onClose, action }) => {
 									style={{ cursor: 'pointer' }}
 								> LOGIN</b>
 							</p>
-						</Box>
+						</div>
 					</Stack>
-				</Box>
+				</div>
 			</Fade>
 		</Modal>
 	);

@@ -1,8 +1,8 @@
 {
-	"name": "nestar-next",
+	"name": "turbocar-next",
 	"version": "2.2.0",
 	"private": true,
-	"license": "ITC",
+	"license": "MIT",
 	"scripts": {
 		"dev": "next dev",
 		"build": "next build",

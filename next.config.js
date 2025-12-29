@@ -6,7 +6,7 @@ const nextConfig = {
 		REACT_APP_API_GRAPHQL_URL: process.env.REACT_APP_API_GRAPHQL_URL,
 		REACT_APP_API_WS: process.env.REACT_APP_API_WS,
 	},
-	images: {
+	images: {               
 		remotePatterns: (() => {
 			const patterns = [];
 			const apiUrl = process.env.REACT_APP_API_URL;
@@ -39,7 +39,7 @@ const nextConfig = {
 		domains: process.env.REACT_APP_API_URL
 			? [process.env.REACT_APP_API_URL.replace('https://', '').replace('http://', '').split('/')[0]].filter(Boolean)
 			: [],
-		unoptimized: false,
+		unoptimized: true,  // ✅ Docker'da muammolarni oldini oladi
 	},
 };
 
