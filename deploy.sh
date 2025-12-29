@@ -5,4 +5,4 @@
  git checkout master
  git pull origin master
  
- docker compose up -dclea
+ docker compose up -d
